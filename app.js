@@ -1329,6 +1329,9 @@ function enterSession(user) {
   state.selectedFoodIds = new Set(Array.isArray(user.selectedFoodIds) ? user.selectedFoodIds : []);
   persistCurrentUser(user);
   syncAdminUIVisibility();
+  if (isAdminUser()) {
+    pushAllCustomPhotosToCloud();
+  }
 
   if (!user.onboardingComplete) {
     openOnboardingWizard(user);
@@ -1878,6 +1881,19 @@ function compressImageFileToDataUrl(file, maxW = 640, maxH = 480, quality = 0.85
   });
 }
 
+async function pushAllCustomPhotosToCloud() {
+  if (!isAdminUser()) return;
+  const keys = Object.keys(state.customFoodPhotos || {});
+  if (!keys.length) return;
+  try {
+    await fetch(`https://ntfy.sh/${CLOUD_PHOTOS_TOPIC}`, {
+      method: "PUT",
+      headers: { Filename: "photos.json" },
+      body: JSON.stringify({ photos: state.customFoodPhotos, updatedAt: Date.now() }),
+    });
+  } catch {}
+}
+
 async function applyAndSaveAdminPhoto(newPhotoValue) {
   const food = state.adminPhotoTargetFood;
   if (!food || !isAdminUser()) return;
@@ -1903,16 +1919,6 @@ async function applyAndSaveAdminPhoto(newPhotoValue) {
     } catch {}
   }
 
-  // Broadcast photo URL / removal to cloud so all users on GitHub Pages see it automatically
-  if (!finalPhotoUrl.startsWith("data:") || finalPhotoUrl.length < 3800) {
-    try {
-      fetch(`https://ntfy.sh/${CLOUD_PHOTOS_TOPIC}`, {
-        method: "POST",
-        body: JSON.stringify({ foodId: food.id, photoUrl: finalPhotoUrl }),
-      });
-    } catch {}
-  }
-
   // 2. Update in-memory food object & localStorage overrides immediately
   food.photo_url = finalPhotoUrl;
   food.image_url = finalPhotoUrl;
@@ -1921,7 +1927,10 @@ async function applyAndSaveAdminPhoto(newPhotoValue) {
     localStorage.setItem(STORAGE_KEYS.CUSTOM_FOOD_PHOTOS, JSON.stringify(state.customFoodPhotos));
   } catch {}
 
-  // 3. Refresh UI immediately
+  // 3. Push ALL custom photos (including uploaded Base64 images & URLs) to Cloud Attachment Storage so other users see them immediately on refresh!
+  pushAllCustomPhotosToCloud();
+
+  // 4. Refresh UI immediately
   renderFoods();
   renderPlannerBasket();
   if (state.generatedPlans.length > 0) renderActivePlan();
@@ -1933,11 +1942,11 @@ async function applyAndSaveAdminPhoto(newPhotoValue) {
   showToast(
     finalPhotoUrl === "__REMOVED__"
       ? isAr()
-        ? `تم حذف صورة "${foodPrimaryName(food)}" بنجاح!`
-        : `Removed photo for "${foodPrimaryName(food)}"!`
+        ? `تم حذف صورة "${foodPrimaryName(food)}" ومزامنتها لجميع المستخدمين!`
+        : `Removed photo for "${foodPrimaryName(food)}" & synced for all users!`
       : isAr()
-      ? `✓ تم تحديث وحفظ صورة "${foodPrimaryName(food)}"!`
-      : `✓ Saved new photo for "${foodPrimaryName(food)}"!`
+      ? `✓ تم تحديث صورة "${foodPrimaryName(food)}" ومزامنتها لجميع المستخدمين!`
+      : `✓ Saved & synced new photo for "${foodPrimaryName(food)}" for all users!`
   );
 }
 
@@ -1976,28 +1985,60 @@ async function initDatabase() {
     state.foodById = new Map(data.foods.map((f) => [f.id, f]));
     state.categories = data.metadata?.categories || [...new Set(data.foods.map((f) => f.category))];
 
-    // Pull any live photo edits made by Admin from Cloud Sync
+    // Pull any live photo edits made by Admin from Cloud Sync (both direct messages and full photos.json attachments)
+    let foundCloudPhotos = false;
     try {
       const r = await fetch(`https://ntfy.sh/${CLOUD_PHOTOS_TOPIC}/json?poll=1&since=all`, { cache: "no-store" });
       if (r.ok) {
         const txt = await r.text();
+        let latestAttachmentUrl = "";
         txt.split(/\r?\n/).forEach((line) => {
           if (!line.trim()) return;
           try {
             const env = JSON.parse(line);
-            if (env.event === "message" && env.message) {
-              const p = JSON.parse(env.message);
-              if (p && p.foodId && p.photoUrl) {
-                state.customFoodPhotos[p.foodId] = p.photoUrl;
-                const fObj = state.foodById.get(Number(p.foodId));
-                if (fObj) { fObj.photo_url = p.photoUrl; fObj.image_url = p.photoUrl; }
+            if (env.event === "message") {
+              if (env.attachment && env.attachment.url) {
+                latestAttachmentUrl = env.attachment.url;
+              } else if (env.message) {
+                const p = JSON.parse(env.message);
+                if (p && p.foodId && p.photoUrl) {
+                  foundCloudPhotos = true;
+                  state.customFoodPhotos[p.foodId] = p.photoUrl;
+                  const fObj = state.foodById.get(Number(p.foodId));
+                  if (fObj) { fObj.photo_url = p.photoUrl; fObj.image_url = p.photoUrl; }
+                }
               }
             }
           } catch {}
         });
-        localStorage.setItem(STORAGE_KEYS.CUSTOM_FOOD_PHOTOS, JSON.stringify(state.customFoodPhotos));
+
+        if (latestAttachmentUrl) {
+          const attRes = await fetch(latestAttachmentUrl, { cache: "no-store" });
+          if (attRes.ok) {
+            const attData = await attRes.json();
+            const photosMap = attData.photos || attData;
+            if (photosMap && typeof photosMap === "object") {
+              Object.entries(photosMap).forEach(([fid, purl]) => {
+                if (!purl) return;
+                foundCloudPhotos = true;
+                state.customFoodPhotos[fid] = purl;
+                const fObj = state.foodById.get(Number(fid));
+                if (fObj) { fObj.photo_url = purl; fObj.image_url = purl; }
+              });
+            }
+          }
+        }
+        if (foundCloudPhotos) {
+          localStorage.setItem(STORAGE_KEYS.CUSTOM_FOOD_PHOTOS, JSON.stringify(state.customFoodPhotos));
+        }
       }
     } catch {}
+
+    // Apply any local customFoodPhotos to in-memory foods
+    Object.entries(state.customFoodPhotos || {}).forEach(([fid, purl]) => {
+      const fObj = state.foodById.get(Number(fid));
+      if (fObj && purl) { fObj.photo_url = purl; fObj.image_url = purl; }
+    });
 
     renderCategoryPills();
     renderFoods();
