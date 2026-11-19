@@ -13,7 +13,21 @@ const STORAGE_KEYS = {
   THEME: "bitewise_theme_v3",
   CONFIG: "bitewise_config_v3",
   LANG: "bitewise_lang_v3",
+  CUSTOM_FOOD_PHOTOS: "bitewise_custom_food_photos_v4",
 };
+
+const ADMIN_EMAIL = "alio2sama21@gmail.com";
+
+const REMOVED_PHOTO_PLACEHOLDER =
+  "data:image/svg+xml;utf8," +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+      <rect width="400" height="300" fill="#18181b"/>
+      <circle cx="200" cy="130" r="36" fill="#27272a"/>
+      <path d="M185 130h30M200 115v30" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
+      <text x="200" y="205" text-anchor="middle" fill="#a1a1aa" font-family="sans-serif" font-size="15" font-weight="700">No Photo Set (Admin Removed)</text>
+    </svg>`
+  );
 
 const DB_JSON_PATH = "./egyptian_food_nutrition_with_images_v4.json";
 
@@ -70,7 +84,15 @@ const state = {
   otpTimerHandle: null,
   obCalMode: "auto",
   calcCalMode: "auto",
+  customFoodPhotos: {},
+  adminPhotoTargetFood: null,
+  adminPendingPhotoValue: "",
 };
+
+function isAdminUser() {
+  const email = String(state.currentUser?.email || "").trim().toLowerCase();
+  return email === ADMIN_EMAIL;
+}
 
 // ==================== i18n HELPERS ====================
 function tr(key) {
@@ -156,6 +178,8 @@ function applyLanguage(lang) {
   const fileTag = document.getElementById("udFileSyncBadge");
   if (fileTag) fileTag.textContent = state.backendOnline ? "users_database.txt ✓" : tr("savedLocalTag");
 
+  syncAdminUIVisibility();
+
   // Re-render all dynamic views cleanly in the new language
   if (!document.getElementById("onboardingView").classList.contains("hidden")) {
     updateOnboardingLivePreview();
@@ -203,10 +227,17 @@ function extractNutrition(food) {
 }
 
 function getFoodImage(food) {
+  if (!food) return "./images/ful_medames.jpg";
+  const custom = state.customFoodPhotos?.[food.id];
+  if (custom === "__REMOVED__") return REMOVED_PHOTO_PLACEHOLDER;
+  if (custom) return custom;
+  if (food.photo_url === "__REMOVED__" || food.image_url === "__REMOVED__") return REMOVED_PHOTO_PLACEHOLDER;
   return food?.photo_url || food?.image_url || food?.category_image_url || "./images/ful_medames.jpg";
 }
 
 function getFoodFallbackImage(food) {
+  const custom = state.customFoodPhotos?.[food?.id];
+  if (custom === "__REMOVED__" || food?.photo_url === "__REMOVED__") return REMOVED_PHOTO_PLACEHOLDER;
   return food?.category_image_url || "./images/ful_medames.jpg";
 }
 
@@ -215,6 +246,41 @@ function imgTagHtml(food, cls = "") {
   const fb = getFoodFallbackImage(food);
   const alt = foodPrimaryName(food).replace(/"/g, "&quot;");
   return `<img class="${cls}" src="${src}" alt="${alt}" loading="lazy" onerror="this.onerror=null;this.src='${fb}';" />`;
+}
+
+function syncAdminUIVisibility() {
+  const isOwnerEnv =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1" ||
+    new URLSearchParams(window.location.search).get("admin") === "1";
+  const isAdmin = isAdminUser();
+  const showOwnerControls = isOwnerEnv || isAdmin;
+
+  ["authSettingsBtn", "openSettingsBtn", "openSmtpFromOtp", "udExportUsersBtn"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle("hidden", !showOwnerControls);
+  });
+
+  const adminBar = document.getElementById("adminFoodsToolbar");
+  if (adminBar) {
+    adminBar.classList.toggle("hidden", !isAdmin);
+    const desc = document.getElementById("adminToolbarDesc");
+    const exportBtn = document.getElementById("adminExportFoodsJsBtn");
+    if (desc) {
+      desc.innerHTML = isAr()
+        ? "اضغط على زر <strong>📷 تعديل الصورة</strong> فوق أي أكلة بالأسفل لحذف صورتها أو رفع صورة جديدة مباشرة من الموقع."
+        : "Click the <strong>📷 Edit Photo</strong> button on any food card below to remove or replace its image directly from the website.";
+    }
+    if (exportBtn) {
+      exportBtn.textContent = isAr() ? "💾 تحميل ملف foods-data.js المحدث" : "💾 Download Updated foods-data.js";
+    }
+  }
+
+  const fmAdminBtn = document.getElementById("fmAdminPhotoBtn");
+  if (fmAdminBtn) {
+    fmAdminBtn.classList.toggle("hidden", !isAdmin);
+    fmAdminBtn.textContent = isAr() ? "📷 تعديل الصورة" : "📷 Edit Photo";
+  }
 }
 
 // ==================== BACKEND, OWNER MODE & CONFIG ====================
@@ -254,16 +320,13 @@ async function initBackendAndConfig() {
     state.backendOnline = false;
   }
 
-  // Show admin/owner controls ONLY on localhost, ?admin=1, or Ctrl+Shift+A
-  const isOwnerMode =
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1" ||
-    new URLSearchParams(window.location.search).get("admin") === "1";
+  try {
+    state.customFoodPhotos = JSON.parse(localStorage.getItem(STORAGE_KEYS.CUSTOM_FOOD_PHOTOS) || "{}");
+  } catch {
+    state.customFoodPhotos = {};
+  }
 
-  ["authSettingsBtn", "openSettingsBtn", "openSmtpFromOtp", "udExportUsersBtn"].forEach((id) => {
-    const el = document.getElementById(id);
-    if (el) el.classList.toggle("hidden", !isOwnerMode);
-  });
+  syncAdminUIVisibility();
 
   document.addEventListener("keydown", (e) => {
     if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a") {
@@ -1106,6 +1169,7 @@ function enterSession(user) {
   state.currentUser = user;
   state.selectedFoodIds = new Set(Array.isArray(user.selectedFoodIds) ? user.selectedFoodIds : []);
   persistCurrentUser(user);
+  syncAdminUIVisibility();
 
   if (!user.onboardingComplete) {
     openOnboardingWizard(user);
@@ -1324,6 +1388,8 @@ function renderFoods() {
     return;
   }
 
+  const isAdmin = isAdminUser();
+  const editPhotoText = isAr() ? "📷 تعديل الصورة" : "📷 Edit Photo";
   const fragment = document.createDocumentFragment();
   list.forEach((food) => {
     const { basis, unitLabel } = extractNutrition(food);
@@ -1334,6 +1400,7 @@ function renderFoods() {
       <div class="fc-media" data-open-modal="${food.id}">
         ${imgTagHtml(food)}
         <div class="fc-media-gradient"></div>
+        ${isAdmin ? `<button type="button" class="fc-admin-photo-btn" data-admin-photo="${food.id}">${editPhotoText}</button>` : ""}
         <span class="fc-kcal-pill" dir="ltr">${basis.calories_kcal} kcal / ${unitLabel}</span>
         <button type="button" class="fc-select-fab" data-toggle-food="${food.id}">${isSelected ? "✓" : "+"}</button>
       </div>
@@ -1359,6 +1426,13 @@ function renderFoods() {
   grid.innerHTML = "";
   grid.appendChild(fragment);
 
+  grid.querySelectorAll("[data-admin-photo]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const f = state.foodById.get(Number(btn.dataset.adminPhoto));
+      if (f) openAdminPhotoModal(f);
+    });
+  });
   grid.querySelectorAll("[data-toggle-food]").forEach((btn) => {
     btn.addEventListener("click", (e) => { e.stopPropagation(); toggleFoodSelection(Number(btn.dataset.toggleFood)); });
   });
@@ -1547,7 +1621,7 @@ function renderDiary() {
   });
 }
 
-// ==================== SETTINGS MODAL ====================
+// ==================== SETTINGS MODAL & ADMIN PHOTO EDITOR ====================
 function openSettingsModal() {
   document.getElementById("currentOriginDisplay").textContent = window.location.origin;
   document.getElementById("cfgGoogleClientId").value = state.config.googleClientId || "";
@@ -1559,6 +1633,164 @@ function openSettingsModal() {
   document.getElementById("settingsModal").classList.remove("hidden");
 }
 function closeSettingsModal() { document.getElementById("settingsModal").classList.add("hidden"); }
+
+function updateAdminPhotoPreview(val) {
+  const img = document.getElementById("apmPreviewImg");
+  const noBox = document.getElementById("apmNoPhotoBox");
+  if (!val || val === "__REMOVED__") {
+    img.classList.add("hidden");
+    noBox.classList.remove("hidden");
+    noBox.textContent = isAr() ? "تم حذف الصورة (بدون صورة حالياً)" : "Photo Removed (No Photo Set)";
+  } else {
+    noBox.classList.add("hidden");
+    img.classList.remove("hidden");
+    img.src = val;
+  }
+}
+
+function openAdminPhotoModal(food) {
+  if (!isAdminUser()) return;
+  state.adminPhotoTargetFood = food;
+  const currentImg = getFoodImage(food);
+  const isRemoved =
+    state.customFoodPhotos?.[food.id] === "__REMOVED__" ||
+    food.photo_url === "__REMOVED__" ||
+    currentImg === REMOVED_PHOTO_PLACEHOLDER;
+
+  state.adminPendingPhotoValue = isRemoved ? "__REMOVED__" : currentImg;
+
+  document.getElementById("apmFoodTitle").textContent = `${food.name_ar || ""} — ${food.name_en || ""}`;
+  document.getElementById("apmFoodSub").textContent = isAr()
+    ? "ارفع صورة جديدة من جهازك، أو الصق رابط صورة مباشر، أو احذف الصورة الحالية."
+    : "Upload a new photo from your device, paste a direct image URL, or remove the current photo.";
+  document.getElementById("apmLblUpload").textContent = isAr()
+    ? "1. رفع صورة من جهازك (كمبيوتر أو موبايل)"
+    : "1. Upload Photo from Your Device (PC / Mobile)";
+  document.getElementById("apmUploadBtnText").textContent = isAr()
+    ? "📁 اضغط لاختيار صورة من جهازك (.jpg, .png, .webp)"
+    : "📁 Click to choose an image file (.jpg, .png, .webp)";
+  document.getElementById("apmLblUrl").textContent = isAr()
+    ? "2. أو الصق رابط صورة مباشر (Image URL)"
+    : "2. Or Paste Direct Image URL";
+  document.getElementById("adminSavePhotoBtn").textContent = isAr() ? "💾 حفظ الصورة" : "💾 Save Photo";
+  document.getElementById("adminRemovePhotoBtn").textContent = isAr() ? "🗑️ شيل / حذف الصورة الحالية" : "🗑️ Remove Current Photo";
+
+  const urlInp = document.getElementById("adminPhotoUrlInput");
+  urlInp.value = !isRemoved && !currentImg.startsWith("data:") ? currentImg : "";
+  document.getElementById("adminPhotoFileInput").value = "";
+
+  updateAdminPhotoPreview(state.adminPendingPhotoValue);
+  document.getElementById("adminPhotoModal").classList.remove("hidden");
+}
+
+function closeAdminPhotoModal() {
+  document.getElementById("adminPhotoModal").classList.add("hidden");
+  state.adminPhotoTargetFood = null;
+}
+
+function compressImageFileToDataUrl(file, maxW = 640, maxH = 480, quality = 0.85) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = new Image();
+      img.onload = () => {
+        let w = img.width;
+        let h = img.height;
+        if (w > maxW || h > maxH) {
+          const ratio = Math.min(maxW / w, maxH / h);
+          w = Math.round(w * ratio);
+          h = Math.round(h * ratio);
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.onerror = reject;
+      img.src = ev.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function applyAndSaveAdminPhoto(newPhotoValue) {
+  const food = state.adminPhotoTargetFood;
+  if (!food || !isAdminUser()) return;
+
+  let finalPhotoUrl = newPhotoValue || "__REMOVED__";
+
+  // 1. Save to local server files automatically if backend is running
+  if (state.backendOnline) {
+    try {
+      const res = await fetch("/api/admin/food-photo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          adminEmail: state.currentUser.email,
+          foodId: food.id,
+          photoUrl: finalPhotoUrl,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.savedPhotoUrl) finalPhotoUrl = data.savedPhotoUrl;
+      }
+    } catch {}
+  }
+
+  // 2. Update in-memory food object & localStorage overrides immediately
+  food.photo_url = finalPhotoUrl;
+  food.image_url = finalPhotoUrl;
+  state.customFoodPhotos[food.id] = finalPhotoUrl;
+  try {
+    localStorage.setItem(STORAGE_KEYS.CUSTOM_FOOD_PHOTOS, JSON.stringify(state.customFoodPhotos));
+  } catch {}
+
+  // 3. Refresh UI immediately
+  renderFoods();
+  renderPlannerBasket();
+  if (state.generatedPlans.length > 0) renderActivePlan();
+  if (state.modalFood && state.modalFood.id === food.id) {
+    document.getElementById("fmImage").src = getFoodImage(food);
+  }
+
+  closeAdminPhotoModal();
+  showToast(
+    finalPhotoUrl === "__REMOVED__"
+      ? isAr()
+        ? `تم حذف صورة "${foodPrimaryName(food)}" بنجاح!`
+        : `Removed photo for "${foodPrimaryName(food)}"!`
+      : isAr()
+      ? `✓ تم تحديث وحفظ صورة "${foodPrimaryName(food)}"!`
+      : `✓ Saved new photo for "${foodPrimaryName(food)}"!`
+  );
+}
+
+function exportUpdatedFoodsDataJs() {
+  if (!isAdminUser()) return;
+  const dbOut = {
+    metadata: window.BITEWISE_FOOD_DB?.metadata || { total_items: state.allFoods.length, categories: state.categories },
+    foods: state.allFoods.map((f) => {
+      const custom = state.customFoodPhotos?.[f.id];
+      const finalImg = custom !== undefined ? custom : f.photo_url || f.image_url;
+      return { ...f, photo_url: finalImg, image_url: finalImg };
+    }),
+  };
+  const jsContent = "window.BITEWISE_FOOD_DB = " + JSON.stringify(dbOut, null, 2) + ";\n";
+  const blob = new Blob([jsContent], { type: "application/javascript;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "foods-data.js";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  showToast(isAr() ? "تم تحميل ملف foods-data.js المحدث بجميع صورك الجديدة!" : "Downloaded updated foods-data.js with all your photo changes!");
+}
 
 // ==================== DATABASE INIT ====================
 async function initDatabase() {
@@ -1595,6 +1827,51 @@ function bindAllEvents() {
   document.getElementById("openSmtpFromOtp").addEventListener("click", openSettingsModal);
   document.getElementById("closeSettingsModal").addEventListener("click", closeSettingsModal);
   document.getElementById("settingsModal").addEventListener("click", (e) => { if (e.target.id === "settingsModal") closeSettingsModal(); });
+
+  // Admin Food Photo Editor Modal (alio2sama21@gmail.com)
+  document.getElementById("closeAdminPhotoModal")?.addEventListener("click", closeAdminPhotoModal);
+  document.getElementById("adminPhotoModal")?.addEventListener("click", (e) => {
+    if (e.target.id === "adminPhotoModal") closeAdminPhotoModal();
+  });
+  document.getElementById("fmAdminPhotoBtn")?.addEventListener("click", () => {
+    if (state.modalFood) openAdminPhotoModal(state.modalFood);
+  });
+  document.getElementById("adminExportFoodsJsBtn")?.addEventListener("click", exportUpdatedFoodsDataJs);
+
+  document.getElementById("adminPhotoFileInput")?.addEventListener("change", async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const dataUrl = await compressImageFileToDataUrl(file);
+      state.adminPendingPhotoValue = dataUrl;
+      document.getElementById("adminPhotoUrlInput").value = "";
+      updateAdminPhotoPreview(dataUrl);
+      document.getElementById("apmUploadBtnText").textContent = `✓ ${file.name}`;
+    } catch {
+      showToast(isAr() ? "تعذر قراءة ملف الصورة" : "Could not read image file", "error");
+    }
+  });
+
+  document.getElementById("adminPhotoUrlInput")?.addEventListener("input", (e) => {
+    const val = e.target.value.trim();
+    if (val) {
+      state.adminPendingPhotoValue = val;
+      updateAdminPhotoPreview(val);
+    }
+  });
+
+  document.getElementById("adminRemovePhotoBtn")?.addEventListener("click", async () => {
+    state.adminPendingPhotoValue = "__REMOVED__";
+    document.getElementById("adminPhotoUrlInput").value = "";
+    updateAdminPhotoPreview("__REMOVED__");
+    await applyAndSaveAdminPhoto("__REMOVED__");
+  });
+
+  document.getElementById("adminSavePhotoBtn")?.addEventListener("click", async () => {
+    const typedUrl = document.getElementById("adminPhotoUrlInput").value.trim();
+    const toSave = typedUrl || state.adminPendingPhotoValue || "__REMOVED__";
+    await applyAndSaveAdminPhoto(toSave);
+  });
 
   document.getElementById("settingsForm").addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -1843,6 +2120,8 @@ function bindAllEvents() {
     localStorage.removeItem(STORAGE_KEYS.SESSION);
     state.currentUser = null;
     state.generatedPlans = [];
+    syncAdminUIVisibility();
+    renderFoods();
     showScreen("auth");
     switchAuthTab("login");
     showToast(isAr() ? "تم تسجيل الخروج بنجاح" : "Signed out successfully");

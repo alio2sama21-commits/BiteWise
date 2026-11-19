@@ -1222,6 +1222,118 @@ input:focus, select:focus {
 .mini-help { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
 .mini-help code { background: var(--bg-subtle); padding: 1px 6px; border-radius: 5px; font-family: "Plus Jakarta Sans", monospace; color: var(--brand); }
 
+/* ==================== ADMIN PHOTO EDITOR ==================== */
+.admin-foods-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  border: 1.5px solid rgba(16, 185, 129, 0.45);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(59, 130, 246, 0.06));
+  flex-wrap: wrap;
+}
+.admin-toolbar-info { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.admin-badge-pill {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.admin-toolbar-text { font-size: 0.84rem; color: var(--text-primary); margin: 0; }
+
+.fc-admin-photo-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 6;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(9, 9, 11, 0.82);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.74rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.16s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.fc-admin-photo-btn:hover {
+  background: var(--brand);
+  border-color: var(--brand);
+  transform: translateY(-1px) scale(1.03);
+}
+.fm-admin-btn {
+  top: auto;
+  bottom: 12px;
+  left: 14px;
+}
+
+.admin-photo-modal-card { width: min(540px, 100%); }
+.admin-photo-modal-card .modal-close { background: var(--bg-subtle); color: var(--text-primary); }
+.apm-preview-wrap {
+  position: relative;
+  width: 100%;
+  height: 210px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg-subtle);
+  margin-top: 12px;
+  display: grid;
+  place-items: center;
+}
+.apm-preview-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.apm-no-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-weight: 800;
+  font-size: 0.92rem;
+  padding: 20px;
+  text-align: center;
+}
+.apm-upload-dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  border-radius: 12px;
+  border: 2px dashed var(--brand);
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-weight: 800;
+  font-size: 0.86rem;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.16s;
+}
+.apm-upload-dropzone:hover {
+  background: rgba(16, 185, 129, 0.18);
+}
+.btn-danger-outline {
+  border: 1px solid var(--accent-rose);
+  background: var(--accent-rose-soft);
+  color: var(--accent-rose);
+  font-weight: 800;
+}
+.btn-danger-outline:hover {
+  background: var(--accent-rose);
+  color: #fff;
+}
+
 /* ==================== TOASTS ==================== */
 .toast-container { position: fixed; top: 84px; left: 22px; display: flex; flex-direction: column; gap: 10px; z-index: 500; }
 .toast { padding: 12px 18px; border-radius: 14px; background: #141418; color: #fff; font-size: 0.87rem; font-weight: 700; box-shadow: var(--shadow-lg); border-right: 4px solid var(--brand); max-width: 360px; }
