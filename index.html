@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiteWise | الذكاء الغذائي المصري ومخطط الوجبات</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Official Google Identity Services SDK for Real Google Sign-In -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+  <!-- ==================== 1. AUTHENTICATION GATEWAY ==================== -->
+  <section id="authView" class="auth-shell">
+    <div class="auth-topbar-float">
+      <button type="button" class="pill-action-btn" id="authSettingsBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>إعدادات Google &amp; Gmail OTP</span>
+      </button>
+      <button type="button" class="icon-btn" id="authThemeBtn" title="تغيير المظهر">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+    </div>
+
+    <div class="auth-container">
+      <!-- Editorial Showcase Panel -->
+      <div class="auth-hero">
+        <div class="auth-mesh"></div>
+        <div class="auth-hero-top">
+          <div class="brand-lockup light">
+            <div class="brand-mark">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+              </svg>
+            </div>
+            <div>
+              <span class="brand-name">BiteWise</span>
+              <span class="brand-tag">Egyptian NutriTech Studio</span>
+            </div>
+          </div>
+          <span class="live-status-pill" id="backendStatusBadge">● جاهز</span>
+        </div>
+
+        <div class="auth-hero-body">
+          <span class="hero-kicker">ذكاء غذائي مصري حقيقي</span>
+          <h2>صمّم جسمك ووجباتك اليومية <span class="text-gradient">بدقة علمية</span></h2>
+          <p>احسب الـ BMI والـ BMR أو أدخل سعراتك بنفسك، وتصفّح 212 أكلة مصرية بصور فريدة مع مخطط وجبات ذكي يضمن 60+ جرام بروتين في الغداء.</p>
+
+          <div class="hero-stats-trio">
+            <div class="hst-card">
+              <strong class="num-en">212</strong>
+              <span>أكلة مصرية فريدة</span>
+            </div>
+            <div class="hst-card">
+              <strong class="num-en">60g+</strong>
+              <span>بروتين في الغداء</span>
+            </div>
+            <div class="hst-card">
+              <strong class="num-en">OTP</strong>
+              <span>تحقق عبر Gmail</span>
+            </div>
+          </div>
+
+          <div class="hero-checklist">
+            <div class="hc-item"><span class="hc-dot"></span> دخول حقيقي بحساب Google OAuth وتأكيد Gmail OTP</div>
+            <div class="hc-item"><span class="hc-dot"></span> اختيار مرن بين الحساب التلقائي للسعرات أو الإدخال اليدوي</div>
+            <div class="hc-item"><span class="hc-dot"></span> حفظ تلقائي لجميع الحسابات في ملف <code>users_database.txt</code></div>
+          </div>
+        </div>
+
+        <div class="auth-hero-footer">
+          <span>MSA Nutrition &amp; Food Tech</span>
+          <span>•</span>
+          <span>BiteWise v3.0</span>
+        </div>
+      </div>
+
+      <!-- Auth Form Panel -->
+      <div class="auth-card">
+        <div class="auth-tabs" role="tablist">
+          <button type="button" class="auth-tab active" data-auth-tab="login" id="tabLoginBtn">تسجيل الدخول</button>
+          <button type="button" class="auth-tab" data-auth-tab="signup" id="tabSignupBtn">حساب جديد + OTP</button>
+        </div>
+
+        <div id="authAlert" class="inline-alert hidden" role="alert"></div>
+
+        <!-- LOGIN FORM -->
+        <form id="loginForm" class="auth-form">
+          <div class="auth-heading">
+            <h3>أهلاً بعودتك</h3>
+            <p>ادخل بالـ ID الخاص بك أو الاسم الكامل أو الإيميل وكلمة المرور</p>
+          </div>
+
+          <div class="field-group">
+            <label for="loginIdentifier">المعرّف (ID) أو الاسم أو الإيميل</label>
+            <div class="input-icon-wrap">
+              <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <input type="text" id="loginIdentifier" placeholder="BW-1001 أو اسمك أو بريدك الإلكتروني" required autocomplete="username" />
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="loginPassword">كلمة المرور</label>
+            <div class="input-icon-wrap">
+              <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input type="password" id="loginPassword" placeholder="أدخل كلمة المرور" required autocomplete="current-password" />
+              <button type="button" class="eye-toggle" data-toggle-pass="loginPassword" aria-label="إظهار كلمة المرور">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-full">
+            <span>تسجيل الدخول</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+          </button>
+
+          <div class="auth-divider"><span>أو الدخول المباشر بحساب Google</span></div>
+
+          <button type="button" class="btn-google-official" id="googleLoginBtn">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z"/>
+              <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.29v3.14C3.26 21.3 7.31 24 12 24Z"/>
+              <path fill="#FBBC05" d="M5.28 14.24c-.24-.72-.38-1.49-.38-2.24s.14-1.52.38-2.24V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.99-3.14Z"/>
+              <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.99 3.14c.95-2.85 3.6-4.96 6.72-4.96Z"/>
+            </svg>
+            <span>Sign in with Google (حساب جوجل الحقيقي)</span>
+          </button>
+
+          <div class="demo-login-box">
+            <span>للتجربة الفورية:</span>
+            <button type="button" id="demoLoginBtn" class="link-btn">الدخول بحساب تجريبي (BW-1001)</button>
+          </div>
+        </form>
+
+        <!-- SIGNUP FORM (STEP 1: Details -> STEP 2: Gmail OTP) -->
+        <form id="signupForm" class="auth-form hidden">
+          <div id="signupStepDetails">
+            <div class="auth-heading">
+              <h3>إنشاء حساب جديد</h3>
+              <p>أدخل بياناتك وسنرسل رمز تحقق (OTP) من 6 أرقام إلى بريدك الـ Gmail</p>
+            </div>
+
+            <div class="field-group">
+              <label for="signupName">الاسم الكامل</label>
+              <div class="input-icon-wrap">
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <input type="text" id="signupName" placeholder="مثال: علي أسامة" required />
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="signupEmail">بريدك الإلكتروني (Gmail)</label>
+              <div class="input-icon-wrap">
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                <input type="email" id="signupEmail" placeholder="yourname@gmail.com" required autocomplete="email" />
+              </div>
+            </div>
+
+            <div class="field-row-2">
+              <div class="field-group">
+                <label for="signupPassword">كلمة المرور</label>
+                <div class="input-icon-wrap">
+                  <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  <input type="password" id="signupPassword" placeholder="6 أحرف فأكثر" minlength="4" required autocomplete="new-password" />
+                  <button type="button" class="eye-toggle" data-toggle-pass="signupPassword" aria-label="إظهار كلمة المرور">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+                <div class="pass-strength"><div id="passStrengthBar" class="pass-strength-bar"></div></div>
+              </div>
+
+              <div class="field-group">
+                <label for="signupAge">العمر (سنة)</label>
+                <div class="input-icon-wrap">
+                  <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                  <input type="number" id="signupAge" min="12" max="100" value="21" required />
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg btn-full" id="sendOtpBtn">
+              <span>إرسال رمز التحقق (OTP) إلى Gmail</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+            </button>
+
+            <div class="auth-divider"><span>أو التسجيل السريع عبر</span></div>
+
+            <button type="button" class="btn-google-official" id="googleSignupBtn">
+              <svg viewBox="0 0 24 24" width="20" height="20">
+                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z"/>
+                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.29v3.14C3.26 21.3 7.31 24 12 24Z"/>
+                <path fill="#FBBC05" d="M5.28 14.24c-.24-.72-.38-1.49-.38-2.24s.14-1.52.38-2.24V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.99-3.14Z"/>
+                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.99 3.14c.95-2.85 3.6-4.96 6.72-4.96Z"/>
+              </svg>
+              <span>Continue with Google</span>
+            </button>
+          </div>
+
+          <!-- STEP 2: 6-DIGIT GMAIL OTP VERIFICATION -->
+          <div id="signupStepOtp" class="otp-stage hidden">
+            <div class="otp-badge-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </div>
+            <h3>تحقق من بريدك الإلكتروني</h3>
+            <p>أدخل الرمز المكوّن من 6 أرقام المرسل إلى <strong id="otpTargetEmail" dir="ltr">email@gmail.com</strong></p>
+
+            <div id="otpDevHint" class="otp-dev-banner hidden">
+              <div>
+                <strong>وضع التجربة المحلي:</strong> رمز التحقق هو <code id="otpDevCode" dir="ltr">000000</code>
+                <small>لإرساله فعلياً لـ Gmail اضغط <button type="button" class="link-btn sm" id="openSmtpFromOtp">إعداد Gmail SMTP</button></small>
+              </div>
+            </div>
+
+            <div class="otp-boxes" dir="ltr" id="otpBoxes">
+              <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" />
+              <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" />
+              <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" />
+              <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" />
+              <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" />
+              <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" />
+            </div>
+
+            <button type="button" class="btn btn-primary btn-lg btn-full" id="verifyOtpBtn">
+              <span>تأكيد الرمز وإنشاء الحساب</span>
+            </button>
+
+            <div class="otp-footer-row">
+              <button type="button" class="link-btn sm" id="resendOtpBtn">إعادة إرسال الرمز</button>
+              <span class="otp-timer num-en" id="otpTimerText">05:00</span>
+              <button type="button" class="link-btn sm muted-link" id="backToSignupDetailsBtn">تغيير الإيميل</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 2. BODY PROFILE ONBOARDING WIZARD ==================== -->
+  <section id="onboardingView" class="onboarding-shell hidden">
+    <div class="onboarding-card">
+      <div class="onboarding-header">
+        <div class="onboarding-badge-row">
+          <span class="step-pill">الخطوة الأخيرة • ملف الجسم والسعرات</span>
+          <span class="user-id-chip" id="onboardingUserIdChip">ID: BW-1001</span>
+        </div>
+        <h2>أهلاً يا <span id="onboardingUserName" class="text-primary">بطل</span>! جهّز خطتك الآن</h2>
+        <p>أدخل قياسات جسمك — وتقدر تختار نحسب سعراتك تلقائياً أو تدخلها بنفسك!</p>
+      </div>
+
+      <form id="onboardingForm" class="onboarding-form">
+        <!-- Gender -->
+        <div class="field-group">
+          <label>النوع (Gender)</label>
+          <div class="choice-grid cols-2">
+            <label class="choice-card">
+              <input type="radio" name="obGender" value="male" checked />
+              <div class="choice-content">
+                <span class="choice-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="14" r="5"/><path d="M19 5l-5.4 5.4"/><path d="M15 5h4v4"/></svg>
+                </span>
+                <strong>ذكر (Male)</strong>
+              </div>
+            </label>
+            <label class="choice-card">
+              <input type="radio" name="obGender" value="female" />
+              <div class="choice-content">
+                <span class="choice-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="9" r="5"/><path d="M12 14v7"/><path d="M9 18h6"/></svg>
+                </span>
+                <strong>أنثى (Female)</strong>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Height, Weight, Age -->
+        <div class="field-row-3">
+          <div class="field-group">
+            <label for="obHeight">الطول (سم)</label>
+            <input type="number" id="obHeight" min="100" max="240" step="0.5" value="175" required />
+          </div>
+          <div class="field-group">
+            <label for="obWeight">الوزن (كجم)</label>
+            <input type="number" id="obWeight" min="30" max="250" step="0.1" value="75" required />
+          </div>
+          <div class="field-group">
+            <label for="obAge">العمر (سنة)</label>
+            <input type="number" id="obAge" min="12" max="100" value="21" required />
+          </div>
+        </div>
+
+        <!-- Auto vs Manual Calories Toggle -->
+        <div class="field-group">
+          <label>طريقة تحديد السعرات اليومية</label>
+          <div class="segmented-switch" id="obCalModeSwitch">
+            <button type="button" class="seg-btn active" data-ob-cal-mode="auto">حساب تلقائي ذكي (Mifflin-St Jeor)</button>
+            <button type="button" class="seg-btn" data-ob-cal-mode="manual">إدخال السعرات يدوياً (Custom)</button>
+          </div>
+        </div>
+
+        <!-- Manual Calories Input (Onboarding) -->
+        <div id="obManualWrap" class="manual-cal-box hidden">
+          <div class="field-row-2">
+            <div class="field-group">
+              <label for="obManualCalories">السعرات اليومية المطلوبة (kcal)</label>
+              <input type="number" id="obManualCalories" min="1000" max="6000" step="50" value="2200" />
+            </div>
+            <div class="field-group">
+              <label for="obMacroPreset">توزيع الماكروز</label>
+              <select id="obMacroPreset">
+                <option value="balanced">متوازن (30% بروتين • 45% كارب • 25% دهون)</option>
+                <option value="high_protein">عالي البروتين (38% بروتين • 37% كارب • 25% دهون)</option>
+                <option value="low_carb">منخفض الكارب (35% بروتين • 25% كارب • 40% دهون)</option>
+                <option value="bulk">تضخيم (28% بروتين • 50% كارب • 22% دهون)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Auto Goal & Activity -->
+        <div id="obAutoFields">
+          <div class="field-group" style="margin-bottom: 14px;">
+            <label>الهدف الغذائي (Goal)</label>
+            <div class="choice-grid cols-3">
+              <label class="choice-card">
+                <input type="radio" name="obGoal" value="lose" />
+                <div class="choice-content vertical">
+                  <strong>تنشيف وخسارة دهون</strong>
+                  <small>-450 سعرة يومياً</small>
+                </div>
+              </label>
+              <label class="choice-card">
+                <input type="radio" name="obGoal" value="maintain" checked />
+                <div class="choice-content vertical">
+                  <strong>تثبيت الوزن</strong>
+                  <small>توازن وصحة عامة</small>
+                </div>
+              </label>
+              <label class="choice-card">
+                <input type="radio" name="obGoal" value="gain" />
+                <div class="choice-content vertical">
+                  <strong>تضخيم وبناء عضلات</strong>
+                  <small>+400 سعرة يومياً</small>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="obActivity">مستوى النشاط البدني (Activity Level)</label>
+            <select id="obActivity" required>
+              <option value="1.2">خامل — عمل مكتبي بدون تمرين منتظم (×1.2)</option>
+              <option value="1.375">نشاط خفيف — تمرين 1-3 أيام أسبوعياً (×1.375)</option>
+              <option value="1.55" selected>نشاط متوسط — تمرين 3-5 أيام أسبوعياً (×1.55)</option>
+              <option value="1.725">نشاط عالي — تمرين قوي 6-7 أيام أسبوعياً (×1.725)</option>
+              <option value="1.9">رياضي محترف — مجهود بدني شاق يومياً (×1.9)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Live Instant Preview Bar -->
+        <div class="live-preview-strip">
+          <div class="lp-item">
+            <span>مؤشر BMI</span>
+            <strong id="obPreviewBmi" class="num-en">24.5</strong>
+          </div>
+          <div class="lp-divider"></div>
+          <div class="lp-item">
+            <span>التصنيف</span>
+            <strong id="obPreviewBmiCat" class="text-primary">وزن مثالي</strong>
+          </div>
+          <div class="lp-divider"></div>
+          <div class="lp-item">
+            <span>هدفك اليومي</span>
+            <strong id="obPreviewKcal" class="num-en" dir="ltr">2,550 kcal</strong>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg btn-full">
+          <span>حفظ الحساب وعرض النتائج الكاملة</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ==================== 3. MAIN APPLICATION SHELL ==================== -->
+  <div id="appShell" class="app-shell hidden">
+    <!-- Sleek Sticky Glass Navbar -->
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <div class="brand-lockup" id="brandHomeBtn" role="button" tabindex="0">
+          <div class="brand-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+              <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+            </svg>
+          </div>
+          <div>
+            <span class="brand-name">BiteWise</span>
+            <span class="brand-tag">Smart Egyptian Nutrition</span>
+          </div>
+        </div>
+
+        <!-- Primary Navigation Pills -->
+        <nav class="nav-tabs" aria-label="التنقل الرئيسي">
+          <button type="button" class="nav-tab active" data-view="dashboard">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+            <span>حساباتي</span>
+          </button>
+          <button type="button" class="nav-tab" data-view="foods">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
+            <span>الأكلات المصرية</span>
+            <span class="nav-badge" id="navFoodsTotal">212</span>
+          </button>
+          <button type="button" class="nav-tab" data-view="planner">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2.2 4.6 5.1.7-3.7 3.6.9 5.1-4.5-2.4-4.5 2.4.9-5.1-3.7-3.6 5.1-.7L12 3z"/></svg>
+            <span>مخطط الدايت</span>
+            <span class="nav-badge accent" id="navSelectedBadge">0</span>
+          </button>
+          <button type="button" class="nav-tab" data-view="diary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v4M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg>
+            <span>يومياتي</span>
+            <span class="nav-badge soft" id="navDiaryPct">0%</span>
+          </button>
+        </nav>
+
+        <!-- Right Controls -->
+        <div class="topbar-actions">
+          <button type="button" class="icon-btn" id="openSettingsBtn" title="إعدادات Google OAuth و Gmail OTP" aria-label="الإعدادات">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </button>
+
+          <button type="button" class="icon-btn" id="themeToggleBtn" title="تغيير المظهر (فاتح / داكن)" aria-label="تغيير المظهر">
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <svg class="icon-sun hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          </button>
+
+          <div class="user-menu-wrap">
+            <button type="button" class="user-pill" id="userMenuBtn">
+              <div class="user-avatar" id="navUserAvatar">م</div>
+              <div class="user-meta">
+                <strong id="navUserName">المستخدم</strong>
+                <small id="navUserId">BW-1001</small>
+              </div>
+              <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+
+            <div class="user-dropdown hidden" id="userDropdown">
+              <div class="ud-header">
+                <strong id="udFullName">المستخدم</strong>
+                <span id="udEmail" dir="ltr">user@example.com</span>
+                <div class="ud-badges-row">
+                  <span class="ud-id-tag" id="udUserId">ID: BW-1001</span>
+                  <span class="ud-file-tag" id="udFileSyncBadge">users_database.txt ✓</span>
+                </div>
+              </div>
+              <button type="button" class="ud-item" id="udCopyIdBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>نسخ المعرّف (ID)</span>
+              </button>
+              <button type="button" class="ud-item" id="udExportUsersBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>تحميل ملف users_database.txt</span>
+              </button>
+              <button type="button" class="ud-item" id="udEditBodyBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                <span>تعديل قياسات الجسم</span>
+              </button>
+              <div class="ud-sep"></div>
+              <button type="button" class="ud-item danger" id="logoutBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                <span>تسجيل الخروج</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Dynamic Workspace -->
+    <main class="container main-content">
+
+      <!-- ==================== VIEW 1: DASHBOARD & CALCULATOR ==================== -->
+      <section id="view-dashboard" class="app-view active">
+        <!-- Editorial Hero Card -->
+        <div class="welcome-banner">
+          <div class="wb-glow-1"></div>
+          <div class="wb-glow-2"></div>
+          <div class="wb-text">
+            <div class="wb-chips">
+              <span class="chip emerald" id="dashGoalChip">الهدف: تثبيت الوزن</span>
+              <span class="chip blue" id="dashCalModeChip">وضع السعرات: حساب تلقائي</span>
+              <span class="chip neutral" id="dashUserIdChip">ID: BW-1001</span>
+            </div>
+            <h1>أهلاً يا <span id="dashGreetingName">صديقي</span></h1>
+            <p>لوحة تحكم شاملة لمؤشرات جسمك، السعرات اليومية (تلقائية أو مخصصة)، وتوزيع الماكروز والوجبات المصرية</p>
+          </div>
+          <div class="wb-actions">
+            <button type="button" class="btn btn-primary" data-goto="planner">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2.2 4.6 5.1.7-3.7 3.6.9 5.1-4.5-2.4-4.5 2.4.9-5.1-3.7-3.6 5.1-.7L12 3z"/></svg>
+              <span>صمّم وجبات يومك</span>
+            </button>
+            <button type="button" class="btn btn-outline-light" data-goto="foods">
+              <span>تصفح 212 أكلة مصرية</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Core Calculated Metric Cards (Bento Grid) -->
+        <div class="metrics-bento">
+          <!-- Card 1: BMI -->
+          <article class="bento-card">
+            <div class="bc-head">
+              <div>
+                <span class="bc-label">مؤشر كتلة الجسم (BMI)</span>
+                <div class="bc-value-row">
+                  <strong class="bc-big-num num-en" id="resBmi">--</strong>
+                  <span class="status-pill" id="resBmiBadge">--</span>
+                </div>
+              </div>
+              <div class="bc-icon-box emerald">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 12l5-5"/></svg>
+              </div>
+            </div>
+
+            <div class="bmi-gauge-wrap">
+              <div class="bmi-spectrum">
+                <div class="bmi-seg seg-under" title="نحافة (< 18.5)"></div>
+                <div class="bmi-seg seg-normal" title="مثالي (18.5 - 24.9)"></div>
+                <div class="bmi-seg seg-over" title="زيادة وزن (25 - 29.9)"></div>
+                <div class="bmi-seg seg-obese" title="سمنة (30+)"></div>
+                <div class="bmi-marker" id="bmiMarker" style="left: 50%"></div>
+              </div>
+              <div class="bmi-scale-labels">
+                <span>15</span>
+                <span>18.5</span>
+                <span>25</span>
+                <span>30</span>
+                <span>40</span>
+              </div>
+            </div>
+
+            <div class="bc-foot">
+              <span>الوزن الصحي لطولك:</span>
+              <strong id="resIdealWeight">-- كجم</strong>
+            </div>
+          </article>
+
+          <!-- Card 2: Daily Target Calories -->
+          <article class="bento-card">
+            <div class="bc-head">
+              <div>
+                <span class="bc-label">السعرات اليومية المستهدفة</span>
+                <div class="bc-value-row">
+                  <strong class="bc-big-num num-en" id="resTargetCalories">--</strong>
+                  <span class="unit-label">kcal / يوم</span>
+                </div>
+              </div>
+              <div class="ring-mini">
+                <svg viewBox="0 0 80 80">
+                  <circle class="ring-bg" cx="40" cy="40" r="32"/>
+                  <circle class="ring-prog" id="dashCalRing" cx="40" cy="40" r="32" stroke-dasharray="201" stroke-dashoffset="201"/>
+                </svg>
+                <span id="dashCalRingPct">0%</span>
+              </div>
+            </div>
+            <p class="bc-sub" id="resGoalDelta">بناءً على هدفك ومستوى نشاطك</p>
+            <div class="bc-foot">
+              <span>المستهلك اليوم: <strong id="dashConsumedKcal" dir="ltr">0 kcal</strong></span>
+              <button type="button" class="link-btn sm" data-goto="diary">اليوميات ←</button>
+            </div>
+          </article>
+
+          <!-- Card 3: BMR & TDEE -->
+          <article class="bento-card">
+            <div class="bc-head">
+              <div>
+                <span class="bc-label">معدل الحرق (BMR &amp; TDEE)</span>
+                <div class="bc-value-row">
+                  <strong class="bc-big-num num-en" id="resTdee">--</strong>
+                  <span class="unit-label">TDEE kcal</span>
+                </div>
+              </div>
+              <div class="bc-icon-box coral">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+              </div>
+            </div>
+
+            <div class="meta-split">
+              <div class="meta-box">
+                <span>الحرق الأساسي (BMR)</span>
+                <strong id="resBmr" class="num-en" dir="ltr">-- kcal</strong>
+              </div>
+              <div class="meta-box">
+                <span>معامل النشاط</span>
+                <strong id="resActivityFactor" class="num-en" dir="ltr">×1.55</strong>
+              </div>
+            </div>
+
+            <div class="bc-foot">
+              <span>معادلة Mifflin-St Jeor المعتمدة</span>
+            </div>
+          </article>
+
+          <!-- Card 4: Water & Fiber -->
+          <article class="bento-card">
+            <div class="bc-head">
+              <div>
+                <span class="bc-label">الماء والألياف اليومية</span>
+                <div class="bc-value-row">
+                  <strong class="bc-big-num num-en" id="resWaterLiters">--</strong>
+                  <span class="unit-label">لتر / يوم</span>
+                </div>
+              </div>
+              <div class="bc-icon-box blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+              </div>
+            </div>
+
+            <div class="water-quick-bar">
+              <span>شربت اليوم: <strong id="dashWaterCups">0</strong> / <span id="dashWaterTargetCups">10</span> كوب</span>
+              <div class="water-btns">
+                <button type="button" class="mini-round-btn" id="dashWaterMinus" title="تقليل كوب">-</button>
+                <button type="button" class="mini-round-btn plus" id="dashWaterPlus" title="إضافة كوب ماء">+</button>
+              </div>
+            </div>
+
+            <div class="bc-foot">
+              <span>الألياف اليومية الموصى بها:</span>
+              <strong id="resFiberTarget" dir="ltr">--g</strong>
+            </div>
+          </article>
+        </div>
+
+        <!-- Two-Column Section: Macros Breakdown + Live Profile Calculator (Auto OR Manual!) -->
+        <div class="dashboard-split">
+          <!-- Macros Card -->
+          <div class="surface-card macros-card">
+            <div class="card-title-row">
+              <div>
+                <span class="eyebrow">توزيع العناصر الغذائية</span>
+                <h3>الماكروز اليومية المستهدفة</h3>
+              </div>
+              <span class="pill-tag" id="macrosModeBadge">حساب تلقائي</span>
+            </div>
+
+            <div class="macros-visual-grid">
+              <div class="donut-container">
+                <svg viewBox="0 0 180 180" class="macro-donut">
+                  <circle cx="90" cy="90" r="70" class="donut-track"/>
+                  <circle cx="90" cy="90" r="70" class="donut-seg protein" id="donutProtein" stroke-dasharray="0 440" stroke-dashoffset="0"/>
+                  <circle cx="90" cy="90" r="70" class="donut-seg carbs" id="donutCarbs" stroke-dasharray="0 440" stroke-dashoffset="0"/>
+                  <circle cx="90" cy="90" r="70" class="donut-seg fat" id="donutFat" stroke-dasharray="0 440" stroke-dashoffset="0"/>
+                </svg>
+                <div class="donut-center">
+                  <strong id="donutCalories" class="num-en">--</strong>
+                  <span>سعرة / يوم</span>
+                </div>
+              </div>
+
+              <div class="macro-detail-list">
+                <div class="macro-detail-item">
+                  <div class="mdi-top">
+                    <div class="mdi-name"><span class="dot protein"></span><span>البروتين (Protein)</span></div>
+                    <div class="mdi-nums"><strong id="outProtein" class="num-en">0g</strong><small id="outProteinPct">0%</small></div>
+                  </div>
+                  <div class="progress-track"><div class="progress-fill protein" id="barProtein" style="width:0%"></div></div>
+                  <span class="mdi-hint" id="outProteinKcal">0 سعرة • لدعم العضلات والشبع</span>
+                </div>
+
+                <div class="macro-detail-item">
+                  <div class="mdi-top">
+                    <div class="mdi-name"><span class="dot carbs"></span><span>الكربوهيدرات (Carbs)</span></div>
+                    <div class="mdi-nums"><strong id="outCarbs" class="num-en">0g</strong><small id="outCarbsPct">0%</small></div>
+                  </div>
+                  <div class="progress-track"><div class="progress-fill carbs" id="barCarbs" style="width:0%"></div></div>
+                  <span class="mdi-hint" id="outCarbsKcal">0 سعرة • المصدر الأساسي للطاقة</span>
+                </div>
+
+                <div class="macro-detail-item">
+                  <div class="mdi-top">
+                    <div class="mdi-name"><span class="dot fat"></span><span>الدهون الصحية (Fats)</span></div>
+                    <div class="mdi-nums"><strong id="outFat" class="num-en">0g</strong><small id="outFatPct">0%</small></div>
+                  </div>
+                  <div class="progress-track"><div class="progress-fill fat" id="barFat" style="width:0%"></div></div>
+                  <span class="mdi-hint" id="outFatKcal">0 سعرة • لصحة الهرمونات والتركيز</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Calculator Card with Auto vs Manual Switch -->
+          <div class="surface-card calc-card" id="calculatorCard">
+            <div class="card-title-row">
+              <div>
+                <span class="eyebrow">تحكم كامل في السعرات</span>
+                <h3>حاسبة الجسم والاحتياج اليومي</h3>
+              </div>
+            </div>
+
+            <form id="calcForm" class="modern-form">
+              <!-- Segmented Auto vs Manual Toggle -->
+              <div class="segmented-switch" id="calcModeSwitch">
+                <button type="button" class="seg-btn active" data-calc-mode="auto">حساب تلقائي</button>
+                <button type="button" class="seg-btn" data-calc-mode="manual">إدخال السعرات يدوياً</button>
+              </div>
+
+              <!-- Manual Calorie Panel -->
+              <div id="calcManualPanel" class="manual-cal-box hidden">
+                <div class="field-group">
+                  <label for="calcManualCalories">أدخل سعراتك اليومية المستهدفة (kcal)</label>
+                  <input type="number" id="calcManualCalories" min="1000" max="6000" step="25" value="2200" />
+                </div>
+                <div class="field-group" style="margin-top: 10px;">
+                  <label for="calcMacroPreset">نظام توزيع الماكروز</label>
+                  <select id="calcMacroPreset">
+                    <option value="balanced">متوازن (30% بروتين • 45% كارب • 25% دهون)</option>
+                    <option value="high_protein">عالي البروتين (38% بروتين • 37% كارب • 25% دهون)</option>
+                    <option value="low_carb">منخفض الكارب (35% بروتين • 25% كارب • 40% دهون)</option>
+                    <option value="bulk">تضخيم (28% بروتين • 50% كارب • 22% دهون)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field-row-2">
+                <div class="field-group">
+                  <label for="calcGender">النوع</label>
+                  <select id="calcGender" required>
+                    <option value="male">ذكر (Male)</option>
+                    <option value="female">أنثى (Female)</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="calcAge">العمر (سنة)</label>
+                  <input type="number" id="calcAge" min="12" max="100" required />
+                </div>
+              </div>
+
+              <div class="field-row-2">
+                <div class="field-group">
+                  <label for="calcWeight">الوزن (كجم)</label>
+                  <input type="number" id="calcWeight" min="30" max="250" step="0.1" required />
+                </div>
+                <div class="field-group">
+                  <label for="calcHeight">الطول (سم)</label>
+                  <input type="number" id="calcHeight" min="100" max="250" step="0.5" required />
+                </div>
+              </div>
+
+              <div id="calcAutoPanel" class="auto-fields-group">
+                <div class="field-group">
+                  <label for="calcActivity">مستوى النشاط البدني</label>
+                  <select id="calcActivity" required>
+                    <option value="1.2">خامل (مكتب / بدون رياضة)</option>
+                    <option value="1.375">نشاط خفيف (1-3 أيام/أسبوع)</option>
+                    <option value="1.55">نشاط متوسط (3-5 أيام/أسبوع)</option>
+                    <option value="1.725">نشاط عالي (6-7 أيام/أسبوع)</option>
+                    <option value="1.9">رياضي محترف / مجهود شاق</option>
+                  </select>
+                </div>
+
+                <div class="field-group">
+                  <label for="calcGoal">الهدف الغذائي</label>
+                  <select id="calcGoal" required>
+                    <option value="lose">تنشيف وخسارة دهون (-450 kcal)</option>
+                    <option value="maintain">تثبيت الوزن وصحة عامة</option>
+                    <option value="gain">تضخيم وبناء عضلات (+400 kcal)</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-full">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+                <span>احسب وحدّث جميع النتائج</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW 2: EGYPTIAN FOODS EXPLORER ==================== -->
+      <section id="view-foods" class="app-view hidden">
+        <div class="section-header-bar">
+          <div>
+            <span class="eyebrow">212 أكلة مصرية بصور فريدة</span>
+            <h2>دليل السعرات والأكلات المصرية</h2>
+            <p class="muted" id="foodsCountText">جاري تحميل الأكلات...</p>
+          </div>
+          <div class="foods-quick-presets">
+            <button type="button" class="btn btn-soft" id="presetBalancedBtn">تجميعة دايت متوازن</button>
+            <button type="button" class="btn btn-soft" id="presetProteinBtn">تجميعة بروتين عالي</button>
+          </div>
+        </div>
+
+        <div class="surface-card filter-toolbar">
+          <div class="search-box-modern">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="search" id="searchInput" placeholder="ابحث بالعربي أو الإنجليزي (مثال: صدور فراخ، كفتة، فول، شوفان، سلمون)..." />
+          </div>
+
+          <div class="sort-wrap">
+            <label for="sortFoodsSelect">ترتيب:</label>
+            <select id="sortFoodsSelect">
+              <option value="default">الافتراضي</option>
+              <option value="protein_desc">الأعلى بروتيناً</option>
+              <option value="cal_asc">الأقل سعرات</option>
+              <option value="cal_desc">الأعلى سعرات</option>
+              <option value="carbs_asc">الأقل كربوهيدرات</option>
+              <option value="selected_first">المختارة أولاً</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="categoryPills" class="category-pills-modern"></div>
+        <div id="foodsGrid" class="foods-grid-modern"></div>
+
+        <!-- Floating Selection Dock -->
+        <div id="selectionDock" class="selection-dock hidden">
+          <div class="dock-info">
+            <span class="dock-count" id="dockSelectedCount">0</span>
+            <div>
+              <strong>أصناف مختارة للدايت</strong>
+              <small id="dockPreviewNames">اختر أكلاتك المفضلة لتوليد خطة متناسقة بـ 60g+ بروتين في الغداء</small>
+            </div>
+          </div>
+          <div class="dock-actions">
+            <button type="button" id="clearSelectedBtn" class="btn btn-ghost-light">مسح الكل</button>
+            <button type="button" id="generateFromDockBtn" class="btn btn-primary">
+              <span>تصميم خطة الدايت الذكية</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW 3: SMART DIET PLANNER (OVERHAULED!) ==================== -->
+      <section id="view-planner" class="app-view hidden">
+        <div class="section-header-bar">
+          <div>
+            <span class="eyebrow">توزيع احترافي متناسق للوجبات</span>
+            <h2>مخطط الدايت الذكي</h2>
+            <p class="muted">نوزّع أكلاتك المختارة بتناسق كامل على وجبات اليوم مع ضمان <strong class="text-primary" id="plannerLunchMinHint">60g+ بروتين في الغداء</strong> وتطابق هدفك (<strong id="plannerTargetHint">-- kcal</strong>)</p>
+          </div>
+          <div class="planner-header-actions">
+            <button type="button" class="btn btn-outline" data-goto="foods">+ تعديل الأكلات المختارة</button>
+            <button type="button" class="btn btn-soft" id="shufflePlanBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+              <span>توليد بدائل جديدة</span>
+            </button>
+            <button type="button" class="btn btn-primary" id="generatePlanBtn">توليد / تحديث الخطط</button>
+          </div>
+        </div>
+
+        <!-- Rich Planner Customization Options Bar -->
+        <div class="surface-card planner-controls-card">
+          <div class="planner-options-grid">
+            <div class="field-group">
+              <label for="optMealStructure">عدد ونظام الوجبات</label>
+              <select id="optMealStructure">
+                <option value="4" selected>4 وجبات متوازنة (فطار • غداء • عشاء • سناك)</option>
+                <option value="3">3 وجبات رئيسية مشبعة (فطار • غداء • عشاء)</option>
+                <option value="5">5 وجبات رياضية (فطار • سناك 1 • غداء • سناك 2 • عشاء)</option>
+                <option value="if168">صيام متقطع 16/8 (غداء رئيسي • سناك • عشاء)</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="optLunchProtein">الحد الأدنى لبروتين وجبة الغداء</label>
+              <select id="optLunchProtein">
+                <option value="60" selected>على الأقل 60 جرام بروتين (موصى به)</option>
+                <option value="70">على الأقل 70 جرام بروتين (عالي جداً)</option>
+                <option value="80">على الأقل 80 جرام بروتين (رياضي/تضخيم)</option>
+                <option value="50">على الأقل 50 جرام بروتين</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="optDietStyle">التركيز الغذائي</label>
+              <select id="optDietStyle">
+                <option value="balanced" selected>متوازن مصري (طاقة وبروتين متناسق)</option>
+                <option value="high_protein">عالي البروتين (للجيم والتنشيف)</option>
+                <option value="low_carb">منخفض الكربوهيدرات (Low Carb)</option>
+                <option value="lean_bulk">تضخيم عضلي نظيف (Lean Bulk)</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label>إكمال الوجبات الناقصة تلقائياً</label>
+              <label class="toggle-pill-switch">
+                <input type="checkbox" id="optAutoComplete" checked />
+                <span class="tps-slider"></span>
+                <span class="tps-label">مفعّل (توازن تلقائي للفطار والسناك)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Selected Favorite Foods Strip -->
+        <div class="surface-card selected-basket-card">
+          <div class="basket-head">
+            <h4>أكلاتك المفضلة المختارة (<span id="selectedCount">0</span>)</h4>
+            <div class="basket-quick-btns">
+              <button type="button" class="link-btn sm" id="plannerAutoPickBtn">توليد تلقائي بأكلات مصرية صحية</button>
+              <button type="button" class="link-btn sm danger" id="plannerClearBtn">تفريغ القائمة</button>
+            </div>
+          </div>
+          <div id="selectedChipsContainer" class="selected-chips-list">
+            <p class="empty-inline">اختر أي أكلات تحبها — وحتى لو اخترت أكلات غداء فقط، المخطط هيكمّل لك الفطار والعشاء والسناك بتناسق كامل!</p>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="plansEmptyState" class="surface-card empty-state-card">
+          <div class="empty-illustration">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.2 4.6 5.1.7-3.7 3.6.9 5.1-4.5-2.4-4.5 2.4.9-5.1-3.7-3.6 5.1-.7L12 3z"/></svg>
+          </div>
+          <h3>جاهز لخطة يومية متناسقة؟</h3>
+          <p>اضغط الزر بالأسفل وسنصمّم لك 4 خطط يومية كاملة بوجبات مصرية لذيذة، غداء مضمون فيه 60+ جرام بروتين، وتقدر تبدّل أي صنف بضغطة واحدة!</p>
+          <div class="empty-actions">
+            <button type="button" class="btn btn-primary" id="emptyAutoGenerateBtn">صمّم لي خطط دايت ذكية الآن</button>
+            <button type="button" class="btn btn-outline" data-goto="foods">اختيار الأكلات بنفسي</button>
+          </div>
+        </div>
+
+        <!-- Generated Plans Section -->
+        <div id="plansSection" class="hidden">
+          <div class="plan-toolbar">
+            <div class="plan-tabs-modern" id="planTabs"></div>
+            <div class="plan-export-btns">
+              <button type="button" class="btn btn-soft sm" id="applyPlanToDiaryBtn">تطبيق على يومياتي</button>
+              <button type="button" class="btn btn-outline sm" id="copyPlanBtn">نسخ الخطة</button>
+              <button type="button" class="btn btn-outline sm" id="printPlanBtn">طباعة / PDF</button>
+            </div>
+          </div>
+          <div id="activePlanView"></div>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW 4: DAILY FOOD DIARY ==================== -->
+      <section id="view-diary" class="app-view hidden">
+        <div class="section-header-bar">
+          <div>
+            <span class="eyebrow" id="diaryDateLabel">متابعة اليوم</span>
+            <h2>يوميات الأكل والسعرات</h2>
+            <p class="muted">سجّل ما أكلته اليوم وتابع تقدمك نحو هدفك من السعرات والماكروز والماء</p>
+          </div>
+          <div class="diary-header-actions">
+            <button type="button" class="btn btn-primary" data-goto="foods">+ إضافة أكلة لليوميات</button>
+            <button type="button" class="btn btn-outline danger-outline" id="clearDiaryBtn">مسح سجل اليوم</button>
+          </div>
+        </div>
+
+        <div class="surface-card diary-summary-card">
+          <div class="diary-ring-col">
+            <div class="ring-large">
+              <svg viewBox="0 0 140 140">
+                <circle class="ring-bg" cx="70" cy="70" r="58"/>
+                <circle class="ring-prog" id="diaryCalRing" cx="70" cy="70" r="58" stroke-dasharray="364.4" stroke-dashoffset="364.4"/>
+              </svg>
+              <div class="ring-large-center">
+                <strong id="diaryConsumedVal" class="num-en">0</strong>
+                <span>من <b id="diaryTargetVal">--</b> kcal</span>
+              </div>
+            </div>
+            <div class="remaining-pill" id="diaryRemainingText">المتبقي: -- kcal</div>
+          </div>
+
+          <div class="diary-bars-col">
+            <div class="diary-macro-bar">
+              <div class="dmb-head">
+                <span>البروتين</span>
+                <strong dir="ltr"><span id="diaryProtCur">0</span> / <span id="diaryProtTarget">0</span>g</strong>
+              </div>
+              <div class="progress-track lg"><div class="progress-fill protein" id="diaryProtFill" style="width:0%"></div></div>
+            </div>
+
+            <div class="diary-macro-bar">
+              <div class="dmb-head">
+                <span>الكربوهيدرات</span>
+                <strong dir="ltr"><span id="diaryCarbCur">0</span> / <span id="diaryCarbTarget">0</span>g</strong>
+              </div>
+              <div class="progress-track lg"><div class="progress-fill carbs" id="diaryCarbFill" style="width:0%"></div></div>
+            </div>
+
+            <div class="diary-macro-bar">
+              <div class="dmb-head">
+                <span>الدهون الصحية</span>
+                <strong dir="ltr"><span id="diaryFatCur">0</span> / <span id="diaryFatTarget">0</span>g</strong>
+              </div>
+              <div class="progress-track lg"><div class="progress-fill fat" id="diaryFatFill" style="width:0%"></div></div>
+            </div>
+
+            <div class="diary-water-row">
+              <div>
+                <strong>شرب الماء اليوم</strong>
+                <small><span id="diaryWaterCur">0</span> / <span id="diaryWaterTarget">10</span> أكواب (250 مل)</small>
+              </div>
+              <div class="water-btns">
+                <button type="button" class="mini-round-btn" id="diaryWaterMinus">-</button>
+                <button type="button" class="mini-round-btn plus" id="diaryWaterPlus">+ كوب ماء</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="diaryMealsGrid" class="diary-meals-grid"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ==================== MODAL 1: FOOD DETAILS & PORTION LOGGER ==================== -->
+  <div id="foodModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-card food-modal-card">
+      <button type="button" class="modal-close" id="closeFoodModal" aria-label="إغلاق">×</button>
+      <div class="fm-hero">
+        <img id="fmImage" src="" alt="" />
+        <span class="fm-cat-badge" id="fmCategory">Category</span>
+      </div>
+      <div class="fm-body">
+        <div class="fm-titles">
+          <h3 id="fmNameAr">اسم الأكلة</h3>
+          <p id="fmNameEn">Food Name</p>
+        </div>
+
+        <div class="fm-portion-controls">
+          <div class="field-group">
+            <label for="fmAmount">الكمية (<span id="fmUnitLabel">جرام</span>)</label>
+            <input type="number" id="fmAmount" min="1" step="5" value="100" />
+          </div>
+          <div class="field-group">
+            <label for="fmMealSlot">إضافة إلى وجبة</label>
+            <select id="fmMealSlot">
+              <option value="الفطار">الفطار</option>
+              <option value="الغداء" selected>الغداء</option>
+              <option value="العشاء">العشاء</option>
+              <option value="سناكس">سناكس</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="fm-quick-portions" id="fmQuickPortions"></div>
+
+        <div class="fm-nutrition-grid">
+          <div class="fmn-box kcal"><span>السعرات</span><strong id="fmCalcKcal">0</strong><small>kcal</small></div>
+          <div class="fmn-box protein"><span>بروتين</span><strong id="fmCalcProt">0g</strong></div>
+          <div class="fmn-box carbs"><span>كارب</span><strong id="fmCalcCarbs">0g</strong></div>
+          <div class="fmn-box fat"><span>دهون</span><strong id="fmCalcFat">0g</strong></div>
+          <div class="fmn-box fiber"><span>ألياف</span><strong id="fmCalcFiber">0g</strong></div>
+        </div>
+
+        <div class="fm-actions">
+          <button type="button" class="btn btn-primary" id="fmLogToDiaryBtn">إضافة ليوميات اليوم</button>
+          <button type="button" class="btn btn-outline" id="fmTogglePlanBtn">إضافة لخطة الدايت</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 2: INTEGRATIONS SETTINGS (GOOGLE OAUTH & GMAIL OTP) ==================== -->
+  <div id="settingsModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-card settings-modal-card">
+      <button type="button" class="modal-close" id="closeSettingsModal" aria-label="إغلاق">×</button>
+      <div class="settings-modal-body">
+        <span class="eyebrow">تكامل حقيقي 100%</span>
+        <h3>إعدادات Sign in with Google و Gmail OTP</h3>
+        <p class="muted">اربط حسابك المجاني مرة واحدة عشان الدخول بجوجل يفتح شاشة Google الحقيقية وكود الـ OTP يوصل لـ Gmail فعلياً.</p>
+
+        <form id="settingsForm" class="modern-form" style="margin-top: 16px;">
+          <div class="settings-section-box">
+            <h4>1. الدخول الحقيقي عبر Google OAuth 2.0</h4>
+            <p class="mini-help">احصل على Client ID مجاناً من Google Cloud Console → Credentials → Web Application، وأضف <code id="currentOriginDisplay" dir="ltr">http://localhost:8765</code> في Authorized JavaScript origins.</p>
+            <div class="field-group">
+              <label for="cfgGoogleClientId">Google OAuth Client ID</label>
+              <input type="text" id="cfgGoogleClientId" dir="ltr" placeholder="xxxxxxxxxxxx-xxxxxxxxxxxxxxxx.apps.googleusercontent.com" />
+            </div>
+          </div>
+
+          <div class="settings-section-box">
+            <h4>2. إرسال كود OTP تلقائياً لأي Gmail يكتبه المستخدم (عبر Gmail SMTP)</h4>
+            <p class="mini-help">
+              <strong>ملاحظة مهمة:</strong> هنا بتكتب <strong>إيميلك أنت كصاحب الموقع مرة واحدة بس</strong> (الحساب اللي هيخرج منه الكود). بعد كده، أي مستخدم يكتب أي Gmail في صفحة التسجيل هيوصله الـ OTP تلقائياً على إيميله!
+              احصل على App Password (16 حرف) من <code>myaccount.google.com/apppasswords</code>.
+            </p>
+            <div class="field-row-2">
+              <div class="field-group">
+                <label for="cfgSmtpEmail">إيميل صاحب الموقع (المرسل)</label>
+                <input type="email" id="cfgSmtpEmail" dir="ltr" placeholder="owner@gmail.com" />
+              </div>
+              <div class="field-group">
+                <label for="cfgSmtpAppPass">Google App Password (16 حرف)</label>
+                <input type="password" id="cfgSmtpAppPass" dir="ltr" placeholder="xxxx xxxx xxxx xxxx" />
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-section-box">
+            <h4>3. تشغيل إرسال الـ OTP على GitHub Pages (لما ترفع الموقع أونلاين 24/7)</h4>
+            <p class="mini-help">لأن GitHub Pages استضافة ثابتة، اربط حساب <strong>EmailJS</strong> مجاني بإيميل Gmail بتاعك وحط المفاتيح هنا (أو في ملف <code>config.js</code>) عشان الـ OTP يوصل لأي مستخدم أونلاين.</p>
+            <div class="field-row-3">
+              <div class="field-group">
+                <label for="cfgEjsService">Service ID</label>
+                <input type="text" id="cfgEjsService" dir="ltr" placeholder="service_xxx" />
+              </div>
+              <div class="field-group">
+                <label for="cfgEjsTemplate">Template ID</label>
+                <input type="text" id="cfgEjsTemplate" dir="ltr" placeholder="template_xxx" />
+              </div>
+              <div class="field-group">
+                <label for="cfgEjsPublic">Public Key</label>
+                <input type="text" id="cfgEjsPublic" dir="ltr" placeholder="public_key" />
+              </div>
+            </div>
+          </div>
+
+          <div class="fm-actions">
+            <button type="submit" class="btn btn-primary">حفظ الإعدادات وتفعيلها</button>
+            <button type="button" class="btn btn-outline" id="testOtpEmailBtn">تجربة إرسال OTP الآن</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Config + Offline-Safe Database + App Engine -->
+  <script src="config.js"></script>
+  <script src="foods-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
