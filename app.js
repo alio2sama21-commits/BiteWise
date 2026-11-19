@@ -19,6 +19,65 @@ const STORAGE_KEYS = {
 const ADMIN_EMAIL = "alio2sama21@gmail.com";
 const CLOUD_USERS_TOPIC = "bitewise_users_alio2sama21_v4";
 const CLOUD_PHOTOS_TOPIC = "bitewise_photos_alio2sama21_v4";
+const SYNC_CIPHER_KEY = "BW_ADMIN_ALIO2SAMA21_SEC_2026";
+
+function escapeHtml(str) {
+  return String(str ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+async function hashPasswordSha256(plain) {
+  try {
+    const data = new TextEncoder().encode("BW_SALT_2026::" + String(plain));
+    const buf = await crypto.subtle.digest("SHA-256", data);
+    return (
+      "sha256:" +
+      Array.from(new Uint8Array(buf))
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("")
+    );
+  } catch {
+    return "";
+  }
+}
+
+function encryptSyncPayload(obj) {
+  try {
+    const jsonBytes = new TextEncoder().encode(JSON.stringify(obj));
+    const keyBytes = new TextEncoder().encode(SYNC_CIPHER_KEY);
+    const out = new Uint8Array(jsonBytes.length);
+    for (let i = 0; i < jsonBytes.length; i++) {
+      out[i] = jsonBytes[i] ^ keyBytes[i % keyBytes.length];
+    }
+    let bin = "";
+    for (let i = 0; i < out.length; i++) bin += String.fromCharCode(out[i]);
+    return JSON.stringify({ enc: btoa(bin) });
+  } catch {
+    return JSON.stringify(obj);
+  }
+}
+
+function decryptSyncPayload(rawMsg) {
+  try {
+    const parsed = typeof rawMsg === "string" ? JSON.parse(rawMsg) : rawMsg;
+    if (parsed && typeof parsed.enc === "string") {
+      const bin = atob(parsed.enc);
+      const keyBytes = new TextEncoder().encode(SYNC_CIPHER_KEY);
+      const out = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) {
+        out[i] = bin.charCodeAt(i) ^ keyBytes[i % keyBytes.length];
+      }
+      return JSON.parse(new TextDecoder().decode(out));
+    }
+    return parsed;
+  } catch {
+    return null;
+  }
+}
 
 const REMOVED_PHOTO_PLACEHOLDER =
   "data:image/svg+xml;utf8," +
@@ -90,11 +149,17 @@ const state = {
   customFoodPhotos: {},
   adminPhotoTargetFood: null,
   adminPendingPhotoValue: "",
+  failedLoginAttempts: 0,
+  loginLockUntil: 0,
+  failedOtpAttempts: 0,
 };
 
 function isAdminUser() {
-  const email = String(state.currentUser?.email || "").trim().toLowerCase();
-  return email === ADMIN_EMAIL;
+  const u = state.currentUser;
+  if (!u) return false;
+  const email = String(u.email || "").trim().toLowerCase();
+  const isVerified = u.provider === "google" || u.emailVerified === true;
+  return email === ADMIN_EMAIL && isVerified;
 }
 
 // ==================== i18n HELPERS ====================
@@ -342,8 +407,11 @@ async function initBackendAndConfig() {
 
   document.addEventListener("keydown", (e) => {
     if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a") {
-      e.preventDefault();
-      openSettingsModal();
+      const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+      if (isLocal || isAdminUser()) {
+        e.preventDefault();
+        openSettingsModal();
+      }
     }
   });
 }
@@ -354,6 +422,7 @@ function compactUserForSync(u) {
     name: u.name,
     email: u.email,
     password: u.password || "",
+    passwordHash: u.passwordHash || "",
     provider: u.provider || "local",
     picture: u.picture || "",
     emailVerified: Boolean(u.emailVerified),
@@ -382,7 +451,8 @@ async function pullUsersFromCloud() {
       try {
         const env = JSON.parse(line);
         if (env.event === "message" && env.message) {
-          const payload = JSON.parse(env.message);
+          const payload = decryptSyncPayload(env.message);
+          if (!payload) return;
           const list = Array.isArray(payload.users) ? payload.users : payload.user ? [payload.user] : [];
           list.forEach((u) => {
             if (u && u.id) map.set(u.id, u);
@@ -400,7 +470,7 @@ async function pushUserToCloud(userObj) {
   try {
     await fetch(`https://ntfy.sh/${CLOUD_USERS_TOPIC}`, {
       method: "POST",
-      body: JSON.stringify({ user: compactUserForSync(userObj) }),
+      body: encryptSyncPayload({ user: compactUserForSync(userObj) }),
     });
   } catch {}
 }
@@ -476,7 +546,7 @@ async function loadUsers() {
     try {
       fetch(`https://ntfy.sh/${CLOUD_USERS_TOPIC}`, {
         method: "POST",
-        body: JSON.stringify({ users: unsyncedLocalUsers.map(compactUserForSync) }),
+        body: encryptSyncPayload({ users: unsyncedLocalUsers.map(compactUserForSync) }),
       });
     } catch {}
   }
@@ -1325,8 +1395,11 @@ function syncUserHeaderUI() {
   const u = state.currentUser;
   if (!u) return;
   const av = document.getElementById("navUserAvatar");
-  if (u.picture) av.innerHTML = `<img src="${u.picture}" alt="${u.name}" />`;
-  else av.textContent = (u.name || "U").trim().charAt(0).toUpperCase();
+  if (u.picture && /^https?:\/\//i.test(u.picture)) {
+    av.innerHTML = `<img src="${escapeHtml(u.picture)}" alt="${escapeHtml(u.name)}" />`;
+  } else {
+    av.textContent = (u.name || "U").trim().charAt(0).toUpperCase();
+  }
 
   document.getElementById("navUserName").textContent = u.name;
   document.getElementById("navUserId").textContent = u.id;
@@ -2063,16 +2136,58 @@ function bindAllEvents() {
   document.getElementById("googleLoginBtn").addEventListener("click", triggerRealGoogleSignIn);
   document.getElementById("googleSignupBtn").addEventListener("click", triggerRealGoogleSignIn);
 
-  document.getElementById("loginForm").addEventListener("submit", (e) => {
+  document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     clearAuthAlert();
+
+    // Brute-force lockout check (5 failed attempts -> 60s cooldown)
+    const now = Date.now();
+    if (state.loginLockUntil > now) {
+      const remSec = Math.ceil((state.loginLockUntil - now) / 1000);
+      showAuthAlert(
+        isAr()
+          ? `تم إيقاف المحاولات مؤقتاً للحماية. يرجى الانتظار ${remSec} ثانية.`
+          : `Too many failed attempts. Please wait ${remSec} seconds before trying again.`
+      );
+      return;
+    }
+
     const idOrName = document.getElementById("loginIdentifier").value.trim().toLowerCase();
     const pass = document.getElementById("loginPassword").value;
     const user = state.users.find(
       (u) => (u.id || "").toLowerCase() === idOrName || (u.name || "").trim().toLowerCase() === idOrName || (u.email || "").trim().toLowerCase() === idOrName
     );
-    if (!user) { showAuthAlert(isAr() ? "لم يتم العثور على حساب بهذا الـ ID أو الاسم أو البريد." : "No account found with that ID, Name, or Email."); return; }
-    if (user.provider === "local" && user.password !== pass) { showAuthAlert(isAr() ? "كلمة المرور غير صحيحة." : "Incorrect password."); return; }
+    if (!user) {
+      state.failedLoginAttempts += 1;
+      if (state.failedLoginAttempts >= 5) state.loginLockUntil = Date.now() + 60000;
+      showAuthAlert(isAr() ? "لم يتم العثور على حساب بهذا الـ ID أو الاسم أو البريد." : "No account found with that ID, Name, or Email.");
+      return;
+    }
+
+    if (user.provider === "local") {
+      const inputHash = await hashPasswordSha256(pass);
+      const hashMatch = user.passwordHash && inputHash && user.passwordHash === inputHash;
+      const plainMatch = user.password && user.password === pass;
+      if (!hashMatch && !plainMatch) {
+        state.failedLoginAttempts += 1;
+        if (state.failedLoginAttempts >= 5) {
+          state.loginLockUntil = Date.now() + 60000;
+          showAuthAlert(
+            isAr()
+              ? "5 محاولات خاطئة! تم قفل تسجيل الدخول لمدة 60 ثانية للحماية."
+              : "5 failed attempts! Login locked for 60 seconds for security."
+          );
+          return;
+        }
+        showAuthAlert(isAr() ? "كلمة المرور غير صحيحة." : "Incorrect password.");
+        return;
+      }
+      // Upgrade legacy user with SHA-256 hash automatically
+      if (!user.passwordHash && inputHash) user.passwordHash = inputHash;
+    }
+
+    state.failedLoginAttempts = 0;
+    state.loginLockUntil = 0;
     showToast(isAr() ? `أهلاً بعودتك يا ${user.name}!` : `Welcome back, ${user.name}!`);
     enterSession(user);
   });
@@ -2137,14 +2252,25 @@ function bindAllEvents() {
   document.getElementById("verifyOtpBtn").addEventListener("click", async () => {
     clearAuthAlert();
     if (!state.pendingSignup) return;
+    if (state.failedOtpAttempts >= 5) {
+      state.localOtpRecord = null;
+      showAuthAlert(
+        isAr()
+          ? "تم تجاوز 5 محاولات خاطئة لرمز OTP. يرجى الضغط على إعادة إرسال رمز جديد."
+          : "Too many wrong OTP attempts (5/5). Please click Resend Code to get a new OTP."
+      );
+      return;
+    }
     const code = getOtpInputValue();
     if (code.length !== 6) { showAuthAlert(isAr() ? "يرجى إدخال الـ 6 أرقام كاملة." : "Please enter all 6 digits."); return; }
     try {
       await verifyGmailOtp(state.pendingSignup.email, code);
+      state.failedOtpAttempts = 0;
       clearInterval(state.otpTimerHandle);
       const { name, email, password, age } = state.pendingSignup;
+      const passwordHash = await hashPasswordSha256(password);
       const newUser = {
-        id: generateUniqueUserId(), name, email, password, provider: "local", picture: "", emailVerified: true,
+        id: generateUniqueUserId(), name, email, password, passwordHash, provider: "local", picture: "", emailVerified: true,
         age, gender: "male", height: 175, weight: 75, activity: 1.55, goal: "maintain",
         calorieMode: "auto", manualCalories: 2200, macroPreset: "balanced",
         onboardingComplete: false, selectedFoodIds: [], diaries: {}, createdAt: new Date().toISOString(),
@@ -2154,6 +2280,7 @@ function bindAllEvents() {
       showToast(isAr() ? `تم تأكيد البريد وإنشاء حسابك (${newUser.id})!` : `Email verified! Account created (${newUser.id}).`);
       enterSession(newUser);
     } catch (err) {
+      state.failedOtpAttempts += 1;
       showAuthAlert(err.message);
     }
   });
@@ -2161,6 +2288,7 @@ function bindAllEvents() {
   document.getElementById("resendOtpBtn").addEventListener("click", async () => {
     if (!state.pendingSignup) return;
     clearAuthAlert();
+    state.failedOtpAttempts = 0;
     try {
       const res = await sendGmailOtp(state.pendingSignup.email, state.pendingSignup.name);
       if (res.devOtp) { document.getElementById("otpDevCode").textContent = res.devOtp; document.getElementById("otpDevHint").classList.remove("hidden"); }
