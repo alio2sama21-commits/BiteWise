@@ -173,15 +173,33 @@ async function initBackendAndConfig() {
     state.backendOnline = false;
   }
 
+  const isOwnerMode =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1" ||
+    new URLSearchParams(window.location.search).get("admin") === "1";
+
+  ["authSettingsBtn", "openSettingsBtn", "openSmtpFromOtp"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle("hidden", !isOwnerMode);
+  });
+
+  // Secret owner shortcut (Ctrl + Shift + A) to open admin settings anytime
+  document.addEventListener("keydown", (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a") {
+      e.preventDefault();
+      openSettingsModal();
+    }
+  });
+
   const badge = document.getElementById("backendStatusBadge");
   if (badge) {
     badge.textContent = state.backendOnline
       ? "● حفظ تلقائي في users_database.txt"
-      : "● وضع المتصفح (GitHub Pages)";
+      : "● BiteWise Live";
   }
   const fileTag = document.getElementById("udFileSyncBadge");
   if (fileTag) {
-    fileTag.textContent = state.backendOnline ? "users_database.txt ✓" : "محفوظ محلياً";
+    fileTag.textContent = state.backendOnline ? "users_database.txt ✓" : "محفوظ بأمان ✓";
   }
 }
 
