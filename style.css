@@ -99,6 +99,55 @@ body {
   transition: background var(--ease), color var(--ease);
 }
 
+[dir="ltr"] body {
+  font-family: "Plus Jakarta Sans", "Cairo", system-ui, -apple-system, sans-serif;
+}
+
+.lang-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 39px;
+  padding: 0 13px;
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-family: "Plus Jakarta Sans", "Cairo", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all var(--ease);
+}
+.lang-toggle-btn:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+  background: var(--brand-soft);
+}
+
+/* Native LTR Direction Overrides */
+[dir="ltr"] .auth-topbar-float { left: auto; right: 24px; }
+[dir="ltr"] .input-icon-wrap input { padding-left: 42px; padding-right: 40px; }
+[dir="ltr"] .field-icon { right: auto; left: 13px; }
+[dir="ltr"] .eye-toggle { left: auto; right: 10px; }
+[dir="ltr"] .user-meta { text-align: left; }
+[dir="ltr"] .user-dropdown { left: auto; right: 0; }
+[dir="ltr"] .search-box-modern svg { right: auto; left: 14px; }
+[dir="ltr"] .search-box-modern input { padding-right: 14px; padding-left: 44px; }
+[dir="ltr"] .fc-kcal-pill { right: auto; left: 10px; }
+[dir="ltr"] .fc-select-fab { left: auto; right: 10px; }
+[dir="ltr"] .modal-close { left: auto; right: 14px; }
+[dir="ltr"] .fm-cat-badge { right: auto; left: 14px; }
+[dir="ltr"] .toast-container { left: auto; right: 22px; }
+[dir="ltr"] .toast { border-right: none; border-left: 4px solid var(--brand); }
+[dir="ltr"] .toast.error { border-left-color: var(--accent-rose); }
+[dir="ltr"] .tps-slider::after { right: auto; left: 3px; }
+[dir="ltr"] .toggle-pill-switch input:checked + .tps-slider::after { transform: translateX(16px); }
+[dir="ltr"] .btn svg { transform: scaleX(-1); }
+[dir="ltr"] .btn-primary svg[viewBox="0 0 24 24"] { transform: none; }
+[dir="ltr"] .btn .arrow-rtl { transform: scaleX(-1); }
+
 .num-en {
   font-family: "Plus Jakarta Sans", "Cairo", sans-serif;
   font-variant-numeric: tabular-nums;
