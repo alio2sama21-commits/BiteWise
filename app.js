@@ -203,7 +203,7 @@ function extractNutrition(food) {
 }
 
 function getFoodImage(food) {
-  return food?.image_url || food?.category_image_url || "./images/ful_medames.jpg";
+  return food?.photo_url || food?.image_url || food?.category_image_url || "./images/ful_medames.jpg";
 }
 
 function getFoodFallbackImage(food) {
