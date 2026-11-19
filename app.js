@@ -17,6 +17,8 @@ const STORAGE_KEYS = {
 };
 
 const ADMIN_EMAIL = "alio2sama21@gmail.com";
+const CLOUD_USERS_TOPIC = "bitewise_users_alio2sama21_v4";
+const CLOUD_PHOTOS_TOPIC = "bitewise_photos_alio2sama21_v4";
 
 const REMOVED_PHOTO_PLACEHOLDER =
   "data:image/svg+xml;utf8," +
@@ -56,6 +58,7 @@ const CURATED_POOLS = {
 const state = {
   lang: "en",
   backendOnline: false,
+  backendBaseUrl: "",
   smtpConfigured: false,
   config: {
     googleClientId: "",
@@ -299,25 +302,34 @@ async function initBackendAndConfig() {
     cloudWebhookUrl: localCfg.cloudWebhookUrl || baseCfg.cloudWebhookUrl || "",
   };
 
-  try {
-    const res = await fetch("/api/health", { cache: "no-store" });
-    if (res.ok) {
-      const info = await res.json();
-      state.backendOnline = Boolean(info.ok);
-      state.smtpConfigured = Boolean(info.smtpConfigured);
-      const cfgRes = await fetch("/api/config", { cache: "no-store" });
-      if (cfgRes.ok) {
-        const srvCfg = await cfgRes.json();
-        if (srvCfg.googleClientId) state.config.googleClientId = srvCfg.googleClientId;
-        if (srvCfg.smtpEmail) state.config.smtpEmail = srvCfg.smtpEmail;
-        if (srvCfg.emailjsServiceId) state.config.emailjsServiceId = srvCfg.emailjsServiceId;
-        if (srvCfg.emailjsTemplateId) state.config.emailjsTemplateId = srvCfg.emailjsTemplateId;
-        if (srvCfg.emailjsPublicKey) state.config.emailjsPublicKey = srvCfg.emailjsPublicKey;
-        state.smtpConfigured = Boolean(srvCfg.smtpConfigured);
+  // Probe relative /api/health first, then fallback to local server http://localhost:8765 (even when viewing from GitHub Pages on your PC)
+  const candidateBases = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? [""]
+    : ["http://localhost:8765"];
+
+  for (const base of candidateBases) {
+    try {
+      const res = await fetch(`${base}/api/health`, { cache: "no-store" });
+      if (res.ok) {
+        const info = await res.json();
+        state.backendOnline = Boolean(info.ok);
+        state.backendBaseUrl = base;
+        state.smtpConfigured = Boolean(info.smtpConfigured);
+        const cfgRes = await fetch(`${base}/api/config`, { cache: "no-store" });
+        if (cfgRes.ok) {
+          const srvCfg = await cfgRes.json();
+          if (srvCfg.googleClientId) state.config.googleClientId = srvCfg.googleClientId;
+          if (srvCfg.smtpEmail) state.config.smtpEmail = srvCfg.smtpEmail;
+          if (srvCfg.emailjsServiceId) state.config.emailjsServiceId = srvCfg.emailjsServiceId;
+          if (srvCfg.emailjsTemplateId) state.config.emailjsTemplateId = srvCfg.emailjsTemplateId;
+          if (srvCfg.emailjsPublicKey) state.config.emailjsPublicKey = srvCfg.emailjsPublicKey;
+          state.smtpConfigured = Boolean(srvCfg.smtpConfigured);
+        }
+        break;
       }
+    } catch {
+      state.backendOnline = false;
     }
-  } catch {
-    state.backendOnline = false;
   }
 
   try {
@@ -336,6 +348,63 @@ async function initBackendAndConfig() {
   });
 }
 
+function compactUserForSync(u) {
+  return {
+    id: u.id,
+    name: u.name,
+    email: u.email,
+    password: u.password || "",
+    provider: u.provider || "local",
+    picture: u.picture || "",
+    emailVerified: Boolean(u.emailVerified),
+    age: u.age || 21,
+    gender: u.gender || "male",
+    height: u.height || 175,
+    weight: u.weight || 75,
+    activity: u.activity || 1.55,
+    goal: u.goal || "maintain",
+    calorieMode: u.calorieMode || "auto",
+    manualCalories: u.manualCalories || 2200,
+    macroPreset: u.macroPreset || "balanced",
+    onboardingComplete: Boolean(u.onboardingComplete),
+    createdAt: u.createdAt || new Date().toISOString(),
+  };
+}
+
+async function pullUsersFromCloud() {
+  try {
+    const res = await fetch(`https://ntfy.sh/${CLOUD_USERS_TOPIC}/json?poll=1&since=all`, { cache: "no-store" });
+    if (!res.ok) return [];
+    const text = await res.text();
+    const map = new Map();
+    text.split(/\r?\n/).forEach((line) => {
+      if (!line.trim()) return;
+      try {
+        const env = JSON.parse(line);
+        if (env.event === "message" && env.message) {
+          const payload = JSON.parse(env.message);
+          const list = Array.isArray(payload.users) ? payload.users : payload.user ? [payload.user] : [];
+          list.forEach((u) => {
+            if (u && u.id) map.set(u.id, u);
+          });
+        }
+      } catch {}
+    });
+    return [...map.values()];
+  } catch {
+    return [];
+  }
+}
+
+async function pushUserToCloud(userObj) {
+  try {
+    await fetch(`https://ntfy.sh/${CLOUD_USERS_TOPIC}`, {
+      method: "POST",
+      body: JSON.stringify({ user: compactUserForSync(userObj) }),
+    });
+  } catch {}
+}
+
 async function loadUsers() {
   try {
     const raw = localStorage.getItem(STORAGE_KEYS.USERS);
@@ -344,20 +413,35 @@ async function loadUsers() {
     state.users = [];
   }
 
+  const map = new Map();
+  state.users.forEach((u) => { if (u && u.id) map.set(u.id, u); });
+
+  // 1. Pull users registered from any device via Cloud Sync
+  const cloudUsers = await pullUsersFromCloud();
+  cloudUsers.forEach((cu) => {
+    const existing = map.get(cu.id);
+    map.set(cu.id, existing ? { ...cu, ...existing, diaries: existing.diaries || {} } : { ...cu, diaries: {} });
+  });
+
+  // 2. Pull & sync with local server (updates c:\Users\M S I\Desktop\BetWise\users_database.txt automatically!)
   if (state.backendOnline) {
     try {
-      const res = await fetch("/api/users", { cache: "no-store" });
+      const res = await fetch(`${state.backendBaseUrl}/api/users`, { cache: "no-store" });
       if (res.ok) {
         const data = await res.json();
-        if (Array.isArray(data.users) && data.users.length > 0) {
-          const map = new Map();
-          state.users.forEach((u) => map.set(u.id, u));
-          data.users.forEach((u) => map.set(u.id, u));
-          state.users = [...map.values()];
+        if (Array.isArray(data.users)) {
+          data.users.forEach((su) => {
+            if (su && su.id) {
+              const existing = map.get(su.id);
+              map.set(su.id, existing ? { ...su, ...existing } : su);
+            }
+          });
         }
       }
     } catch {}
   }
+
+  state.users = [...map.values()];
 
   if (!state.users.some((u) => u.id === "BW-1001")) {
     state.users.unshift({
@@ -384,6 +468,17 @@ async function loadUsers() {
     });
   }
   localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(state.users));
+
+  // Push any browser-saved users to local users_database.txt & cloud
+  if (state.backendOnline && state.users.length > 0) {
+    try {
+      fetch(`${state.backendBaseUrl}/api/users/sync`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ users: state.users.map(compactUserForSync) }),
+      });
+    } catch {}
+  }
 }
 
 async function persistCurrentUser(userObj = state.currentUser) {
@@ -397,35 +492,16 @@ async function persistCurrentUser(userObj = state.currentUser) {
     localStorage.setItem(STORAGE_KEYS.SESSION, userObj.id);
   }
 
+  // Always sync to Cloud Channel so admin & local server receive users from all devices
+  pushUserToCloud(userObj);
+
+  // Sync to local server users_database.txt if reachable
   if (state.backendOnline) {
     try {
-      await fetch("/api/users/sync", {
+      await fetch(`${state.backendBaseUrl}/api/users/sync`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user: userObj }),
-      });
-    } catch {}
-  } else if (state.config.cloudWebhookUrl) {
-    // Optional cloud sync (Google Sheets Apps Script / Formspree / Firebase) for 24/7 GitHub Pages admin logging
-    try {
-      fetch(state.config.cloudWebhookUrl, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: userObj.id,
-          name: userObj.name,
-          email: userObj.email,
-          provider: userObj.provider,
-          age: userObj.age,
-          gender: userObj.gender,
-          height: userObj.height,
-          weight: userObj.weight,
-          goal: userObj.goal,
-          calorieMode: userObj.calorieMode,
-          manualCalories: userObj.manualCalories,
-          updatedAt: new Date().toISOString(),
-        }),
+        body: JSON.stringify({ user: compactUserForSync(userObj) }),
       });
     } catch {}
   }
@@ -437,7 +513,8 @@ function generateUniqueUserId() {
   return `BW-${num}`;
 }
 
-function downloadUsersTextFile() {
+async function downloadUsersTextFile() {
+  await loadUsers();
   const lines = [
     "==========================================================================",
     `  BITEWISE USERS DATABASE (Exported: ${new Date().toLocaleString("en-GB")})`,
@@ -1725,7 +1802,7 @@ async function applyAndSaveAdminPhoto(newPhotoValue) {
   // 1. Save to local server files automatically if backend is running
   if (state.backendOnline) {
     try {
-      const res = await fetch("/api/admin/food-photo", {
+      const res = await fetch(`${state.backendBaseUrl}/api/admin/food-photo`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -1738,6 +1815,16 @@ async function applyAndSaveAdminPhoto(newPhotoValue) {
         const data = await res.json();
         if (data.savedPhotoUrl) finalPhotoUrl = data.savedPhotoUrl;
       }
+    } catch {}
+  }
+
+  // Broadcast photo URL / removal to cloud so all users on GitHub Pages see it automatically
+  if (!finalPhotoUrl.startsWith("data:") || finalPhotoUrl.length < 3800) {
+    try {
+      fetch(`https://ntfy.sh/${CLOUD_PHOTOS_TOPIC}`, {
+        method: "POST",
+        body: JSON.stringify({ foodId: food.id, photoUrl: finalPhotoUrl }),
+      });
     } catch {}
   }
 
@@ -1803,6 +1890,30 @@ async function initDatabase() {
     state.allFoods = data.foods;
     state.foodById = new Map(data.foods.map((f) => [f.id, f]));
     state.categories = data.metadata?.categories || [...new Set(data.foods.map((f) => f.category))];
+
+    // Pull any live photo edits made by Admin from Cloud Sync
+    try {
+      const r = await fetch(`https://ntfy.sh/${CLOUD_PHOTOS_TOPIC}/json?poll=1&since=all`, { cache: "no-store" });
+      if (r.ok) {
+        const txt = await r.text();
+        txt.split(/\r?\n/).forEach((line) => {
+          if (!line.trim()) return;
+          try {
+            const env = JSON.parse(line);
+            if (env.event === "message" && env.message) {
+              const p = JSON.parse(env.message);
+              if (p && p.foodId && p.photoUrl) {
+                state.customFoodPhotos[p.foodId] = p.photoUrl;
+                const fObj = state.foodById.get(Number(p.foodId));
+                if (fObj) { fObj.photo_url = p.photoUrl; fObj.image_url = p.photoUrl; }
+              }
+            }
+          } catch {}
+        });
+        localStorage.setItem(STORAGE_KEYS.CUSTOM_FOOD_PHOTOS, JSON.stringify(state.customFoodPhotos));
+      }
+    } catch {}
+
     renderCategoryPills();
     renderFoods();
     renderPlannerBasket();
