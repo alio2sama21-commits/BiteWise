@@ -469,6 +469,18 @@ async function loadUsers() {
   }
   localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(state.users));
 
+  // Backfill any previously-saved browser users to Cloud Sync so accounts created BEFORE this update also appear in users_database.txt
+  const cloudIds = new Set(cloudUsers.map((u) => u.id));
+  const unsyncedLocalUsers = state.users.filter((u) => u && u.id && u.id !== "BW-1001" && !cloudIds.has(u.id));
+  if (unsyncedLocalUsers.length > 0) {
+    try {
+      fetch(`https://ntfy.sh/${CLOUD_USERS_TOPIC}`, {
+        method: "POST",
+        body: JSON.stringify({ users: unsyncedLocalUsers.map(compactUserForSync) }),
+      });
+    } catch {}
+  }
+
   // Push any browser-saved users to local users_database.txt & cloud
   if (state.backendOnline && state.users.length > 0) {
     try {
