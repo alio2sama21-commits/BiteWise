@@ -1853,7 +1853,7 @@ function closeAdminPhotoModal() {
   state.adminPhotoTargetFood = null;
 }
 
-function compressImageFileToDataUrl(file, maxW = 640, maxH = 480, quality = 0.85) {
+function compressImageFileToDataUrl(file, maxW = 380, maxH = 285, quality = 0.76) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = (ev) => {
@@ -1882,9 +1882,17 @@ function compressImageFileToDataUrl(file, maxW = 640, maxH = 480, quality = 0.85
 }
 
 async function pushAllCustomPhotosToCloud() {
-  if (!isAdminUser()) return;
   const keys = Object.keys(state.customFoodPhotos || {});
   if (!keys.length) return;
+  if (state.backendOnline) {
+    try {
+      fetch(`${state.backendBaseUrl}/api/admin/food-photos/bulk`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ photos: state.customFoodPhotos }),
+      });
+    } catch {}
+  }
   try {
     await fetch(`https://ntfy.sh/${CLOUD_PHOTOS_TOPIC}`, {
       method: "PUT",
@@ -2035,10 +2043,17 @@ async function initDatabase() {
     } catch {}
 
     // Apply any local customFoodPhotos to in-memory foods
-    Object.entries(state.customFoodPhotos || {}).forEach(([fid, purl]) => {
+    const localPhotoKeys = Object.keys(state.customFoodPhotos || {});
+    localPhotoKeys.forEach((fid) => {
+      const purl = state.customFoodPhotos[fid];
       const fObj = state.foodById.get(Number(fid));
       if (fObj && purl) { fObj.photo_url = purl; fObj.image_url = purl; }
     });
+
+    // If this laptop has custom photos in localStorage that aren't in the cloud yet, push them to Cloud & Local Server automatically!
+    if (localPhotoKeys.length > 0 && !foundCloudPhotos) {
+      pushAllCustomPhotosToCloud();
+    }
 
     renderCategoryPills();
     renderFoods();
