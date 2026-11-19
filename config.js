@@ -8,8 +8,13 @@ window.BITEWISE_CONFIG = {
   //    Authorized JS origins: http://localhost:8765 and https://YOUR_USERNAME.github.io
   googleClientId: "649984322250-egrc9tlsc139ig5kh36tj97th01iho7j.apps.googleusercontent.com",
 
-  // 2. Optional EmailJS keys (for sending real Gmail OTP when hosted on GitHub Pages)
-  emailjsServiceId: "",
-  emailjsTemplateId: "",
-  emailjsPublicKey: "",
+  // 2. EmailJS keys (REQUIRED for sending real Gmail OTP on GitHub Pages 24/7)
+  //    Create free account at https://www.emailjs.com/ -> connect your Gmail -> paste keys below:
+  emailjsServiceId: "service_igtx7d5",
+  emailjsTemplateId: "template_4dqi3kq",
+  emailjsPublicKey: "f-4VWAVuPnR4HTGEC",
+
+  // 3. Optional Cloud Webhook URL (e.g. Google Sheets Apps Script / Formspree)
+  //    Receives every new user signup automatically when hosted on GitHub Pages
+  cloudWebhookUrl: "",
 };

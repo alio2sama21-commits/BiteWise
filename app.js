@@ -221,7 +221,17 @@ function imgTagHtml(food, cls = "") {
 async function initBackendAndConfig() {
   let localCfg = {};
   try { localCfg = JSON.parse(localStorage.getItem(STORAGE_KEYS.CONFIG) || "{}"); } catch {}
-  state.config = { ...state.config, ...(window.BITEWISE_CONFIG || {}), ...localCfg };
+  const baseCfg = window.BITEWISE_CONFIG || {};
+  state.config = {
+    ...state.config,
+    ...baseCfg,
+    googleClientId: localCfg.googleClientId || baseCfg.googleClientId || "",
+    smtpEmail: localCfg.smtpEmail || baseCfg.smtpEmail || "",
+    emailjsServiceId: localCfg.emailjsServiceId || baseCfg.emailjsServiceId || "",
+    emailjsTemplateId: localCfg.emailjsTemplateId || baseCfg.emailjsTemplateId || "",
+    emailjsPublicKey: localCfg.emailjsPublicKey || baseCfg.emailjsPublicKey || "",
+    cloudWebhookUrl: localCfg.cloudWebhookUrl || baseCfg.cloudWebhookUrl || "",
+  };
 
   try {
     const res = await fetch("/api/health", { cache: "no-store" });
@@ -244,13 +254,13 @@ async function initBackendAndConfig() {
     state.backendOnline = false;
   }
 
-  // Show admin/owner settings ONLY on localhost, ?admin=1, or Ctrl+Shift+A
+  // Show admin/owner controls ONLY on localhost, ?admin=1, or Ctrl+Shift+A
   const isOwnerMode =
     window.location.hostname === "localhost" ||
     window.location.hostname === "127.0.0.1" ||
     new URLSearchParams(window.location.search).get("admin") === "1";
 
-  ["authSettingsBtn", "openSettingsBtn", "openSmtpFromOtp"].forEach((id) => {
+  ["authSettingsBtn", "openSettingsBtn", "openSmtpFromOtp", "udExportUsersBtn"].forEach((id) => {
     const el = document.getElementById(id);
     if (el) el.classList.toggle("hidden", !isOwnerMode);
   });
@@ -330,6 +340,29 @@ async function persistCurrentUser(userObj = state.currentUser) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user: userObj }),
+      });
+    } catch {}
+  } else if (state.config.cloudWebhookUrl) {
+    // Optional cloud sync (Google Sheets Apps Script / Formspree / Firebase) for 24/7 GitHub Pages admin logging
+    try {
+      fetch(state.config.cloudWebhookUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: userObj.id,
+          name: userObj.name,
+          email: userObj.email,
+          provider: userObj.provider,
+          age: userObj.age,
+          gender: userObj.gender,
+          height: userObj.height,
+          weight: userObj.weight,
+          goal: userObj.goal,
+          calorieMode: userObj.calorieMode,
+          manualCalories: userObj.manualCalories,
+          updatedAt: new Date().toISOString(),
+        }),
       });
     } catch {}
   }
@@ -462,6 +495,8 @@ async function completeGoogleSignIn(gUser) {
 
 // ==================== REAL 6-DIGIT GMAIL OTP ====================
 async function sendGmailOtp(email, name) {
+  let code = String(Math.floor(100000 + Math.random() * 900000));
+
   if (state.backendOnline) {
     const res = await fetch("/api/otp/send", {
       method: "POST",
@@ -470,11 +505,11 @@ async function sendGmailOtp(email, name) {
     });
     const data = await res.json();
     if (!res.ok || !data.ok) throw new Error(data.error || "Failed to send OTP");
-    return data;
+    if (data.deliveredVia === "gmail_smtp") return data;
+    if (data.devOtp) code = String(data.devOtp);
+  } else {
+    state.localOtpRecord = { email, code, expiresAt: Date.now() + 5 * 60 * 1000 };
   }
-
-  const code = String(Math.floor(100000 + Math.random() * 900000));
-  state.localOtpRecord = { email, code, expiresAt: Date.now() + 5 * 60 * 1000 };
 
   if (state.config.emailjsServiceId && state.config.emailjsTemplateId && state.config.emailjsPublicKey) {
     try {
@@ -485,7 +520,21 @@ async function sendGmailOtp(email, name) {
           service_id: state.config.emailjsServiceId,
           template_id: state.config.emailjsTemplateId,
           user_id: state.config.emailjsPublicKey,
-          template_params: { to_email: email, to_name: name, otp_code: code },
+          template_params: {
+            to_email: email,
+            email: email,
+            user_email: email,
+            reply_to: email,
+            to_name: name,
+            user_name: name,
+            name: name,
+            otp_code: code,
+            passcode: code,
+            otp: code,
+            code: code,
+            message: `Your BiteWise verification code is: ${code}`,
+            time: "5 minutes",
+          },
         }),
       });
       if (ejRes.ok) {
@@ -494,11 +543,23 @@ async function sendGmailOtp(email, name) {
     } catch {}
   }
 
+  const isLocalHost =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+
+  if (!isLocalHost) {
+    throw new Error(
+      isAr()
+        ? "خدمة إرسال كود Gmail غير مفعّلة على الاستضافة بعد — سجّل الدخول مباشرة عبر Google أو فعّل EmailJS في config.js."
+        : "Gmail OTP email delivery is not configured on this live site yet — please use Google Sign-In or add EmailJS keys in config.js."
+    );
+  }
+
   return {
     ok: true,
     deliveredVia: "local_fallback",
     devOtp: code,
-    message: isAr() ? "تم توليد رمز OTP بنجاح" : "OTP code generated",
+    message: isAr() ? "تم توليد رمز OTP (وضع التطوير المحلي)" : "OTP generated (Local Dev Mode)",
   };
 }
 

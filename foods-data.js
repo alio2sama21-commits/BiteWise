@@ -69,7 +69,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  7,
                                        "fiber_g":  10
                                    },
-                      "image_url":  "./images/oats_yogurt.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Oats.png",
                       "category_image_url":  "./images/ful_medames.jpg",
                       "image_search_query":  "OATS food"
                   },
@@ -85,7 +85,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  3.5,
                                        "fiber_g":  0
                                    },
-                      "image_url":  "./images/milk_dairy.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Milk.png",
                       "category_image_url":  "./images/ful_medames.jpg",
                       "image_search_query":  "FULL-MILK food"
                   },
@@ -101,7 +101,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.5,
                                        "fiber_g":  3
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52190734574_46f3285eee_b.jpg",
+                      "image_url":  "./images/milk_dairy.jpg",
                       "category_image_url":  "./images/ful_medames.jpg",
                       "image_search_query":  "skimmed-milk food"
                   },
@@ -117,7 +117,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  8.5,
                                        "fiber_g":  5.2
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/sqrtwu1511721265.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Tahini.png",
                       "category_image_url":  "./images/ful_medames.jpg",
                       "image_search_query":  "Ful Medames with Oil \u0026 Tahini food"
                   },
@@ -197,7 +197,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  11.0,
                                        "fiber_g":  1.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51687789770_8544956247_b.jpg",
+                      "image_url":  "./images/shawarma_hawawshi.jpg",
                       "category_image_url":  "./images/ful_medames.jpg",
                       "image_search_query":  "Kibda Iskandarani food"
                   },
@@ -213,7 +213,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  26.0,
                                        "fiber_g":  0.8
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52584666540_a617e12fc2_b.jpg",
+                      "image_url":  "./images/shawarma_hawawshi.jpg",
                       "category_image_url":  "./images/ful_medames.jpg",
                       "image_search_query":  "Sogoq Iskandarani food"
                   },
@@ -229,7 +229,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  16.0,
                                        "fiber_g":  0.5
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/hcg6l91763596970.jpg",
+                      "image_url":  "./images/shawarma_hawawshi.jpg",
                       "category_image_url":  "./images/ful_medames.jpg",
                       "image_search_query":  "Egyptian Beef Shawarma food"
                   },
@@ -261,7 +261,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  8.0,
                                        "fiber_g":  1.3
                                    },
-                      "image_url":  "./images/eggs_shakshuka.jpg",
+                      "image_url":  "https://www.themealdb.com/images/media/meals/g373701551450225.jpg",
                       "category_image_url":  "./images/ful_medames.jpg",
                       "image_search_query":  "Shakshuka food"
                   },
@@ -277,7 +277,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  14.0,
                                        "fiber_g":  0.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51906142898_725fbfe140_b.jpg",
+                      "image_url":  "./images/eggs_shakshuka.jpg",
                       "category_image_url":  "./images/ful_medames.jpg",
                       "image_search_query":  "Beid Bel Basterma food"
                   },
@@ -293,7 +293,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  2.5,
                                        "fiber_g":  8.4
                                    },
-                      "image_url":  "https://live.staticflickr.com/2941/15228689230_4b58781c73.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Greek%20Yogurt.png",
                       "category_image_url":  "./images/ful_medames.jpg",
                       "image_search_query":  "GREEK-YOGURT food"
                   },
@@ -309,7 +309,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  10.5,
                                        "fiber_g":  2.8
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51296445352_311d7003bd_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Minced%20Beef.png",
                       "category_image_url":  "./images/ful_medames.jpg",
                       "image_search_query":  "Mesaqaa Bel Lahma food"
                   },
@@ -341,7 +341,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  4.2,
                                        "fiber_g":  1.8
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52157238849_55702073b0_b.jpg",
+                      "image_url":  "./images/potatoes_sides.jpg",
                       "category_image_url":  "./images/ful_medames.jpg",
                       "image_search_query":  "Batates Boorih food"
                   },
@@ -357,7 +357,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  33.14,
                                        "fiber_g":  1.8
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51945657644_a223fcbb96_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Cheddar%20Cheese.png",
                       "category_image_url":  "./images/egyptian_cheese.jpg",
                       "image_search_query":  "cheddar CHEESE food"
                   },
@@ -373,7 +373,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  4.3,
                                        "fiber_g":  0.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/199/493134781_7f82e7c7de.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Cottage%20Cheese.png",
                       "category_image_url":  "./images/egyptian_cheese.jpg",
                       "image_search_query":  "Gibna Quraish food"
                   },
@@ -389,7 +389,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  22.0,
                                        "fiber_g":  0.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/8331/8075525776_612fed156e_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Feta.png",
                       "category_image_url":  "./images/egyptian_cheese.jpg",
                       "image_search_query":  "Gibna Domiati food"
                   },
@@ -405,7 +405,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  23.0,
                                        "fiber_g":  0.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/8316/29179877574_fabdf1fb35_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Feta.png",
                       "category_image_url":  "./images/egyptian_cheese.jpg",
                       "image_search_query":  "Gibna Baramili food"
                   },
@@ -437,7 +437,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  22.0,
                                        "fiber_g":  0.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/3938/33375487832_e233ee3db2_b.jpg",
+                      "image_url":  "./images/egyptian_cheese.jpg",
                       "category_image_url":  "./images/egyptian_cheese.jpg",
                       "image_search_query":  "Mish / Gibna Adeema food"
                   },
@@ -453,7 +453,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  47.0,
                                        "fiber_g":  0.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/53/147378518_13a2c97e5b_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Heavy%20Cream.png",
                       "category_image_url":  "./images/egyptian_cheese.jpg",
                       "image_search_query":  "Qishta Baladi food"
                   },
@@ -469,7 +469,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  3.6,
                                        "fiber_g":  0.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/7635/16357613913_05605e5614_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Greek%20Yogurt.png",
                       "category_image_url":  "./images/egyptian_cheese.jpg",
                       "image_search_query":  "Zabady Baladi food"
                   },
@@ -501,7 +501,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  1.2,
                                        "fiber_g":  2.2
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52130222317_fce2ccb20b_b.jpg",
+                      "image_url":  "./images/egyptian_bread.jpg",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "Aish Shami food"
                   },
@@ -517,7 +517,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  3.2,
                                        "fiber_g":  2.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51665446338_992ed9fb9d_b.jpg",
+                      "image_url":  "./images/egyptian_bread.jpg",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "Aish Fino food"
                   },
@@ -533,7 +533,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  3.5,
                                        "fiber_g":  4.2
                                    },
-                      "image_url":  "https://live.staticflickr.com/100/295626382_4cce1b80aa.jpg",
+                      "image_url":  "./images/egyptian_bread.jpg",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "Aish Bataw food"
                   },
@@ -565,7 +565,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  17.5,
                                        "fiber_g":  1.4
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/2i0plx1784837241.jpg",
+                      "image_url":  "https://www.themealdb.com/images/media/meals/9f4z6v1598734293.jpg",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "Feteer Sharqi food"
                   },
@@ -581,7 +581,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  13.5,
                                        "fiber_g":  1.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/8185/8077874994_3053f9986c_b.jpg",
+                      "image_url":  "./images/egyptian_bread.jpg",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "Goulash Bel Lahma food"
                   },
@@ -597,7 +597,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  13.5,
                                        "fiber_g":  1.1
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/48684301362_cd54b2e550_b.jpg",
+                      "image_url":  "./images/egyptian_bread.jpg",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "Roqaq Bel Lahma food"
                   },
@@ -629,7 +629,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  9.0,
                                        "fiber_g":  0.4
                                    },
-                      "image_url":  "https://live.staticflickr.com/1492/25921513102_b2086fee57_b.jpg",
+                      "image_url":  "./images/rice_dishes.jpg",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "Roz Meamar food"
                   },
@@ -645,7 +645,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  3.0,
                                        "fiber_g":  0.9
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52299368005_9774f401c5_b.jpg",
+                      "image_url":  "./images/rice_dishes.jpg",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "Roz Sayadeya food"
                   },
@@ -661,7 +661,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  6.5,
                                        "fiber_g":  1.2
                                    },
-                      "image_url":  "https://live.staticflickr.com/3915/14376689980_33045abf5d_b.jpg",
+                      "image_url":  "./images/rice_dishes.jpg",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "Roz Bel Khalta food"
                   },
@@ -693,7 +693,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  3.2,
                                        "fiber_g":  1.6
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/0jv5gx1661040802.jpg",
+                      "image_url":  "./images/pasta_bechamel.jpg",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "Macarona Bel Salsa food"
                   },
@@ -709,7 +709,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  5.5,
                                        "fiber_g":  1.5
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/usywpp1511189717.jpg",
+                      "image_url":  "./images/pasta_bechamel.jpg",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "Tagen Macarona Bel Lahma food"
                   },
@@ -725,7 +725,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  6.2,
                                        "fiber_g":  1.4
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/qvrwpt1511181864.jpg",
+                      "image_url":  "./images/pasta_bechamel.jpg",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "Mabakbaka food"
                   },
@@ -757,7 +757,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  3.2,
                                        "fiber_g":  3.1
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/48727696123_70f5a11d32.jpg",
+                      "image_url":  "./images/egyptian_stews.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Bamia food"
                   },
@@ -773,7 +773,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  9.0,
                                        "fiber_g":  2.6
                                    },
-                      "image_url":  "./images/egyptian_stews.jpg",
+                      "image_url":  "./images/beef_steak.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Bamia Bel Lahma food"
                   },
@@ -789,7 +789,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  3.0,
                                        "fiber_g":  4.8
                                    },
-                      "image_url":  "https://live.staticflickr.com/8464/8078375968_68e617b736_b.jpg",
+                      "image_url":  "./images/eggs_shakshuka.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Fasolia Beida food"
                   },
@@ -805,7 +805,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  3.5,
                                        "fiber_g":  2.8
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52525491661_3ef339e23f_b.jpg",
+                      "image_url":  "./images/egyptian_stews.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Fasolia Khadra food"
                   },
@@ -821,7 +821,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  2.8,
                                        "fiber_g":  4.2
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51863835613_3d9a88810b_b.jpg",
+                      "image_url":  "./images/egyptian_stews.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Loubia food"
                   },
@@ -837,7 +837,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  3.0,
                                        "fiber_g":  3.5
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52491376693_08a7868b9e_b.jpg",
+                      "image_url":  "./images/egyptian_stews.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Bisilla Bel Gazar food"
                   },
@@ -853,7 +853,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  6.2,
                                        "fiber_g":  1.6
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52514679085_c0d7a184a2_b.jpg",
+                      "image_url":  "./images/potatoes_sides.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Siniyet Batates Bel Farakh food"
                   },
@@ -869,7 +869,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  3.0,
                                        "fiber_g":  2.5
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/49725646723_fbb99fe1a5_b.jpg",
+                      "image_url":  "./images/egyptian_stews.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Torly food"
                   },
@@ -885,7 +885,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  3.5,
                                        "fiber_g":  3.2
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52582081729_bc5b36f8c4_b.jpg",
+                      "image_url":  "./images/egyptian_stews.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Qolqas Bel Salq food"
                   },
@@ -901,7 +901,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  3.0,
                                        "fiber_g":  1.5
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52581771277_dc3a9011d4_b.jpg",
+                      "image_url":  "./images/egyptian_stews.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Kousa Matboukha food"
                   },
@@ -917,7 +917,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  3.2,
                                        "fiber_g":  2.9
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51596030579_2dda029991_b.jpg",
+                      "image_url":  "./images/egyptian_stews.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Sabanekh Bel Hummus food"
                   },
@@ -933,7 +933,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  5.0,
                                        "fiber_g":  2.4
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51694350114_05a3954bc3_b.jpg",
+                      "image_url":  "./images/egyptian_stews.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Mahshi Wara Enab food"
                   },
@@ -949,7 +949,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  4.8,
                                        "fiber_g":  2.2
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52490339732_2a5050a749_b.jpg",
+                      "image_url":  "./images/egyptian_stews.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Mahshi Kromb food"
                   },
@@ -965,7 +965,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  5.0,
                                        "fiber_g":  1.8
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51599407484_b665a72e32_b.jpg",
+                      "image_url":  "./images/egyptian_stews.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Mahshi Kousa food"
                   },
@@ -981,7 +981,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  6.2,
                                        "fiber_g":  2.5
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52491376808_bb73c4d8a7_b.jpg",
+                      "image_url":  "./images/eggs_shakshuka.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Mahshi Betingan food"
                   },
@@ -997,7 +997,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  4.8,
                                        "fiber_g":  2.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52111951081_32cf079031_b.jpg",
+                      "image_url":  "./images/egyptian_stews.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Mahshi Filfil food"
                   },
@@ -1013,7 +1013,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  12.0,
                                        "fiber_g":  1.2
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51699222085_2c32f014b8_b.jpg",
+                      "image_url":  "./images/shawarma_hawawshi.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Mombar food"
                   },
@@ -1045,7 +1045,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  13.5,
                                        "fiber_g":  0.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/1748/27884082727_794f29d76c_b.jpg",
+                      "image_url":  "./images/egyptian_stews.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Kawareh Soup \u0026 Meat food"
                   },
@@ -1061,7 +1061,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  3.5,
                                        "fiber_g":  2.8
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51775140729_3115114028_b.jpg",
+                      "image_url":  "./images/egyptian_stews.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Shorbet Ads food"
                   },
@@ -1077,7 +1077,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  1.6,
                                        "fiber_g":  0.6
                                    },
-                      "image_url":  "https://live.staticflickr.com/2925/33376896162_49a0692643_b.jpg",
+                      "image_url":  "./images/egyptian_stews.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Shorbet Lesan Asfour food"
                   },
@@ -1093,7 +1093,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  7.2,
                                        "fiber_g":  0.4
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52411695901_586c854d7e_b.jpg",
+                      "image_url":  "./images/oats_yogurt.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Kishk Almaz food"
                   },
@@ -1109,7 +1109,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  14.0,
                                        "fiber_g":  1.1
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/k5qzdl1782689660.jpg",
+                      "image_url":  "./images/roasted_poultry.jpg",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Hamam Mahshi food"
                   },
@@ -1125,7 +1125,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  18.0,
                                        "fiber_g":  0.5
                                    },
-                      "image_url":  "./images/grilled_kofta_steak.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Minced%20Beef.png",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Grilled Kofta food"
                   },
@@ -1141,7 +1141,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  20.0,
                                        "fiber_g":  1.2
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/p9tebp1764118792.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Tahini.png",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Kofta Bel Tahina food"
                   },
@@ -1157,7 +1157,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  8.8,
                                        "fiber_g":  1.3
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/sjfgbc1779647169.jpg",
+                      "image_url":  "./images/rice_dishes.jpg",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Koftet Roz food"
                   },
@@ -1173,7 +1173,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  16.0,
                                        "fiber_g":  0.0
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/uuqvwu1504629254.jpg",
+                      "image_url":  "./images/grilled_kofta_steak.jpg",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Grilled Kebab food"
                   },
@@ -1189,7 +1189,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  29.0,
                                        "fiber_g":  0.3
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/2wx8cm1763373419.jpg",
+                      "image_url":  "./images/grilled_kofta_steak.jpg",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Tarb food"
                   },
@@ -1205,7 +1205,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  6.5,
                                        "fiber_g":  0.2
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/kvbotn1581012881.jpg",
+                      "image_url":  "./images/grilled_chicken.jpg",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Shish Tawook food"
                   },
@@ -1221,7 +1221,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  11.0,
                                        "fiber_g":  0.0
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/1529444113.jpg",
+                      "image_url":  "./images/grilled_chicken.jpg",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Farakh Mashwiya food"
                   },
@@ -1237,7 +1237,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  15.0,
                                        "fiber_g":  0.7
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/el64dy1763483009.jpg",
+                      "image_url":  "./images/grilled_chicken.jpg",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Farakh Pane food"
                   },
@@ -1269,7 +1269,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  11.0,
                                        "fiber_g":  0.0
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/kzxflc1763194887.jpg",
+                      "image_url":  "./images/roasted_poultry.jpg",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Araneb Mahamara food"
                   },
@@ -1285,7 +1285,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  5.5,
                                        "fiber_g":  0.5
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/lpd4wy1614347943.jpg",
+                      "image_url":  "./images/seafood_fish.jpg",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Samak Bolti Meshwi food"
                   },
@@ -1301,7 +1301,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  12.5,
                                        "fiber_g":  0.2
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/4yjart1763248459.jpg",
+                      "image_url":  "./images/seafood_fish.jpg",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Samak Bolti Maqli food"
                   },
@@ -1317,7 +1317,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  9.8,
                                        "fiber_g":  0.3
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/jg4r991779916649.jpg",
+                      "image_url":  "./images/seafood_fish.jpg",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Samak Bouri Meshwi food"
                   },
@@ -1333,7 +1333,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  12.0,
                                        "fiber_g":  0.5
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/yhi46r1763330279.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Prawns.png",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Gambari Maqli food"
                   },
@@ -1349,7 +1349,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  2.8,
                                        "fiber_g":  0.0
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/n7h5zs1765318909.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Prawns.png",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Gambari Meshwi food"
                   },
@@ -1365,7 +1365,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  11.0,
                                        "fiber_g":  0.0
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/9q1ci41779735714.jpg",
+                      "image_url":  "./images/seafood_fish.jpg",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Feseekh food"
                   },
@@ -1381,7 +1381,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  14.0,
                                        "fiber_g":  0.0
                                    },
-                      "image_url":  "https://www.themealdb.com/images/media/meals/7ttta31593350374.jpg",
+                      "image_url":  "./images/seafood_fish.jpg",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Renga food"
                   },
@@ -1413,7 +1413,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  24.0,
                                        "fiber_g":  2.1
                                    },
-                      "image_url":  "./images/mezze_platter.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Tahini.png",
                       "category_image_url":  "./images/salads_dips.jpg",
                       "image_search_query":  "Salatet Tahina food"
                   },
@@ -1429,7 +1429,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  11.0,
                                        "fiber_g":  2.4
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51703651412_80472faee5_b.jpg",
+                      "image_url":  "./images/mezze_platter.jpg",
                       "category_image_url":  "./images/salads_dips.jpg",
                       "image_search_query":  "Baba Ghanoush food"
                   },
@@ -1445,7 +1445,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  10.5,
                                        "fiber_g":  2.5
                                    },
-                      "image_url":  "https://live.staticflickr.com/114/295635893_9a2475b547_b.jpg",
+                      "image_url":  "./images/eggs_shakshuka.jpg",
                       "category_image_url":  "./images/salads_dips.jpg",
                       "image_search_query":  "Betingan Mekhalel food"
                   },
@@ -1461,7 +1461,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.1,
                                        "fiber_g":  1.5
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52518846349_a118371a6e_b.jpg",
+                      "image_url":  "./images/mezze_platter.jpg",
                       "category_image_url":  "./images/salads_dips.jpg",
                       "image_search_query":  "Torshi Baladi food"
                   },
@@ -1477,7 +1477,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  36.0,
                                        "fiber_g":  11.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51764196637_b50e4a20b1_b.jpg",
+                      "image_url":  "./images/mezze_platter.jpg",
                       "category_image_url":  "./images/salads_dips.jpg",
                       "image_search_query":  "Dukkah food"
                   },
@@ -1509,7 +1509,7 @@ window.BITEWISE_FOOD_DB = {
                                     "fat_g":  27,
                                     "fiber_g":  1
                                 },
-                      "image_url":  "https://live.staticflickr.com/65535/51869591221_4159cb3238_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Peanuts.png",
                       "category_image_url":  "./images/donuts.jpg",
                       "image_search_query":  "PEANUT food"
                   },
@@ -1525,7 +1525,7 @@ window.BITEWISE_FOOD_DB = {
                                     "fat_g":  23,
                                     "fiber_g":  1
                                 },
-                      "image_url":  "https://live.staticflickr.com/65535/54571285949_1de1d9de38_b.jpg",
+                      "image_url":  "./images/donuts.jpg",
                       "category_image_url":  "./images/donuts.jpg",
                       "image_search_query":  "DOUBLE CHOCOLATE food"
                   },
@@ -1541,7 +1541,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  8.0,
                                        "fiber_g":  1.2
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/54257224835_2d57c58156_b.jpg",
+                      "image_url":  "./images/oriental_desserts.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Om Ali food"
                   },
@@ -1557,7 +1557,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  3.0,
                                        "fiber_g":  0.2
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52597607635_74065a72dc_b.jpg",
+                      "image_url":  "./images/oats_yogurt.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Roz Bel Laban food"
                   },
@@ -1573,7 +1573,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  2.8,
                                        "fiber_g":  0.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/5823/23939394846_2f0a770bf8_b.jpg",
+                      "image_url":  "./images/oats_yogurt.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Mehalabeya food"
                   },
@@ -1589,7 +1589,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  15.0,
                                        "fiber_g":  1.1
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51940130555_81605bbd0f_b.jpg",
+                      "image_url":  "./images/oriental_desserts.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Basbousa food"
                   },
@@ -1637,7 +1637,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  19.0,
                                        "fiber_g":  1.5
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52970292872_fd92ba71b1_b.jpg",
+                      "image_url":  "./images/oriental_desserts.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Goulash Helw food"
                   },
@@ -1653,7 +1653,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  12.0,
                                        "fiber_g":  1.4
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51963177181_ce3e9bd241_b.jpg",
+                      "image_url":  "./images/oriental_desserts.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Qatayef food"
                   },
@@ -1669,7 +1669,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  13.0,
                                        "fiber_g":  0.9
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52091130704_86a7c155c5_b.jpg",
+                      "image_url":  "./images/oriental_desserts.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Zalabya / Luqmat al-Qadi food"
                   },
@@ -1685,7 +1685,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  16.0,
                                        "fiber_g":  0.8
                                    },
-                      "image_url":  "https://live.staticflickr.com/687/21551956239_fa8806abb8_b.jpg",
+                      "image_url":  "./images/oriental_desserts.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Balah El Sham food"
                   },
@@ -1701,7 +1701,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  15.5,
                                        "fiber_g":  0.6
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51927257401_b1cf8cf6e2_b.jpg",
+                      "image_url":  "./images/oriental_desserts.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Meshabek food"
                   },
@@ -1717,7 +1717,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  25.0,
                                        "fiber_g":  1.3
                                    },
-                      "image_url":  "https://live.staticflickr.com/273/19230997305_169e0f6613_b.jpg",
+                      "image_url":  "./images/oriental_desserts.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Kahk El Eid food"
                   },
@@ -1733,7 +1733,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  31.0,
                                        "fiber_g":  0.8
                                    },
-                      "image_url":  "https://live.staticflickr.com/349/19043395118_c6dbcc9d35_b.jpg",
+                      "image_url":  "./images/oriental_desserts.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Ghorayeba food"
                   },
@@ -1749,7 +1749,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  25.0,
                                        "fiber_g":  4.2
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52043052963_767e551b0f_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Tahini.png",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Halawa Tahiniya food"
                   },
@@ -1765,7 +1765,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  23.0,
                                        "fiber_g":  3.5
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52460523504_7996129339_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Tahini.png",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Asal Aswad Bel Tahina food"
                   },
@@ -1781,7 +1781,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  3.0,
                                        "fiber_g":  2.1
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52728526018_46398eeac4_b.jpg",
+                      "image_url":  "./images/oats_yogurt.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Ashoura food"
                   },
@@ -1797,7 +1797,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  2.4,
                                        "fiber_g":  2.3
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51292694069_8743efd156_b.jpg",
+                      "image_url":  "./images/oats_yogurt.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Belila food"
                   },
@@ -1813,7 +1813,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.0,
                                        "fiber_g":  0.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/5508/14584428593_ea4711d39a_b.jpg",
+                      "image_url":  "./images/fresh_juices.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Aseer Asab food"
                   },
@@ -1829,7 +1829,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.0,
                                        "fiber_g":  0.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52352387030_ba00cb9f98_b.jpg",
+                      "image_url":  "./images/fresh_juices.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Karkadeh food"
                   },
@@ -1845,7 +1845,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.0,
                                        "fiber_g":  0.2
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/54588466551_ea9ba1bb5e_b.jpg",
+                      "image_url":  "./images/fresh_juices.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Tamarind Juice food"
                   },
@@ -1861,7 +1861,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  2.8,
                                        "fiber_g":  0.3
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52128325162_2e20082c9d_b.jpg",
+                      "image_url":  "./images/milk_dairy.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Sobia food"
                   },
@@ -1877,7 +1877,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  4.0,
                                        "fiber_g":  0.4
                                    },
-                      "image_url":  "https://live.staticflickr.com/7494/15531204853_8bdac04e50_b.jpg",
+                      "image_url":  "./images/milk_dairy.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Sahlab food"
                   },
@@ -1893,7 +1893,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.3,
                                        "fiber_g":  2.6
                                    },
-                      "image_url":  "./images/fresh_fruits.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Banana.png",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Banana food"
                   },
@@ -1909,7 +1909,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.3,
                                        "fiber_g":  2.4
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51276313539_0d27a99b53_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Blueberries.png",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Blueberry food"
                   },
@@ -1925,7 +1925,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.2,
                                        "fiber_g":  2.4
                                    },
-                      "image_url":  "https://live.staticflickr.com/107/294904726_da88a269bb_b.jpg",
+                      "image_url":  "./images/fresh_fruits.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Apple food"
                   },
@@ -1941,7 +1941,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.4,
                                        "fiber_g":  1.6
                                    },
-                      "image_url":  "./images/berries_fruits.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Mango.png",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Mango food"
                   },
@@ -1957,7 +1957,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.1,
                                        "fiber_g":  2.4
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52458201565_6e090fb092_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Orange.png",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Orange food"
                   },
@@ -1973,7 +1973,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.3,
                                        "fiber_g":  1.8
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52446724381_9a0c4f812e_b.jpg",
+                      "image_url":  "./images/fresh_fruits.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Mandarin / Tangerine food"
                   },
@@ -1989,7 +1989,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.2,
                                        "fiber_g":  0.4
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52434606637_bcc0540422_b.jpg",
+                      "image_url":  "./images/fresh_fruits.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Watermelon food"
                   },
@@ -2005,7 +2005,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.2,
                                        "fiber_g":  0.9
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52027753081_b91eeb8151_b.jpg",
+                      "image_url":  "./images/roasted_poultry.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Cantaloupe / Sweet Melon food"
                   },
@@ -2021,7 +2021,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  1.0,
                                        "fiber_g":  5.4
                                    },
-                      "image_url":  "https://live.staticflickr.com/2941/15220845537_619993ac93_b.jpg",
+                      "image_url":  "./images/fresh_fruits.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Guava food"
                   },
@@ -2037,7 +2037,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.3,
                                        "fiber_g":  2.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/13/14952851_e2bea43df4_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Strawberries.png",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Strawberry food"
                   },
@@ -2053,7 +2053,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.2,
                                        "fiber_g":  0.9
                                    },
-                      "image_url":  "./images/tropical_fruits.jpg",
+                      "image_url":  "./images/fresh_fruits.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Grapes food"
                   },
@@ -2069,7 +2069,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  1.2,
                                        "fiber_g":  4.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52154674165_a36f07bd35_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Pomegranate.png",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Pomegranate food"
                   },
@@ -2085,7 +2085,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.3,
                                        "fiber_g":  2.9
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52237730219_339d9457d6_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Figs.png",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Fresh Figs food"
                   },
@@ -2101,7 +2101,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.5,
                                        "fiber_g":  3.6
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52510766034_7a41f82639_b.jpg",
+                      "image_url":  "./images/fresh_fruits.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Prickly Pear food"
                   },
@@ -2117,7 +2117,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.3,
                                        "fiber_g":  1.5
                                    },
-                      "image_url":  "https://live.staticflickr.com/7585/16975486175_40f39d6f18_b.jpg",
+                      "image_url":  "./images/fresh_fruits.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Peach food"
                   },
@@ -2133,7 +2133,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.4,
                                        "fiber_g":  2.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52506753517_5d41f3c43f_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Apricot.png",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Apricot food"
                   },
@@ -2149,7 +2149,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.3,
                                        "fiber_g":  1.4
                                    },
-                      "image_url":  "https://live.staticflickr.com/46/147681228_a5cfe29b6f_b.jpg",
+                      "image_url":  "./images/fresh_fruits.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Plum food"
                   },
@@ -2165,7 +2165,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.1,
                                        "fiber_g":  3.1
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52208076349_0cbc4aa7a1_b.jpg",
+                      "image_url":  "./images/fresh_fruits.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Pear food"
                   },
@@ -2181,7 +2181,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.2,
                                        "fiber_g":  3.5
                                    },
-                      "image_url":  "https://live.staticflickr.com/3776/13617969753_f8e4ce5b33.jpg",
+                      "image_url":  "./images/fresh_fruits.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Fresh Dates food"
                   },
@@ -2197,7 +2197,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.2,
                                        "fiber_g":  6.7
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52020549757_a5ffb4f4c4_b.jpg",
+                      "image_url":  "./images/fresh_fruits.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Semi-Dry / Soft Dates food"
                   },
@@ -2213,7 +2213,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.5,
                                        "fiber_g":  3.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52284196141_9951e5125e_b.jpg",
+                      "image_url":  "./images/fresh_fruits.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Kiwi food"
                   },
@@ -2229,7 +2229,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.1,
                                        "fiber_g":  1.4
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51954626337_bc840e5732_b.jpg",
+                      "image_url":  "./images/fresh_fruits.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Pineapple food"
                   },
@@ -2245,7 +2245,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.2,
                                        "fiber_g":  3.6
                                    },
-                      "image_url":  "https://live.staticflickr.com/2911/13632818335_8bd747d0e7_b.jpg",
+                      "image_url":  "./images/fresh_fruits.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Persimmon food"
                   },
@@ -2261,7 +2261,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.4,
                                        "fiber_g":  1.7
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/50065606471_30fd6991ed_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Blackberries.png",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Mulberry / Blackberry food"
                   },
@@ -2277,7 +2277,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.7,
                                        "fiber_g":  6.5
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52147813048_4dbd9fd6a6_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Raspberries.png",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Raspberry food"
                   },
@@ -2293,7 +2293,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.2,
                                        "fiber_g":  2.1
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52146443616_c5203d9ae9_b.jpg",
+                      "image_url":  "./images/fresh_fruits.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Cherry food"
                   },
@@ -2309,7 +2309,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  14.7,
                                        "fiber_g":  6.7
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52052466889_ba88374b8a_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Avocado.png",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Avocado food"
                   },
@@ -2325,7 +2325,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.3,
                                        "fiber_g":  2.8
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52510748764_0919dcf8c7_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Lemon.png",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Lemon food"
                   },
@@ -2341,7 +2341,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.1,
                                        "fiber_g":  1.6
                                    },
-                      "image_url":  "https://live.staticflickr.com/1953/44739430234_0b1b11dcea_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Grapefruit.png",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Grapefruit food"
                   },
@@ -2357,7 +2357,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.7,
                                        "fiber_g":  3.0
                                    },
-                      "image_url":  "https://live.staticflickr.com/4555/38362799392_c9cbda989e_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Heavy%20Cream.png",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Custard Apple / Cherimoya food"
                   },
@@ -2373,7 +2373,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.2,
                                        "fiber_g":  1.7
                                    },
-                      "image_url":  "https://live.staticflickr.com/228/493303884_3a720b8f88.jpg",
+                      "image_url":  "./images/fresh_fruits.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Loquat food"
                   },
@@ -2389,7 +2389,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.1,
                                        "fiber_g":  0.8
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/53743311166_290344bc27_b.jpg",
+                      "image_url":  "./images/fresh_fruits.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Sugar Apple / Sweet Melon food"
                   },
@@ -2405,7 +2405,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.7,
                                        "fiber_g":  4.9
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52125782786_4feca8f098_b.jpg",
+                      "image_url":  "./images/fresh_fruits.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Golden Berry food"
                   },
@@ -2421,7 +2421,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.3,
                                        "fiber_g":  1.7
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/51793936693_1d5e3462f9_b.jpg",
+                      "image_url":  "./images/fresh_fruits.jpg",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Nectarine food"
                   },
@@ -2437,7 +2437,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fat_g":  0.5,
                                        "fiber_g":  3.7
                                    },
-                      "image_url":  "https://live.staticflickr.com/65535/52638631337_5f56329c75_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Raisins.png",
                       "category_image_url":  "./images/fresh_fruits.jpg",
                       "image_search_query":  "Raisins food"
                   },
@@ -2469,7 +2469,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  152,
-                      "image_url":  "https://www.themealdb.com/images/media/meals/yxsurp1511304301.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Chicken%20Breast.png",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Chicken Breast food"
                   },
@@ -2485,7 +2485,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.8
                                    },
                       "id":  153,
-                      "image_url":  "https://www.themealdb.com/images/media/meals/arzs741766434335.jpg",
+                      "image_url":  "https://www.themealdb.com/images/media/meals/wyxwsp1486979827.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Chicken Curry food"
                   },
@@ -2501,7 +2501,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.4
                                    },
                       "id":  154,
-                      "image_url":  "https://live.staticflickr.com/2832/33153302960_91ff646f5a_b.jpg",
+                      "image_url":  "./images/rice_dishes.jpg",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "White Rice food"
                   },
@@ -2533,7 +2533,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  156,
-                      "image_url":  "https://live.staticflickr.com/65535/51558500809_bcdec80aa4_b.jpg",
+                      "image_url":  "./images/milk_dairy.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Iced Latte food"
                   },
@@ -2549,7 +2549,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  157,
-                      "image_url":  "https://live.staticflickr.com/65535/52513655461_afe5bba333_b.jpg",
+                      "image_url":  "./images/iced_drinks.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Iced Spanish Latte food"
                   },
@@ -2565,7 +2565,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  158,
-                      "image_url":  "https://live.staticflickr.com/65535/51564364913_162b138888_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Eggs.png",
                       "category_image_url":  "./images/ful_medames.jpg",
                       "image_search_query":  "Boiled Egg food"
                   },
@@ -2581,7 +2581,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  159,
-                      "image_url":  "https://live.staticflickr.com/65535/52363417704_c6508d0148_b.jpg",
+                      "image_url":  "./images/eggs_shakshuka.jpg",
                       "category_image_url":  "./images/ful_medames.jpg",
                       "image_search_query":  "Fried Egg / Omelette food"
                   },
@@ -2597,7 +2597,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  160,
-                      "image_url":  "https://live.staticflickr.com/65535/51912412642_1dc45742a9_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Egg%20White.png",
                       "category_image_url":  "./images/ful_medames.jpg",
                       "image_search_query":  "Egg Whites food"
                   },
@@ -2613,7 +2613,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  7.6
                                    },
                       "id":  161,
-                      "image_url":  "https://live.staticflickr.com/65535/51744635488_ce228503f7_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Chickpeas.png",
                       "category_image_url":  "./images/ful_medames.jpg",
                       "image_search_query":  "Hummus food"
                   },
@@ -2629,7 +2629,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  3.1
                                    },
                       "id":  162,
-                      "image_url":  "https://live.staticflickr.com/444/18598706494_fe6e40ab47_b.jpg",
+                      "image_url":  "./images/ful_medames.jpg",
                       "category_image_url":  "./images/ful_medames.jpg",
                       "image_search_query":  "Hummus El Sham / Halabesa food"
                   },
@@ -2645,7 +2645,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  2.8
                                    },
                       "id":  163,
-                      "image_url":  "https://live.staticflickr.com/65535/51694587027_52bc85dc34_b.jpg",
+                      "image_url":  "./images/ful_medames.jpg",
                       "category_image_url":  "./images/ful_medames.jpg",
                       "image_search_query":  "Termis food"
                   },
@@ -2661,7 +2661,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  3.6
                                    },
                       "id":  164,
-                      "image_url":  "https://live.staticflickr.com/65535/51743566132_3373d5e8a5_b.jpg",
+                      "image_url":  "./images/oats_yogurt.jpg",
                       "category_image_url":  "./images/ful_medames.jpg",
                       "image_search_query":  "Belila food"
                   },
@@ -2677,7 +2677,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  165,
-                      "image_url":  "https://live.staticflickr.com/65535/52139969273_b1bdbae008_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Mozzarella.png",
                       "category_image_url":  "./images/egyptian_cheese.jpg",
                       "image_search_query":  "Mozzarella Cheese food"
                   },
@@ -2693,7 +2693,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  166,
-                      "image_url":  "https://live.staticflickr.com/65535/52111141076_ec44253714_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Feta.png",
                       "category_image_url":  "./images/egyptian_cheese.jpg",
                       "image_search_query":  "Feta Cheese food"
                   },
@@ -2709,7 +2709,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  167,
-                      "image_url":  "https://live.staticflickr.com/215/493134765_e478c70add.jpg",
+                      "image_url":  "./images/egyptian_cheese.jpg",
                       "category_image_url":  "./images/egyptian_cheese.jpg",
                       "image_search_query":  "Triangle Cheese food"
                   },
@@ -2725,7 +2725,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  168,
-                      "image_url":  "https://live.staticflickr.com/7499/16117084566_4a4b2d5be2.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Buttermilk.png",
                       "category_image_url":  "./images/egyptian_cheese.jpg",
                       "image_search_query":  "Laban Rayeb food"
                   },
@@ -2741,7 +2741,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  1.6
                                    },
                       "id":  169,
-                      "image_url":  "https://live.staticflickr.com/65535/51362647264_f73852510c_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Brown%20Rice.png",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "Brown Rice food"
                   },
@@ -2757,7 +2757,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.4
                                    },
                       "id":  170,
-                      "image_url":  "https://live.staticflickr.com/65535/52548077221_575787e701_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Basmati%20Rice.png",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "Basmati Rice food"
                   },
@@ -2773,7 +2773,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  1.8
                                    },
                       "id":  171,
-                      "image_url":  "https://www.themealdb.com/images/media/meals/xutquv1505330523.jpg",
+                      "image_url":  "./images/pasta_bechamel.jpg",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "Plain Boiled Pasta food"
                   },
@@ -2789,7 +2789,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  4.5
                                    },
                       "id":  172,
-                      "image_url":  "https://live.staticflickr.com/8055/8077028737_34dbf6cf6f_b.jpg",
+                      "image_url":  "./images/rice_dishes.jpg",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "Freekeh food"
                   },
@@ -2805,7 +2805,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  6.0
                                    },
                       "id":  173,
-                      "image_url":  "https://live.staticflickr.com/7651/27807442876_dc81ddd36c.jpg",
+                      "image_url":  "./images/egyptian_bread.jpg",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "Brown Toast Bread food"
                   },
@@ -2821,7 +2821,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  2.4
                                    },
                       "id":  174,
-                      "image_url":  "https://live.staticflickr.com/65535/52130221502_37a69e83de_b.jpg",
+                      "image_url":  "./images/egyptian_bread.jpg",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "White Toast Bread food"
                   },
@@ -2837,7 +2837,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  3.3
                                    },
                       "id":  175,
-                      "image_url":  "https://live.staticflickr.com/8052/8077483154_519bec3767_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Sweet%20Potatoes.png",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "Sweet Potato food"
                   },
@@ -2853,7 +2853,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  1.8
                                    },
                       "id":  176,
-                      "image_url":  "https://live.staticflickr.com/65535/52005532127_cc41a14116_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Potatoes.png",
                       "category_image_url":  "./images/egyptian_bread.jpg",
                       "image_search_query":  "Boiled Potato food"
                   },
@@ -2869,7 +2869,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  177,
-                      "image_url":  "https://www.themealdb.com/images/media/meals/tyywsw1505930373.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Chicken%20Thighs.png",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Chicken Thigh food"
                   },
@@ -2885,7 +2885,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  178,
-                      "image_url":  "https://www.themealdb.com/images/media/meals/tytyxu1515363282.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Chicken%20Wings.png",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Chicken Wings food"
                   },
@@ -2917,7 +2917,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  180,
-                      "image_url":  "https://www.themealdb.com/images/media/meals/dxpc7j1764370714.jpg",
+                      "image_url":  "./images/beef_steak.jpg",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Boiled Beef food"
                   },
@@ -2933,7 +2933,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.2
                                    },
                       "id":  181,
-                      "image_url":  "https://www.themealdb.com/images/media/meals/xwutvy1511555540.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Minced%20Beef.png",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Minced Beef food"
                   },
@@ -2949,7 +2949,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  182,
-                      "image_url":  "https://www.themealdb.com/images/media/meals/yypwwq1511304979.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Tuna.png",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Canned Tuna food"
                   },
@@ -2965,7 +2965,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  183,
-                      "image_url":  "https://www.themealdb.com/images/media/meals/xquakq1619787532.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Tuna.png",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Canned Tuna food"
                   },
@@ -2981,7 +2981,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  184,
-                      "image_url":  "./images/seafood_fish.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Salmon.png",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Grilled Salmon food"
                   },
@@ -2997,7 +2997,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.5
                                    },
                       "id":  185,
-                      "image_url":  "https://www.themealdb.com/images/media/meals/yxiilf1763759428.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Squid.png",
                       "category_image_url":  "./images/grilled_kofta_steak.jpg",
                       "image_search_query":  "Calamari / Squid food"
                   },
@@ -3029,7 +3029,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  2.9
                                    },
                       "id":  187,
-                      "image_url":  "https://www.themealdb.com/images/media/meals/jyjlhj1763075323.jpg",
+                      "image_url":  "https://www.themealdb.com/images/media/meals/4er7mj1598733193.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Lentils \u0026 Rice food"
                   },
@@ -3045,7 +3045,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  2.2
                                    },
                       "id":  188,
-                      "image_url":  "https://www.themealdb.com/images/media/meals/yh3sg71763741307.jpg",
+                      "image_url":  "https://www.themealdb.com/images/media/meals/x372ug1598733932.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Molokhia with Rabbit / Chicken Broth food"
                   },
@@ -3061,7 +3061,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.9
                                    },
                       "id":  189,
-                      "image_url":  "https://www.themealdb.com/images/media/meals/ssxvup1511387476.jpg",
+                      "image_url":  "https://www.themealdb.com/images/media/meals/kcv6hj1598733479.jpg",
                       "category_image_url":  "./images/egyptian_stews.jpg",
                       "image_search_query":  "Chicken Shawarma Fattah food"
                   },
@@ -3077,7 +3077,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  1.2
                                    },
                       "id":  190,
-                      "image_url":  "https://live.staticflickr.com/65535/51553245239_ba7037f6dd_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Tomatoes.png",
                       "category_image_url":  "./images/salads_dips.jpg",
                       "image_search_query":  "Tomato food"
                   },
@@ -3093,7 +3093,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.5
                                    },
                       "id":  191,
-                      "image_url":  "https://live.staticflickr.com/2942/15220506007_04e9f0d887_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Cucumber.png",
                       "category_image_url":  "./images/salads_dips.jpg",
                       "image_search_query":  "Cucumber food"
                   },
@@ -3109,7 +3109,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  1.6
                                    },
                       "id":  192,
-                      "image_url":  "https://live.staticflickr.com/65535/52315742725_bc0bd3dc41_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Rocket.png",
                       "category_image_url":  "./images/salads_dips.jpg",
                       "image_search_query":  "Arugula / Rocca food"
                   },
@@ -3125,7 +3125,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  1.8
                                    },
                       "id":  193,
-                      "image_url":  "https://live.staticflickr.com/65535/51615099061_495f0a9ee0_b.jpg",
+                      "image_url":  "./images/salads_dips.jpg",
                       "category_image_url":  "./images/salads_dips.jpg",
                       "image_search_query":  "Coleslaw Salad food"
                   },
@@ -3141,7 +3141,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.4
                                    },
                       "id":  194,
-                      "image_url":  "https://live.staticflickr.com/65535/51651876293_3e046e8cba_b.jpg",
+                      "image_url":  "./images/mezze_platter.jpg",
                       "category_image_url":  "./images/salads_dips.jpg",
                       "image_search_query":  "Toumeya food"
                   },
@@ -3157,7 +3157,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  12.5
                                    },
                       "id":  195,
-                      "image_url":  "https://live.staticflickr.com/65535/51306200164_2ea9323c04_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Almonds.png",
                       "category_image_url":  "./images/nuts_oils.jpg",
                       "image_search_query":  "Almonds food"
                   },
@@ -3173,7 +3173,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  8.5
                                    },
                       "id":  196,
-                      "image_url":  "https://live.staticflickr.com/65535/51682590968_9811cb60ec_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Peanuts.png",
                       "category_image_url":  "./images/nuts_oils.jpg",
                       "image_search_query":  "Peanuts food"
                   },
@@ -3189,7 +3189,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  6.0
                                    },
                       "id":  197,
-                      "image_url":  "./images/nuts_oils.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Peanut%20Butter.png",
                       "category_image_url":  "./images/nuts_oils.jpg",
                       "image_search_query":  "Peanut Butter food"
                   },
@@ -3205,7 +3205,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  6.7
                                    },
                       "id":  198,
-                      "image_url":  "https://live.staticflickr.com/65535/52077330033_6051b6649c_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Walnuts.png",
                       "category_image_url":  "./images/nuts_oils.jpg",
                       "image_search_query":  "Walnuts food"
                   },
@@ -3221,7 +3221,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  3.3
                                    },
                       "id":  199,
-                      "image_url":  "https://live.staticflickr.com/65535/54268998633_8dde2fc193_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Cashew%20Nuts.png",
                       "category_image_url":  "./images/nuts_oils.jpg",
                       "image_search_query":  "Cashews food"
                   },
@@ -3237,7 +3237,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  9.7
                                    },
                       "id":  200,
-                      "image_url":  "https://live.staticflickr.com/65535/53612156845_6fbfd507a3_b.jpg",
+                      "image_url":  "./images/nuts_oils.jpg",
                       "category_image_url":  "./images/nuts_oils.jpg",
                       "image_search_query":  "Hazelnuts food"
                   },
@@ -3253,7 +3253,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  10.6
                                    },
                       "id":  201,
-                      "image_url":  "https://live.staticflickr.com/65535/52053737927_1876ae53ec_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Pistachio.png",
                       "category_image_url":  "./images/nuts_oils.jpg",
                       "image_search_query":  "Pistachios food"
                   },
@@ -3269,7 +3269,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  4.0
                                    },
                       "id":  202,
-                      "image_url":  "https://live.staticflickr.com/65535/53635539210_2193ea763b_b.jpg",
+                      "image_url":  "./images/nuts_oils.jpg",
                       "category_image_url":  "./images/nuts_oils.jpg",
                       "image_search_query":  "Egyptian Watermelon Seeds food"
                   },
@@ -3285,7 +3285,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  6.0
                                    },
                       "id":  203,
-                      "image_url":  "https://live.staticflickr.com/65535/51306697752_0cee857078_b.jpg",
+                      "image_url":  "./images/nuts_oils.jpg",
                       "category_image_url":  "./images/nuts_oils.jpg",
                       "image_search_query":  "Pumpkin Seeds food"
                   },
@@ -3301,7 +3301,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  8.6
                                    },
                       "id":  204,
-                      "image_url":  "https://live.staticflickr.com/65535/52150673176_aa1b4365e1_b.jpg",
+                      "image_url":  "./images/nuts_oils.jpg",
                       "category_image_url":  "./images/nuts_oils.jpg",
                       "image_search_query":  "Sunflower Seeds food"
                   },
@@ -3317,7 +3317,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  205,
-                      "image_url":  "https://live.staticflickr.com/48/147624363_f8e0b0c303.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Olive%20Oil.png",
                       "category_image_url":  "./images/nuts_oils.jpg",
                       "image_search_query":  "Olive Oil food"
                   },
@@ -3333,7 +3333,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  206,
-                      "image_url":  "https://live.staticflickr.com/65535/53434340398_a0ea9032db_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Ghee.png",
                       "category_image_url":  "./images/nuts_oils.jpg",
                       "image_search_query":  "Samna Baladi food"
                   },
@@ -3349,7 +3349,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.2
                                    },
                       "id":  207,
-                      "image_url":  "https://live.staticflickr.com/65535/52693676687_ae7cbec788_b.jpg",
+                      "image_url":  "https://www.themealdb.com/images/ingredients/Honey.png",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Bee Honey food"
                   },
@@ -3381,7 +3381,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  209,
-                      "image_url":  "https://live.staticflickr.com/65535/51834854389_70d57f73d0_b.jpg",
+                      "image_url":  "./images/beverages_coffee.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Turkish Coffee food"
                   },
@@ -3397,7 +3397,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  0.0
                                    },
                       "id":  210,
-                      "image_url":  "https://live.staticflickr.com/4781/26943311848_b697889591_b.jpg",
+                      "image_url":  "./images/beverages_coffee.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Egyptian Black Tea food"
                   },
@@ -3429,7 +3429,7 @@ window.BITEWISE_FOOD_DB = {
                                        "fiber_g":  1.8
                                    },
                       "id":  212,
-                      "image_url":  "https://live.staticflickr.com/690/21544261548_1896d09cc9_b.jpg",
+                      "image_url":  "./images/milk_dairy.jpg",
                       "category_image_url":  "./images/oriental_desserts.jpg",
                       "image_search_query":  "Guava Juice with Milk food"
                   }
