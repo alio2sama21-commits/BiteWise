@@ -2240,6 +2240,91 @@ function exportUpdatedFoodsDataJs() {
 
 // ==================== OPENFOODFACTS BARCODE SCANNER ====================
 const LOCAL_BARCODE_FALLBACKS = {
+  // Pepsi & Sodas (by keyword and by barcodes)
+  "pepsi": {
+    name: "Pepsi Cola Can 330ml (بيبسي كولا)",
+    brand: "PepsiCo Egypt",
+    img: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=160&auto=format&fit=crop&q=80",
+    kcal: 42, prot: 0, carbs: 10.6, fats: 0,
+  },
+  "بيبسي": {
+    name: "Pepsi Cola Can 330ml (بيبسي كولا)",
+    brand: "PepsiCo Egypt",
+    img: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=160&auto=format&fit=crop&q=80",
+    kcal: 42, prot: 0, carbs: 10.6, fats: 0,
+  },
+  "012000000133": {
+    name: "Pepsi Cola Can 330ml (بيبسي كولا)",
+    brand: "PepsiCo Egypt",
+    img: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=160&auto=format&fit=crop&q=80",
+    kcal: 42, prot: 0, carbs: 10.6, fats: 0,
+  },
+  "6221007010011": {
+    name: "Pepsi Cola Can 330ml (بيبسي كولا مصر)",
+    brand: "PepsiCo Egypt",
+    img: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=160&auto=format&fit=crop&q=80",
+    kcal: 42, prot: 0, carbs: 10.6, fats: 0,
+  },
+  "6221007010028": {
+    name: "Pepsi Black / Diet (بيبسي دايت زيرو كالوري)",
+    brand: "PepsiCo Egypt",
+    img: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=160&auto=format&fit=crop&q=80",
+    kcal: 1, prot: 0, carbs: 0.1, fats: 0,
+  },
+  "coca cola": {
+    name: "Coca-Cola Original Can (كوكاكولا)",
+    brand: "Coca-Cola Egypt",
+    img: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=160&auto=format&fit=crop&q=80",
+    kcal: 42, prot: 0, carbs: 10.6, fats: 0,
+  },
+  "كوكاكولا": {
+    name: "Coca-Cola Original Can (كوكاكولا)",
+    brand: "Coca-Cola Egypt",
+    img: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=160&auto=format&fit=crop&q=80",
+    kcal: 42, prot: 0, carbs: 10.6, fats: 0,
+  },
+  "5449000000996": {
+    name: "Coca-Cola Can 330ml (كوكاكولا)",
+    brand: "Coca-Cola",
+    img: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=160&auto=format&fit=crop&q=80",
+    kcal: 42, prot: 0, carbs: 10.6, fats: 0,
+  },
+  "7up": {
+    name: "7Up Lemon Lime Can (سفن أب)",
+    brand: "PepsiCo Egypt",
+    img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=160&auto=format&fit=crop&q=80",
+    kcal: 41, prot: 0, carbs: 10, fats: 0,
+  },
+  "سفن اب": {
+    name: "7Up Lemon Lime Can (سفن أب)",
+    brand: "PepsiCo Egypt",
+    img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=160&auto=format&fit=crop&q=80",
+    kcal: 41, prot: 0, carbs: 10, fats: 0,
+  },
+  "6221007010042": {
+    name: "7Up Can 330ml (سفن أب مصر)",
+    brand: "PepsiCo Egypt",
+    img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=160&auto=format&fit=crop&q=80",
+    kcal: 41, prot: 0, carbs: 10, fats: 0,
+  },
+  "spiro": {
+    name: "Spiro Spathis Apple / Soda (سبيرو سباتس)",
+    brand: "Spiro Spathis Egypt",
+    img: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=160&auto=format&fit=crop&q=80",
+    kcal: 40, prot: 0, carbs: 10, fats: 0,
+  },
+  "سبيرو سباتس": {
+    name: "Spiro Spathis Soda (سبيرو سباتس)",
+    brand: "Spiro Spathis Egypt",
+    img: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=160&auto=format&fit=crop&q=80",
+    kcal: 40, prot: 0, carbs: 10, fats: 0,
+  },
+  "red bull": {
+    name: "Red Bull Energy Drink (ريد بول)",
+    brand: "Red Bull",
+    img: "https://images.unsplash.com/photo-1527661591475-527312dd65f5?w=160&auto=format&fit=crop&q=80",
+    kcal: 45, prot: 0, carbs: 11, fats: 0,
+  },
   "6223000140019": {
     name: "Molto Croissant Hazelnut Cream (مولتو بالبندق)",
     brand: "Edita Egypt",
@@ -2306,29 +2391,62 @@ async function fetchProductByBarcode(code) {
   if (inputEl) inputEl.value = barcode;
 
   let pData = null;
+  const cleanCode = barcode.toLowerCase();
 
-  try {
-    const res = await fetch(`https://world.openfoodfacts.org/api/v2/product/${encodeURIComponent(barcode)}.json`);
-    if (res.ok) {
-      const data = await res.json();
-      if (data && data.status !== 0 && data.product) {
-        const p = data.product;
-        pData = {
-          name: p.product_name_ar || p.product_name || p.generic_name || `Product (${barcode})`,
-          brand: p.brands || p.brand_owner || "Market Product",
-          img: p.image_url || p.image_front_url || p.image_front_small_url || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=160&auto=format&fit=crop&q=80",
-          kcal: Math.round(Number(p.nutriments?.["energy-kcal_100g"]) || (Number(p.nutriments?.energy_100g) ? Number(p.nutriments.energy_100g) / 4.184 : 0)),
-          prot: Math.round((Number(p.nutriments?.proteins_100g) || 0) * 10) / 10,
-          carbs: Math.round((Number(p.nutriments?.carbohydrates_100g) || 0) * 10) / 10,
-          fats: Math.round((Number(p.nutriments?.fat_100g) || 0) * 10) / 10,
-        };
-      }
+  // 1. Direct match in Egyptian local database (by barcode or keyword like "pepsi")
+  if (LOCAL_BARCODE_FALLBACKS[barcode] || LOCAL_BARCODE_FALLBACKS[cleanCode]) {
+    pData = LOCAL_BARCODE_FALLBACKS[barcode] || LOCAL_BARCODE_FALLBACKS[cleanCode];
+  }
+
+  // 2. Partial match in local database (e.g. user typed "pepsi" or "cola" or "كولا")
+  if (!pData) {
+    const matchedKey = Object.keys(LOCAL_BARCODE_FALLBACKS).find(
+      (k) => k.includes(cleanCode) || LOCAL_BARCODE_FALLBACKS[k].name.toLowerCase().includes(cleanCode)
+    );
+    if (matchedKey) pData = LOCAL_BARCODE_FALLBACKS[matchedKey];
+  }
+
+  // 3. Search in Egyptian Foods Database (212 foods)
+  if (!pData) {
+    const foundFood = state.allFoods.find((f) => {
+      const en = (f.name_en || f.name || "").toLowerCase();
+      const ar = (f.name_ar || "").toLowerCase();
+      return en.includes(cleanCode) || ar.includes(cleanCode);
+    });
+    if (foundFood) {
+      const { basis } = extractNutrition(foundFood);
+      pData = {
+        name: foodPrimaryName(foundFood),
+        brand: foundFood.category || "Egyptian Foods Database",
+        img: getFoodImage(foundFood),
+        kcal: Math.round(basis.calories_kcal || 0),
+        prot: Math.round(basis.protein_g || 0),
+        carbs: Math.round(basis.carbs_g || 0),
+        fats: Math.round(basis.fats_g || 0),
+      };
     }
-  } catch {}
+  }
 
-  // Check local Egyptian verified product cache if OpenFoodFacts didn't find the item
-  if (!pData && LOCAL_BARCODE_FALLBACKS[barcode]) {
-    pData = LOCAL_BARCODE_FALLBACKS[barcode];
+  // 4. If numeric, attempt OpenFoodFacts API
+  if (!pData && /^\d+$/.test(barcode)) {
+    try {
+      const res = await fetch(`https://world.openfoodfacts.org/api/v2/product/${encodeURIComponent(barcode)}.json`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.status !== 0 && data.product) {
+          const p = data.product;
+          pData = {
+            name: p.product_name_ar || p.product_name || p.generic_name || `Product (${barcode})`,
+            brand: p.brands || p.brand_owner || "Market Product",
+            img: p.image_url || p.image_front_url || p.image_front_small_url || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=160&auto=format&fit=crop&q=80",
+            kcal: Math.round(Number(p.nutriments?.["energy-kcal_100g"]) || (Number(p.nutriments?.energy_100g) ? Number(p.nutriments.energy_100g) / 4.184 : 0)),
+            prot: Math.round((Number(p.nutriments?.proteins_100g) || 0) * 10) / 10,
+            carbs: Math.round((Number(p.nutriments?.carbohydrates_100g) || 0) * 10) / 10,
+            fats: Math.round((Number(p.nutriments?.fat_100g) || 0) * 10) / 10,
+          };
+        }
+      }
+    } catch {}
   }
 
   if (!pData) {
@@ -2493,27 +2611,30 @@ async function sendAiMessage(promptText) {
   const geminiKey = state.config.geminiApiKey || window.BITEWISE_CONFIG?.geminiApiKey;
 
   if (geminiKey) {
-    try {
-      const sysPrompt = "You are BiteWise AI, a certified Egyptian sports nutritionist and dietitian. Answer concisely and practically in the user's language (Egyptian Arabic or English). Recommend healthy Egyptian foods (ful, eggs, cottage cheese / gibna quraish, koshary, lentils, molokhia, chicken, fish, oats, tuna). Give exact calorie and macro breakdowns when asked.";
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [
-            { role: "user", parts: [{ text: `${sysPrompt}\n\nUser Question: ${text}` }] }
-          ]
-        })
-      });
-      if (res.ok) {
-        const data = await res.json();
-        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (reply) {
-          targetBubble.innerHTML = formatAiMarkdown(reply);
-          chatHistoryEl.scrollTop = chatHistoryEl.scrollHeight;
-          return;
+    const candidateModels = ["gemini-2.5-flash", "gemini-3.8-flash", "gemini-flash-latest", "gemini-2.5-flash-lite"];
+    for (const m of candidateModels) {
+      try {
+        const sysPrompt = "You are BiteWise AI, a certified Egyptian sports nutritionist and dietitian. Answer concisely and practically in the user's language (Egyptian Arabic or English). Recommend healthy Egyptian foods (ful, eggs, cottage cheese / gibna quraish, koshary, lentils, molokhia, chicken, fish, oats, tuna). Give exact calorie and macro breakdowns when asked.";
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${geminiKey}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [
+              { role: "user", parts: [{ text: `${sysPrompt}\n\nUser Question: ${text}` }] }
+            ]
+          })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (reply) {
+            targetBubble.innerHTML = formatAiMarkdown(reply);
+            chatHistoryEl.scrollTop = chatHistoryEl.scrollHeight;
+            return;
+          }
         }
-      }
-    } catch {}
+      } catch {}
+    }
   }
 
   setTimeout(() => {
