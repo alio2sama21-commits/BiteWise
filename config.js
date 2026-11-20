@@ -25,7 +25,7 @@ window.BITEWISE_CONFIG = {
 
   // 5. Google Gemini AI API Key (for BiteWise AI Nutritionist & Smart Assistant)
   //    Active official key:
-  geminiApiKey: "AQ.Ab8RN6KAwkJ0jkNcDWw05HttfIvDNxkMag9_vHcxpVWBew2tHQ",
+  geminiApiKey: "",
 
   // 6. OpenFoodFacts Barcode API Base URL (Free, global & Egyptian products)
   barcodeApiBase: "https://world.openfoodfacts.org/api/v2/product",

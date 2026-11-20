@@ -347,12 +347,12 @@ function imgTagHtml(food, cls = "") {
 }
 
 function syncAdminUIVisibility() {
-  const isOwnerEnv =
+  const isLocalhost =
     window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1" ||
-    new URLSearchParams(window.location.search).get("admin") === "1";
+    window.location.hostname === "127.0.0.1";
   const isAdmin = isAdminUser();
-  const showOwnerControls = isOwnerEnv || isAdmin;
+  // On GitHub Pages live, owner controls require logging in as alio2sama21@gmail.com!
+  const showOwnerControls = isAdmin || isLocalhost;
 
   ["authSettingsBtn", "openSettingsBtn", "openSmtpFromOtp", "udExportUsersBtn"].forEach((id) => {
     const el = document.getElementById(id);
@@ -2042,6 +2042,11 @@ function renderDiary() {
 
 // ==================== SETTINGS MODAL & ADMIN PHOTO EDITOR ====================
 function openSettingsModal() {
+  const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+  if (!isLocalhost && !isAdminUser()) {
+    showToast(isAr() ? "هذه الإعدادات مخصصة لحساب المدير alio2sama21@gmail.com فقط" : "Settings restricted to alio2sama21@gmail.com", "error");
+    return;
+  }
   document.getElementById("currentOriginDisplay").textContent = window.location.origin;
   document.getElementById("cfgGoogleClientId").value = state.config.googleClientId || "";
   document.getElementById("cfgSmtpEmail").value = state.config.smtpEmail || "";
@@ -2608,13 +2613,41 @@ async function sendAiMessage(promptText) {
   chatHistoryEl.scrollTop = chatHistoryEl.scrollHeight;
 
   const targetBubble = botMsgDiv.querySelector(".ai-bubble");
-  const geminiKey = state.config.geminiApiKey || window.BITEWISE_CONFIG?.geminiApiKey;
+  const geminiKey = (state.config.geminiApiKey || window.BITEWISE_CONFIG?.geminiApiKey || "").trim();
+
+  let apiError = null;
 
   if (geminiKey) {
-    const candidateModels = ["gemini-2.5-flash", "gemini-3.8-flash", "gemini-flash-latest", "gemini-2.5-flash-lite"];
+    const sysPrompt = "You are BiteWise AI, an expert certified Egyptian sports nutritionist and dietitian. Answer concisely and practically in Egyptian Arabic or English based on user query. Always provide macro breakdowns (calories, protein, carbs, fats) for Egyptian dishes (ful, taameya, koshary, chicken, cottage cheese / gibna quraish, oats, tuna).";
+
+    // 1. Try modern Interactions API
+    try {
+      const resInt = await fetch(`https://generativelanguage.googleapis.com/v1beta/interactions?key=${geminiKey}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "gemini-3.8-flash",
+          input: `${sysPrompt}\n\nUser Question: ${text}`
+        })
+      });
+      if (resInt.ok) {
+        const data = await resInt.json();
+        const reply = data.interaction?.output || data.outputs?.[0]?.text || data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (reply) {
+          targetBubble.innerHTML = formatAiMarkdown(reply);
+          chatHistoryEl.scrollTop = chatHistoryEl.scrollHeight;
+          return;
+        }
+      } else {
+        const errJson = await resInt.json().catch(() => null);
+        if (errJson?.error) apiError = errJson.error.message || errJson.error.status;
+      }
+    } catch (e) { apiError = e.message; }
+
+    // 2. Try classic generateContent models
+    const candidateModels = ["gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-flash-latest"];
     for (const m of candidateModels) {
       try {
-        const sysPrompt = "You are BiteWise AI, a certified Egyptian sports nutritionist and dietitian. Answer concisely and practically in the user's language (Egyptian Arabic or English). Recommend healthy Egyptian foods (ful, eggs, cottage cheese / gibna quraish, koshary, lentils, molokhia, chicken, fish, oats, tuna). Give exact calorie and macro breakdowns when asked.";
         const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${geminiKey}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -2632,32 +2665,71 @@ async function sendAiMessage(promptText) {
             chatHistoryEl.scrollTop = chatHistoryEl.scrollHeight;
             return;
           }
+        } else {
+          const errData = await res.json().catch(() => null);
+          if (errData?.error) apiError = errData.error.message || errData.error.status;
         }
-      } catch {}
+      } catch (err) {
+        apiError = err.message;
+      }
     }
   }
 
+  // Fallback to intelligent local Egyptian nutritionist
   setTimeout(() => {
     let reply = "";
     const lower = text.toLowerCase();
-    if (lower.includes("عشاء") || lower.includes("dinner")) {
+    
+    // Check if food mentioned in 212 foods database
+    const matchedFood = state.allFoods.find((f) => {
+      const en = (f.name_en || f.name || "").toLowerCase();
+      const ar = (f.name_ar || "").toLowerCase();
+      return en.includes(lower) || ar.includes(lower);
+    });
+
+    if (matchedFood) {
+      const { basis } = extractNutrition(matchedFood);
+      reply = isAr()
+        ? `📊 **القيمة الغذائية لـ (${foodPrimaryName(matchedFood)}):**\n` +
+          `• الحصة: ${basis.serving_display || "100 جرام"}\n` +
+          `• السعرات: **${Math.round(basis.calories_kcal || 0)}** سعرة حرارية\n` +
+          `• البروتين: **${basis.protein_g || 0}g**\n` +
+          `• الكربوهيدرات: **${basis.carbs_g || 0}g**\n` +
+          `• الدهون: **${basis.fats_g || 0}g**\n\n` +
+          `💡 نصيحة: يمكنك إضافة هذا الصنف مباشرة لخطة وجباتك من تبويب **Egyptian Foods**!`
+        : `📊 **Nutrition Breakdown for (${foodPrimaryName(matchedFood)}):**\n` +
+          `• Portion: ${basis.serving_display || "100g"}\n` +
+          `• Calories: **${Math.round(basis.calories_kcal || 0)}** kcal\n` +
+          `• Protein: **${basis.protein_g || 0}g**\n` +
+          `• Carbs: **${basis.carbs_g || 0}g**\n` +
+          `• Fats: **${basis.fats_g || 0}g**\n\n` +
+          `💡 Tip: You can add this directly to your meal plan from the **Egyptian Foods** tab!`;
+    } else if (lower.includes("عشاء") || lower.includes("dinner")) {
       reply = isAr() 
         ? "🥗 **اقتراح عشاء عالي بروتين (< 400 سعر):**\n- 200 جرام جبنة قريش (200 سعر • 24g بروتين)\n- ثمرة طماطم وخيارة مفرومة + ملعقة صغيرة زيت زيتون (60 سعر)\n- بيضة مسلوقة بلدي (75 سعر • 6g بروتين)\n- ربع رغيف عيش بلدي (55 سعر)\n**الإجمالي:** 390 سعر حراري • 33 جرام بروتين صافي!"
         : "🥗 **High-Protein Dinner (< 400 kcal):**\n- 200g Gibna Quraish (Cottage Cheese): 200 kcal • 24g Protein\n- 1 Boiled Egg: 75 kcal • 6g Protein\n- Diced tomato, cucumber + 1 tsp olive oil: 60 kcal\n- 1/4 Baladi Bread: 55 kcal\n**Total:** 390 kcal • 33g Clean Protein!";
-    } else if (lower.includes("ثلاج") || lower.includes("fridge") || lower.includes("بيض")) {
+    } else if (lower.includes("ثلاج") || lower.includes("fridge") || lower.includes("بيض") || lower.includes("egg")) {
       reply = isAr()
         ? "🍳 **شكشوكة البيض بالجبنة القريش (سريعة وصحية):**\n1. شوّح بصلة وطماطم مع رشة كمون وفلفل أسود.\n2. اخفق 2 بيضة وضفهم للخضار.\n3. أضف 100 جرام جبنة قريش وقلب لمدة 3 دقائق.\n**القيمة الغذائية:** 280 سعر حراري • 22 جرام بروتين • 8 جرام كارب!"
         : "🍳 **Quick Egyptian Shakshuka with Cottage Cheese:**\n1. Sauté chopped onion and tomato with cumin and black pepper.\n2. Whisk 2 eggs and pour over the vegetables.\n3. Fold in 100g cottage cheese and cook for 3 minutes.\n**Nutrition:** 280 kcal • 22g Protein • 8g Carbs!";
-    } else if (lower.includes("تنشيف") || lower.includes("cut") || lower.includes("عضل")) {
+    } else if (lower.includes("تنشيف") || lower.includes("cut") || lower.includes("عضل") || lower.includes("تضخيم") || lower.includes("bulk")) {
       reply = isAr()
-        ? "🏋️ **خطة تنشيف ممتازة بالأكل المصري:**\n- احرص على بروتين لا يقل عن 1.8 إلى 2 جرام لكل كجم من وزنك.\n- اعتمد على: صدور دجاج مشوية، سمك بلطي مشوي بالردة، تونة بالليمون، جبنة قريش، وترمس مسلوق سناك.\n- قلل العيش والأرز واشرب 3 لتر مياه يومياً."
-        : "🏋️ **Egyptian Cutting Strategy:**\n- Maintain 1.8g - 2.0g protein per kg of bodyweight.\n- Core staples: Grilled chicken breast, Nile tilapia grilled with bran, tuna in lemon, cottage cheese, and lupini beans (termis) as a snack.\n- Keep carbs controlled and drink at least 3L water daily.";
+        ? "🏋️ **خطة تغذية رياضية ممتازة بالأكل المصري:**\n- احرص على بروتين 1.8 إلى 2 جرام لكل كجم من وزنك.\n- مصادر بروتين أساسية: صدور دجاج مشوية، سمك بلطي مشوي بالردة، تونة بالليمون، جبنة قريش، وترمس مسلوق سناك.\n- اشرب ما لا يقل عن 3 لتر ماء يومياً."
+        : "🏋️ **Egyptian Sports Nutrition Strategy:**\n- Target 1.8g - 2.0g protein per kg of bodyweight.\n- Core Egyptian staples: Grilled chicken breast, Nile tilapia grilled with bran, tuna in lemon, cottage cheese, and lupini beans (termis) as a snack.\n- Drink at least 3L water daily.";
     } else {
       reply = isAr()
-        ? `💡 **نصيحة كوتش BiteWise:**\nسؤالك ممتاز بخصوص: "${text}". لتحقيق أفضل نتيجة لجسمك، سجل وجباتك اليومية في تبويب Daily Log وتابع نسبة البروتين والسعرات بدقة.\n\n*(ملاحظة: يمكنك كتابة مفتاح Google Gemini API في الإعدادات لدردشة ذكاء اصطناعي حية بالكامل).*`
-        : `💡 **BiteWise Coach Tip:**\nGreat question regarding: "${text}". To get the best results, track your daily meals in the Daily Log tab and maintain your target protein goal.\n\n*(Note: You can add your free Google Gemini API key in Settings for unlimited live AI conversations).*`;
+        ? `💡 **إجابة خبير التغذية:**\nبخصوص استفسارك عن: "${text}".\nلتحقيق أفضل نتيجة لجسمك، احرص على توازن السعرات والبروتين وسجل وجباتك بدقة في تبويب **Daily Log**.`
+        : `💡 **Nutritionist Response:**\nRegarding: "${text}".\nTo achieve optimal body composition, track your daily calories and macros in the **Daily Log** tab.`;
     }
-    targetBubble.innerHTML = formatAiMarkdown(reply);
+
+    let warningNotice = "";
+    if (geminiKey && apiError) {
+      warningNotice = isAr()
+        ? `\n\n---\n⚠️ <small style="color:#d9534f; font-weight:600;">تنبيه مفتاح Gemini API:</small>\n<small style="opacity:0.85;">مفتاح API المدخل واجه رفضاً من سيرفرات Google (${escapeHtml(apiError)}).\n💡 للحصول على مفتاح Gemini مجاني يعمل فوراً: افتح <b><a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" style="color:var(--brand);">aistudio.google.com/app/apikey</a></b> واضغط <b>Create API Key</b> (المفتاح سيبدأ بـ <code>AIzaSy...</code>) وضعه في الإعدادات ⚙️.</small>`
+        : `\n\n---\n⚠️ <small style="color:#d9534f; font-weight:600;">Gemini API Notice:</small>\n<small style="opacity:0.85;">The entered Gemini key was rejected by Google (${escapeHtml(apiError)}).\n💡 To get a free key that works instantly: Visit <b><a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" style="color:var(--brand);">aistudio.google.com/app/apikey</a></b>, click <b>Create API Key</b> (starts with <code>AIzaSy...</code>), and paste it in Settings ⚙️.</small>`;
+    }
+
+    targetBubble.innerHTML = formatAiMarkdown(reply + warningNotice);
     chatHistoryEl.scrollTop = chatHistoryEl.scrollHeight;
   }, 350);
 }
