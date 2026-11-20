@@ -106,12 +106,31 @@ const CURATED_POOLS = {
   breakfast_carb: [2, 28, 173, 175, 29],
   lunch_protein: [151, 74, 73, 179, 68, 184, 78, 82, 177, 13, 12, 180, 182],
   lunch_carb: [170, 154, 169, 36, 175, 176, 28, 171, 172],
-  veggie_side: [85, 190, 191, 192, 44, 48, 52],
-  dinner_protein: [21, 182, 16, 158, 151, 78, 184, 27, 1],
+  veggie_side: [85, 190, 191, 192, 44, 48, 52, 54, 87],
+  dinner_protein: [21, 182, 16, 158, 159, 151, 78, 184, 27, 1],
   dinner_carb: [173, 28, 175, 176, 2],
-  snack: [116, 118, 125, 124, 119, 195, 198, 196, 16, 134, 120, 127],
-  budget_protein: [158, 1, 21, 182, 151, 78, 161, 64],
-  budget_carb: [28, 154, 176, 2, 175, 36],
+  snack: [116, 118, 125, 124, 119, 195, 198, 196, 16, 134, 120, 127, 204],
+  // High Protein Specialized Pools
+  hp_breakfast: [160, 158, 16, 21, 2],
+  hp_lunch_protein: [151, 179, 182, 78, 73, 74, 180],
+  hp_dinner_protein: [21, 16, 182, 160, 158, 151],
+  hp_snack: [204, 16, 195, 158],
+  // Low Carb Specialized Pools (Zero Bread/Rice/Potato)
+  lc_breakfast_protein: [15, 14, 158, 159, 21, 22],
+  lc_breakfast_side: [191, 192, 190, 85],
+  lc_lunch_protein: [151, 74, 179, 78, 80, 82, 68],
+  lc_lunch_side: [85, 48, 54, 87, 44, 52],
+  lc_dinner_protein: [182, 21, 158, 159, 16, 78],
+  lc_dinner_side: [85, 191, 192, 87],
+  lc_snack: [195, 196, 203, 191],
+  // Daily Budget Specialized Pools (Cheapest Nutritious Egyptian Staples)
+  budget_breakfast_protein: [1, 158, 21, 5],
+  budget_breakfast_carb: [28],
+  budget_lunch_protein: [78, 64, 187, 10, 158, 182],
+  budget_lunch_carb: [28, 154, 187, 8],
+  budget_dinner_protein: [21, 1, 158, 27],
+  budget_dinner_carb: [28, 192, 190],
+  budget_snack: [204, 120, 116, 203],
 };
 
 const state = {
@@ -125,7 +144,17 @@ const state = {
     emailjsServiceId: "",
     emailjsTemplateId: "",
     emailjsPublicKey: "",
+    adminPhone: "01009864154",
+    adminPhoneIntl: "+201009864154",
+    whatsappApiUrl: "",
+    whatsappToken: "",
+    geminiApiKey: "",
+    barcodeApiBase: "https://world.openfoodfacts.org/api/v2/product",
   },
+  lastScannedFood: null,
+  barcodeCameraStream: null,
+  barcodeScanningInterval: null,
+  aiChatHistory: [],
   users: [],
   currentUser: null,
   allFoods: [],
@@ -152,6 +181,7 @@ const state = {
   failedLoginAttempts: 0,
   loginLockUntil: 0,
   failedOtpAttempts: 0,
+  swapTarget: null,
 };
 
 function isAdminUser() {
@@ -364,6 +394,10 @@ async function initBackendAndConfig() {
     emailjsServiceId: localCfg.emailjsServiceId || baseCfg.emailjsServiceId || "",
     emailjsTemplateId: localCfg.emailjsTemplateId || baseCfg.emailjsTemplateId || "",
     emailjsPublicKey: localCfg.emailjsPublicKey || baseCfg.emailjsPublicKey || "",
+    adminPhone: localCfg.adminPhone || baseCfg.adminPhone || "01009864154",
+    whatsappApiUrl: localCfg.whatsappApiUrl || baseCfg.whatsappApiUrl || "",
+    geminiApiKey: localCfg.geminiApiKey || baseCfg.geminiApiKey || "",
+    barcodeApiBase: baseCfg.barcodeApiBase || "https://world.openfoodfacts.org/api/v2/product",
     cloudWebhookUrl: localCfg.cloudWebhookUrl || baseCfg.cloudWebhookUrl || "",
   };
 
@@ -715,24 +749,48 @@ async function completeGoogleSignIn(gUser) {
   enterSession(user);
 }
 
-// ==================== REAL 6-DIGIT GMAIL OTP ====================
-async function sendGmailOtp(email, name) {
+// ==================== REAL 6-DIGIT GMAIL & WHATSAPP OTP ====================
+async function sendGmailOtp(email, name, phone = "") {
   let code = String(Math.floor(100000 + Math.random() * 900000));
 
   if (state.backendOnline) {
     const res = await fetch("/api/otp/send", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, name }),
+      body: JSON.stringify({ email, name, phone }),
     });
     const data = await res.json();
     if (!res.ok || !data.ok) throw new Error(data.error || "Failed to send OTP");
-    if (data.deliveredVia === "gmail_smtp") return data;
     if (data.devOtp) code = String(data.devOtp);
   } else {
     state.localOtpRecord = { email, code, expiresAt: Date.now() + 5 * 60 * 1000 };
   }
 
+  // Configure Direct 1-Click WhatsApp Verification to Hotline 01009864154
+  const waLink = document.getElementById("whatsappOtpLink");
+  if (waLink) {
+    const adminPhone = state.config.adminPhone || "01009864154";
+    const intl = adminPhone.startsWith("0") ? `2${adminPhone}` : adminPhone.replace("+", "");
+    const msg = `مرحباً BiteWise، كود التحقق لحسابي (${email}) هو: ${code}`;
+    waLink.href = `https://wa.me/${intl}?text=${encodeURIComponent(msg)}`;
+  }
+
+  // Automatic WhatsApp API Dispatch to Customer Phone if gateway configured
+  if (state.config.whatsappApiUrl && phone) {
+    try {
+      fetch(state.config.whatsappApiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phone: phone,
+          message: `كود التحقق الخاص بك في تطبيق BiteWise هو: ${code}`,
+          token: state.config.whatsappToken || "",
+        }),
+      });
+    } catch {}
+  }
+
+  // Deliver to Gmail via EmailJS (Connected to user's Gmail)
   if (state.config.emailjsServiceId && state.config.emailjsTemplateId && state.config.emailjsPublicKey) {
     try {
       const ejRes = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
@@ -754,13 +812,14 @@ async function sendGmailOtp(email, name) {
             passcode: code,
             otp: code,
             code: code,
+            phone: phone || "N/A",
             message: `Your BiteWise verification code is: ${code}`,
             time: "5 minutes",
           },
         }),
       });
       if (ejRes.ok) {
-        return { ok: true, deliveredVia: "emailjs", message: isAr() ? `تم إرسال رمز التحقق إلى ${email}` : `OTP sent to ${email}` };
+        return { ok: true, deliveredVia: "emailjs", otpCode: code, message: isAr() ? `تم إرسال رمز التحقق إلى ${email}` : `OTP sent to ${email}` };
       }
     } catch {}
   }
@@ -781,6 +840,7 @@ async function sendGmailOtp(email, name) {
     ok: true,
     deliveredVia: "local_fallback",
     devOtp: code,
+    otpCode: code,
     message: isAr() ? "تم توليد رمز OTP (وضع التطوير المحلي)" : "OTP generated (Local Dev Mode)",
   };
 }
@@ -1033,36 +1093,101 @@ function buildCohesivePlan({ title, description, selectedFoods, metrics, structu
     const rawEntries = [];
 
     if (slot.key === "breakfast") {
+      let protPool = "breakfast_protein";
+      let carbPool = "breakfast_carb";
+      let sidePool = null;
+
+      if (style === "high_protein") {
+        protPool = "hp_breakfast";
+        carbPool = "breakfast_carb";
+      } else if (style === "low_carb") {
+        protPool = "lc_breakfast_protein";
+        carbPool = null; // Strictly no bread/grains for low-carb!
+        sidePool = "lc_breakfast_side";
+      } else if (style === "budget") {
+        protPool = "budget_breakfast_protein";
+        carbPool = "budget_breakfast_carb";
+      }
+
       const pU = pullUser("breakfast_protein");
-      const pF = pU || (autoComplete ? pickFromPool(style === "budget" ? "budget_protein" : "breakfast_protein", usedIds, seed + sIdx) : null);
-      if (pF) rawEntries.push({ food: pF, role: "breakfast_protein", isUserPick: Boolean(pU), weightShare: 0.55 });
+      const pF = pU || (autoComplete ? pickFromPool(protPool, usedIds, seed + sIdx) : null);
+      if (pF) rawEntries.push({ food: pF, role: "breakfast_protein", isUserPick: Boolean(pU), weightShare: style === "low_carb" ? 0.70 : 0.55 });
 
-      const cU = pullUser("breakfast_carb");
-      const cF = cU || (autoComplete && style !== "low_carb" ? pickFromPool(style === "budget" ? "budget_carb" : "breakfast_carb", usedIds, seed + sIdx) : null);
-      if (cF) rawEntries.push({ food: cF, role: "breakfast_carb", isUserPick: Boolean(cU), weightShare: 0.45 });
+      if (carbPool) {
+        const cU = pullUser("breakfast_carb");
+        const cF = cU || (autoComplete ? pickFromPool(carbPool, usedIds, seed + sIdx) : null);
+        if (cF) rawEntries.push({ food: cF, role: "breakfast_carb", isUserPick: Boolean(cU), weightShare: 0.45 });
+      } else if (sidePool) {
+        const sF = pickFromPool(sidePool, usedIds, seed + sIdx);
+        if (sF) rawEntries.push({ food: sF, role: "veggie_side", isUserPick: false, weightShare: 0.30 });
+      }
     } else if (slot.isLunch) {
-      const pU = pullUser("lunch_protein");
-      const pF = pU || pickFromPool(style === "budget" ? "budget_protein" : "lunch_protein", usedIds, seed);
-      if (pF) rawEntries.push({ food: pF, role: "lunch_protein", isUserPick: Boolean(pU), weightShare: 0.56 });
+      let protPool = "lunch_protein";
+      let carbPool = "lunch_carb";
+      let sidePool = "veggie_side";
 
-      const cU = pullUser("lunch_carb");
-      const cF = cU || (autoComplete && style !== "low_carb" ? pickFromPool(style === "budget" ? "budget_carb" : "lunch_carb", usedIds, seed) : null);
-      if (cF) rawEntries.push({ food: cF, role: "lunch_carb", isUserPick: Boolean(cU), weightShare: style === "low_carb" ? 0.15 : 0.34 });
+      if (style === "high_protein") {
+        protPool = "hp_lunch_protein";
+        carbPool = "lunch_carb";
+      } else if (style === "low_carb") {
+        protPool = "lc_lunch_protein";
+        carbPool = null; // Strictly 0 bread, 0 rice, 0 pasta, 0 potato!
+        sidePool = "lc_lunch_side";
+      } else if (style === "budget") {
+        protPool = "budget_lunch_protein";
+        carbPool = "budget_lunch_carb";
+      }
+
+      const pU = pullUser("lunch_protein");
+      const pF = pU || pickFromPool(protPool, usedIds, seed);
+      if (pF) rawEntries.push({ food: pF, role: "lunch_protein", isUserPick: Boolean(pU), weightShare: style === "low_carb" ? 0.70 : 0.56 });
+
+      if (carbPool) {
+        const cU = pullUser("lunch_carb");
+        const cF = cU || (autoComplete ? pickFromPool(carbPool, usedIds, seed) : null);
+        if (cF) rawEntries.push({ food: cF, role: "lunch_carb", isUserPick: Boolean(cU), weightShare: 0.34 });
+      }
 
       const vU = pullUser("veggie_side");
-      const vF = vU || (autoComplete ? pickFromPool("veggie_side", usedIds, seed) : null);
-      if (vF) rawEntries.push({ food: vF, role: "veggie_side", isUserPick: Boolean(vU), weightShare: 0.10 });
+      const vF = vU || (autoComplete ? pickFromPool(sidePool, usedIds, seed) : null);
+      if (vF) rawEntries.push({ food: vF, role: "veggie_side", isUserPick: Boolean(vU), weightShare: style === "low_carb" ? 0.30 : 0.10 });
     } else if (slot.key === "dinner") {
-      const pU = pullUser("lunch_protein") || pullUser("breakfast_protein");
-      const pF = pU || (autoComplete ? pickFromPool(style === "budget" ? "budget_protein" : "dinner_protein", usedIds, seed + 2) : null);
-      if (pF) rawEntries.push({ food: pF, role: "dinner_protein", isUserPick: Boolean(pU), weightShare: 0.62 });
+      let protPool = "dinner_protein";
+      let carbPool = "dinner_carb";
+      let sidePool = null;
 
-      const cU = pullUser("lunch_carb") || pullUser("breakfast_carb") || pullUser("veggie_side");
-      const cF = cU || (autoComplete ? pickFromPool(style === "low_carb" ? "veggie_side" : "dinner_carb", usedIds, seed + 1) : null);
-      if (cF) rawEntries.push({ food: cF, role: style === "low_carb" ? "veggie_side" : "dinner_carb", isUserPick: Boolean(cU), weightShare: 0.38 });
+      if (style === "high_protein") {
+        protPool = "hp_dinner_protein";
+        carbPool = "dinner_carb";
+      } else if (style === "low_carb") {
+        protPool = "lc_dinner_protein";
+        carbPool = null; // Strictly no bread for low-carb!
+        sidePool = "lc_dinner_side";
+      } else if (style === "budget") {
+        protPool = "budget_dinner_protein";
+        carbPool = "budget_dinner_carb";
+      }
+
+      const pU = pullUser("lunch_protein") || pullUser("breakfast_protein");
+      const pF = pU || (autoComplete ? pickFromPool(protPool, usedIds, seed + 2) : null);
+      if (pF) rawEntries.push({ food: pF, role: "dinner_protein", isUserPick: Boolean(pU), weightShare: style === "low_carb" ? 0.70 : 0.62 });
+
+      if (carbPool) {
+        const cU = pullUser("lunch_carb") || pullUser("breakfast_carb");
+        const cF = cU || (autoComplete ? pickFromPool(carbPool, usedIds, seed + 1) : null);
+        if (cF) rawEntries.push({ food: cF, role: "dinner_carb", isUserPick: Boolean(cU), weightShare: 0.38 });
+      } else if (sidePool) {
+        const sF = pickFromPool(sidePool, usedIds, seed + 1);
+        if (sF) rawEntries.push({ food: sF, role: "veggie_side", isUserPick: false, weightShare: 0.30 });
+      }
     } else {
+      let snackPool = "snack";
+      if (style === "high_protein") snackPool = "hp_snack";
+      else if (style === "low_carb") snackPool = "lc_snack";
+      else if (style === "budget") snackPool = "budget_snack";
+
       const sU = pullUser("snack");
-      const sF = sU || (autoComplete ? pickFromPool("snack", usedIds, seed + sIdx * 2) : null);
+      const sF = sU || (autoComplete ? pickFromPool(snackPool, usedIds, seed + sIdx * 2) : null);
       if (sF) rawEntries.push({ food: sF, role: "snack", isUserPick: Boolean(sU), weightShare: 1.0 });
     }
 
@@ -1167,17 +1292,142 @@ function generateDietPlans(silent = false) {
   if (!silent) showToast(isAr() ? `تم توليد 4 خطط متناسقة (بروتين الغداء +${minLunchProtein}g)!` : `Generated 4 cohesive meal plans (Lunch protein ${minLunchProtein}g+)!`);
 }
 
-function swapMealItem(groupIdx, itemIdx) {
+function openSwapFoodModal(groupIdx, itemIdx) {
   const plan = state.generatedPlans[state.activePlanIndex];
   if (!plan) return;
   const group = plan.mealGroups[groupIdx];
+  if (!group) return;
+  const item = group.items[itemIdx];
+  if (!item) return;
+
+  state.swapTarget = { groupIdx, itemIdx };
+
+  const modal = document.getElementById("swapFoodModal");
+  const eyebrow = document.getElementById("swapModalEyebrow");
+  const title = document.getElementById("swapModalTitle");
+  const sub = document.getElementById("swapModalSub");
+  const curLabel = document.getElementById("swapCurrentLabel");
+  const curImg = document.getElementById("swapCurrentImg");
+  const curName = document.getElementById("swapCurrentName");
+  const curDetails = document.getElementById("swapCurrentDetails");
+  const altsLabel = document.getElementById("swapAltsHeading");
+  const searchInput = document.getElementById("swapSearchInput");
+
+  if (eyebrow) eyebrow.textContent = tr("swapModalEyebrow");
+  if (title) title.textContent = isAr() ? `تغيير ${item.name} في ${group.slot.name}` : `Change ${item.name} in ${group.slot.name}`;
+  if (sub) sub.textContent = tr("swapModalSub");
+  if (curLabel) curLabel.textContent = tr("swapCurrentLabel");
+  if (altsLabel) altsLabel.textContent = tr("swapAltsHeading");
+  if (searchInput) {
+    searchInput.placeholder = tr("swapSearchPh");
+    searchInput.value = "";
+  }
+
+  if (curImg) {
+    const thumb = getFoodImage(item.food);
+    curImg.src = thumb;
+    curImg.alt = item.name;
+  }
+  if (curName) curName.textContent = item.name;
+  if (curDetails) curDetails.textContent = `${item.amount} ${item.unit} • ${item.calories} kcal • P: ${item.protein}g • C: ${item.carbs}g • F: ${item.fat}g`;
+
+  renderSwapCandidates("");
+  modal?.classList.remove("hidden");
+}
+
+function closeSwapFoodModal() {
+  document.getElementById("swapFoodModal")?.classList.add("hidden");
+  state.swapTarget = null;
+}
+
+function renderSwapCandidates(query = "") {
+  const grid = document.getElementById("swapCandidatesGrid");
+  if (!grid || !state.swapTarget) return;
+
+  const plan = state.generatedPlans[state.activePlanIndex];
+  if (!plan) return;
+  const group = plan.mealGroups[state.swapTarget.groupIdx];
+  const currentItem = group.items[state.swapTarget.itemIdx];
+  if (!currentItem) return;
+
+  const currentIds = new Set(plan.mealGroups.flatMap((g) => g.items.map((i) => i.foodId)));
+  const q = (query || "").trim().toLowerCase();
+
+  let candidates = [];
+  if (q) {
+    candidates = state.allFoods.filter((f) => {
+      if (f.id === currentItem.foodId) return false;
+      const en = (f.name_en || f.name || "").toLowerCase();
+      const ar = (f.name_ar || "").toLowerCase();
+      const cat = (f.category || "").toLowerCase();
+      return en.includes(q) || ar.includes(q) || cat.includes(q);
+    });
+  } else {
+    const poolFoods = getPoolFoods(currentItem.role);
+    const poolIds = new Set(poolFoods.map((f) => f.id));
+    const sameCatFoods = state.allFoods.filter((f) => f.category === currentItem.food.category && !poolIds.has(f.id));
+    candidates = [...poolFoods, ...sameCatFoods].filter((f) => f && f.id !== currentItem.foodId);
+    candidates.sort((a, b) => {
+      const aUsed = currentIds.has(a.id) ? 1 : 0;
+      const bUsed = currentIds.has(b.id) ? 1 : 0;
+      return aUsed - bUsed;
+    });
+  }
+
+  candidates = candidates.slice(0, 32);
+
+  if (candidates.length === 0) {
+    grid.innerHTML = `<p class="muted" style="grid-column: 1 / -1; text-align: center; padding: 24px;">${isAr() ? "لا توجد أكلات مطابقة لبحثك" : "No matching Egyptian foods found"}</p>`;
+    return;
+  }
+
+  grid.innerHTML = candidates
+    .map((food) => {
+      const name = foodPrimaryName(food);
+      const thumb = getFoodImage(food);
+      const { basis, isPiece } = extractNutrition(food);
+      const unitLabel = isPiece ? (isAr() ? "قطعة" : "pc") : "100g";
+      const cal = Math.round(basis.calories_kcal || 0);
+      const p = Math.round(basis.protein_g || 0);
+      const c = Math.round(basis.carbs_g || 0);
+      const f = Math.round(basis.fats_g || 0);
+
+      return `
+        <div class="swap-candidate-card" data-cand-id="${food.id}">
+          <img src="${thumb}" alt="${name}" loading="lazy" />
+          <div class="scc-cand-info">
+            <strong>${name}</strong>
+            <small dir="ltr">${cal} kcal / ${unitLabel} • P: ${p}g</small>
+            <small style="opacity: 0.7;">C: ${c}g • F: ${f}g</small>
+          </div>
+          <button type="button" class="swap-cand-btn" data-cand-id="${food.id}">
+            ${tr("swapSelectBtn")}
+          </button>
+        </div>
+      `;
+    })
+    .join("");
+
+  grid.querySelectorAll("[data-cand-id]").forEach((el) => {
+    el.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const foodId = Number(el.dataset.candId);
+      if (foodId) executeFoodSwap(foodId);
+    });
+  });
+}
+
+function executeFoodSwap(newFoodId) {
+  if (!state.swapTarget) return;
+  const { groupIdx, itemIdx } = state.swapTarget;
+  const plan = state.generatedPlans[state.activePlanIndex];
+  if (!plan) return;
+  const group = plan.mealGroups[groupIdx];
+  if (!group) return;
   const oldItem = group.items[itemIdx];
   if (!oldItem) return;
 
-  const pool = getPoolFoods(oldItem.role);
-  const currentIds = new Set(plan.mealGroups.flatMap((g) => g.items.map((i) => i.foodId)));
-  const candidates = pool.filter((f) => f.id !== oldItem.foodId);
-  const nextFood = candidates.find((f) => !currentIds.has(f.id)) || candidates[Math.floor(Math.random() * candidates.length)];
+  const nextFood = state.foodById.get(newFoodId);
   if (!nextFood) return;
 
   const { basis, isPiece } = extractNutrition(nextFood);
@@ -1187,7 +1437,9 @@ function swapMealItem(groupIdx, itemIdx) {
     newAmt = Math.ceil((Math.max(oldItem.protein, 35) / protPerUnit) / 5) * 5;
   } else {
     const kcalPerUnit = isPiece ? Math.max(25, basis.calories_kcal || 80) : Math.max(25, basis.calories_kcal || 100) / 100;
-    newAmt = oldItem.calories / kcalPerUnit;
+    newAmt = Math.max(1, Math.round((oldItem.calories / kcalPerUnit) / (isPiece ? 1 : 5)) * (isPiece ? 1 : 5));
+    if (isPiece) newAmt = Math.min(5, Math.max(1, newAmt));
+    else newAmt = Math.min(350, Math.max(30, newAmt));
   }
 
   group.items[itemIdx] = buildPlanItem(nextFood, oldItem.slotKey, oldItem.meal, oldItem.role, newAmt, false);
@@ -1197,8 +1449,9 @@ function swapMealItem(groupIdx, itemIdx) {
   plan.lunchProtein = lg ? Math.round(lg.items.reduce((s, i) => s + i.protein, 0)) : 0;
   plan.accuracy = Math.max(0, Math.min(100, Math.round(100 - (Math.abs(plan.totals.calories - state.currentMetrics.targetCalories) / Math.max(1, state.currentMetrics.targetCalories)) * 100)));
 
+  closeSwapFoodModal();
   renderActivePlan();
-  showToast(isAr() ? `تم تبديل "${oldItem.name}" بـ "${foodPrimaryName(nextFood)}"` : `Swapped "${oldItem.name}" with "${foodPrimaryName(nextFood)}"`);
+  showToast(isAr() ? `تم تبديل "${oldItem.name}" بـ "${foodPrimaryName(nextFood)}" بنجاح!` : `Swapped "${oldItem.name}" with "${foodPrimaryName(nextFood)}" successfully!`);
 }
 
 function renderActivePlan() {
@@ -1240,6 +1493,7 @@ function renderActivePlan() {
               <span class="meal-portion-tag">${it.amount} ${it.unit}</span>
               <button type="button" class="swap-item-btn" data-swap-g="${gIdx}" data-swap-i="${iIdx}" title="${tr("swapTitle")}">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+                <span>${tr("swapBtnText")}</span>
               </button>
             </div>
           </div>`
@@ -1285,7 +1539,7 @@ function renderActivePlan() {
   `;
 
   document.querySelectorAll("[data-swap-g]").forEach((btn) => {
-    btn.addEventListener("click", () => swapMealItem(Number(btn.dataset.swapG), Number(btn.dataset.swapI)));
+    btn.addEventListener("click", () => openSwapFoodModal(Number(btn.dataset.swapG), Number(btn.dataset.swapI)));
   });
 }
 
@@ -1795,6 +2049,9 @@ function openSettingsModal() {
   document.getElementById("cfgEjsService").value = state.config.emailjsServiceId || "";
   document.getElementById("cfgEjsTemplate").value = state.config.emailjsTemplateId || "";
   document.getElementById("cfgEjsPublic").value = state.config.emailjsPublicKey || "";
+  document.getElementById("cfgAdminPhone").value = state.config.adminPhone || "01009864154";
+  document.getElementById("cfgWhatsappApi").value = state.config.whatsappApiUrl || "";
+  document.getElementById("cfgGeminiKey").value = state.config.geminiApiKey || "";
   document.getElementById("settingsModal").classList.remove("hidden");
 }
 function closeSettingsModal() { document.getElementById("settingsModal").classList.add("hidden"); }
@@ -1981,6 +2238,316 @@ function exportUpdatedFoodsDataJs() {
   showToast(isAr() ? "تم تحميل ملف foods-data.js المحدث بجميع صورك الجديدة!" : "Downloaded updated foods-data.js with all your photo changes!");
 }
 
+// ==================== OPENFOODFACTS BARCODE SCANNER ====================
+const LOCAL_BARCODE_FALLBACKS = {
+  "6223000140019": {
+    name: "Molto Croissant Hazelnut Cream (مولتو بالبندق)",
+    brand: "Edita Egypt",
+    img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=160&auto=format&fit=crop&q=80",
+    kcal: 440, prot: 6.5, carbs: 54, fats: 22,
+  },
+  "6221155010018": {
+    name: "Juhayna Full Cream Milk (حليب جهينة كامل الدسم)",
+    brand: "Juhayna Egypt",
+    img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=160&auto=format&fit=crop&q=80",
+    kcal: 64, prot: 3.2, carbs: 4.8, fats: 3.5,
+  },
+  "6221053001019": {
+    name: "Chipsy Salt & Vinegar (شيبسي بالملح والخل)",
+    brand: "Chipsy Egypt",
+    img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=160&auto=format&fit=crop&q=80",
+    kcal: 535, prot: 6.0, carbs: 52, fats: 34,
+  },
+  "6224000300010": {
+    name: "Lamar 100% Pure Orange Juice (عصير لمار برتقال)",
+    brand: "Lamar Egypt",
+    img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=160&auto=format&fit=crop&q=80",
+    kcal: 48, prot: 0.7, carbs: 11.2, fats: 0.1,
+  },
+  "6221034010010": {
+    name: "Corona Classic Milk Chocolate (شيكولاتة كورونا)",
+    brand: "Corona Egypt",
+    img: "https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=160&auto=format&fit=crop&q=80",
+    kcal: 520, prot: 7.2, carbs: 58, fats: 29,
+  },
+  "3017620422003": {
+    name: "Nutella Hazelnut Spread (نوتيلا)",
+    brand: "Ferrero",
+    img: "https://images.openfoodfacts.org/images/products/301/762/042/2003/front_en.520.400.jpg",
+    kcal: 539, prot: 6.3, carbs: 57.5, fats: 30.9,
+  },
+  "7622210449283": {
+    name: "Oreo Original Sandwich Biscuits (أوريو)",
+    brand: "Mondelez",
+    img: "https://images.openfoodfacts.org/images/products/762/221/044/9283/front_en.115.400.jpg",
+    kcal: 474, prot: 5.3, carbs: 68, fats: 19,
+  },
+};
+
+function openBarcodeModal() {
+  document.getElementById("barcodeModal")?.classList.remove("hidden");
+  document.getElementById("barcodeNumberInput")?.focus();
+}
+
+function closeBarcodeModal() {
+  stopBarcodeCamera();
+  document.getElementById("barcodeModal")?.classList.add("hidden");
+}
+
+async function fetchProductByBarcode(code) {
+  const barcode = String(code || "").trim();
+  if (!barcode) {
+    showToast(isAr() ? "يرجى كتابة رقم الباركود أولاً" : "Please enter a barcode number", "error");
+    return;
+  }
+
+  showToast(tr("barcodeSearching"));
+  const inputEl = document.getElementById("barcodeNumberInput");
+  if (inputEl) inputEl.value = barcode;
+
+  let pData = null;
+
+  try {
+    const res = await fetch(`https://world.openfoodfacts.org/api/v2/product/${encodeURIComponent(barcode)}.json`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.status !== 0 && data.product) {
+        const p = data.product;
+        pData = {
+          name: p.product_name_ar || p.product_name || p.generic_name || `Product (${barcode})`,
+          brand: p.brands || p.brand_owner || "Market Product",
+          img: p.image_url || p.image_front_url || p.image_front_small_url || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=160&auto=format&fit=crop&q=80",
+          kcal: Math.round(Number(p.nutriments?.["energy-kcal_100g"]) || (Number(p.nutriments?.energy_100g) ? Number(p.nutriments.energy_100g) / 4.184 : 0)),
+          prot: Math.round((Number(p.nutriments?.proteins_100g) || 0) * 10) / 10,
+          carbs: Math.round((Number(p.nutriments?.carbohydrates_100g) || 0) * 10) / 10,
+          fats: Math.round((Number(p.nutriments?.fat_100g) || 0) * 10) / 10,
+        };
+      }
+    }
+  } catch {}
+
+  // Check local Egyptian verified product cache if OpenFoodFacts didn't find the item
+  if (!pData && LOCAL_BARCODE_FALLBACKS[barcode]) {
+    pData = LOCAL_BARCODE_FALLBACKS[barcode];
+  }
+
+  if (!pData) {
+    showToast(tr("barcodeNotFound"), "error");
+    return;
+  }
+
+  state.lastScannedFood = {
+    id: 9000 + Math.floor(Math.random() * 999),
+    name_en: pData.name,
+    name_ar: pData.name,
+    name: pData.name,
+    category: "Breakfast & Street Food",
+    brand: pData.brand,
+    photo_url: pData.img,
+    image_url: pData.img,
+    basis: {
+      calories_kcal: pData.kcal || 120,
+      protein_g: pData.prot,
+      carbs_g: pData.carbs,
+      fats_g: pData.fats,
+      serving_display: "100g",
+    },
+    nutrition_per_100g: {
+      calories: pData.kcal || 120,
+      protein_g: pData.prot,
+      carbs_g: pData.carbs,
+      fats_g: pData.fats,
+    },
+  };
+
+  const card = document.getElementById("barcodeResultCard");
+  document.getElementById("brcImg").src = pData.img;
+  document.getElementById("brcName").textContent = pData.name;
+  document.getElementById("brcBrand").textContent = `${pData.brand} • Barcode: ${barcode}`;
+  document.getElementById("brcKcal").textContent = pData.kcal || 0;
+  document.getElementById("brcProt").textContent = `${pData.prot}g`;
+  document.getElementById("brcCarbs").textContent = `${pData.carbs}g`;
+  document.getElementById("brcFat").textContent = `${pData.fats}g`;
+
+  card.classList.remove("hidden");
+  stopBarcodeCamera();
+  showToast(isAr() ? `✓ تم جلب بيانات: ${pData.name}` : `✓ Found: ${pData.name}`);
+}
+
+async function startBarcodeCamera() {
+  const video = document.getElementById("barcodeVideo");
+  const frame = document.getElementById("barcodeScanFrame");
+  const btnText = document.getElementById("barcodeCameraBtnText");
+
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: "environment", width: { ideal: 640 }, height: { ideal: 480 } },
+    });
+    state.barcodeCameraStream = stream;
+    video.srcObject = stream;
+    video.classList.remove("hidden");
+    frame.classList.remove("hidden");
+    if (btnText) btnText.textContent = tr("barcodeCameraStop");
+
+    if ("BarcodeDetector" in window) {
+      const detector = new window.BarcodeDetector({ formats: ["ean_13", "ean_8", "upc_a", "upc_e", "code_128", "qr_code"] });
+      state.barcodeScanningInterval = setInterval(async () => {
+        try {
+          if (!video.videoWidth) return;
+          const barcodes = await detector.detect(video);
+          if (barcodes.length > 0) {
+            const code = barcodes[0].rawValue;
+            fetchProductByBarcode(code);
+          }
+        } catch {}
+      }, 500);
+    }
+  } catch (err) {
+    showToast(isAr() ? "تعذر تشغيل الكاميرا. يرجى إدخال رقم الباركود يدوياً." : "Could not access camera. Please enter barcode manually.", "error");
+  }
+}
+
+function stopBarcodeCamera() {
+  if (state.barcodeScanningInterval) {
+    clearInterval(state.barcodeScanningInterval);
+    state.barcodeScanningInterval = null;
+  }
+  if (state.barcodeCameraStream) {
+    state.barcodeCameraStream.getTracks().forEach((t) => t.stop());
+    state.barcodeCameraStream = null;
+  }
+  document.getElementById("barcodeVideo")?.classList.add("hidden");
+  document.getElementById("barcodeScanFrame")?.classList.add("hidden");
+  const btnText = document.getElementById("barcodeCameraBtnText");
+  if (btnText) btnText.textContent = tr("barcodeCameraStart");
+}
+
+function toggleBarcodeCamera() {
+  if (state.barcodeCameraStream) stopBarcodeCamera();
+  else startBarcodeCamera();
+}
+
+function addScannedFoodToDatabase() {
+  if (!state.lastScannedFood) return;
+  const f = state.lastScannedFood;
+  if (!state.allFoods.some((x) => x.id === f.id)) {
+    state.allFoods.unshift(f);
+    state.foodById.set(f.id, f);
+    renderCategoryPills();
+    renderFoodsGrid();
+    document.getElementById("navFoodsTotal").textContent = state.allFoods.length;
+  }
+  closeBarcodeModal();
+  showToast(isAr() ? `تمت إضافة "${f.name}" إلى قاعدة الأكلات المصرية!` : `Added "${f.name}" to Egyptian foods list!`);
+}
+
+function logScannedFoodToDiary() {
+  if (!state.lastScannedFood) return;
+  const f = state.lastScannedFood;
+  logItemToDiary({
+    foodId: f.id,
+    name: f.name,
+    image: f.photo_url || f.image_url,
+    meal: "lunch",
+    amount: 100,
+    unit: "g",
+    calories: f.basis.calories_kcal,
+    protein: f.basis.protein_g,
+    carbs: f.basis.carbs_g,
+    fat: f.basis.fats_g,
+  });
+  closeBarcodeModal();
+  showToast(isAr() ? `تم تسجيل "${f.name}" في يوميات اليوم!` : `Logged "${f.name}" to Today's Diary!`);
+}
+
+// ==================== BITEWISE AI NUTRITIONIST (GEMINI API) ====================
+function openAiAgentModal() {
+  document.getElementById("aiAgentModal")?.classList.remove("hidden");
+  document.getElementById("aiChatInput")?.focus();
+}
+
+function closeAiAgentModal() {
+  document.getElementById("aiAgentModal")?.classList.add("hidden");
+}
+
+async function sendAiMessage(promptText) {
+  const text = (promptText || document.getElementById("aiChatInput")?.value || "").trim();
+  if (!text) return;
+
+  const chatHistoryEl = document.getElementById("aiChatHistory");
+  const inputEl = document.getElementById("aiChatInput");
+  if (inputEl) inputEl.value = "";
+
+  const userMsgDiv = document.createElement("div");
+  userMsgDiv.className = "ai-msg ai-user";
+  userMsgDiv.innerHTML = `<div class="ai-bubble">${escapeHtml(text)}</div>`;
+  chatHistoryEl.appendChild(userMsgDiv);
+
+  const botMsgDiv = document.createElement("div");
+  botMsgDiv.className = "ai-msg ai-bot";
+  botMsgDiv.innerHTML = `<div class="ai-avatar">🤖</div><div class="ai-bubble"><small style="opacity: 0.7;">${tr("aiThinking")}</small></div>`;
+  chatHistoryEl.appendChild(botMsgDiv);
+  chatHistoryEl.scrollTop = chatHistoryEl.scrollHeight;
+
+  const targetBubble = botMsgDiv.querySelector(".ai-bubble");
+  const geminiKey = state.config.geminiApiKey || window.BITEWISE_CONFIG?.geminiApiKey;
+
+  if (geminiKey) {
+    try {
+      const sysPrompt = "You are BiteWise AI, a certified Egyptian sports nutritionist and dietitian. Answer concisely and practically in the user's language (Egyptian Arabic or English). Recommend healthy Egyptian foods (ful, eggs, cottage cheese / gibna quraish, koshary, lentils, molokhia, chicken, fish, oats, tuna). Give exact calorie and macro breakdowns when asked.";
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [
+            { role: "user", parts: [{ text: `${sysPrompt}\n\nUser Question: ${text}` }] }
+          ]
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (reply) {
+          targetBubble.innerHTML = formatAiMarkdown(reply);
+          chatHistoryEl.scrollTop = chatHistoryEl.scrollHeight;
+          return;
+        }
+      }
+    } catch {}
+  }
+
+  setTimeout(() => {
+    let reply = "";
+    const lower = text.toLowerCase();
+    if (lower.includes("عشاء") || lower.includes("dinner")) {
+      reply = isAr() 
+        ? "🥗 **اقتراح عشاء عالي بروتين (< 400 سعر):**\n- 200 جرام جبنة قريش (200 سعر • 24g بروتين)\n- ثمرة طماطم وخيارة مفرومة + ملعقة صغيرة زيت زيتون (60 سعر)\n- بيضة مسلوقة بلدي (75 سعر • 6g بروتين)\n- ربع رغيف عيش بلدي (55 سعر)\n**الإجمالي:** 390 سعر حراري • 33 جرام بروتين صافي!"
+        : "🥗 **High-Protein Dinner (< 400 kcal):**\n- 200g Gibna Quraish (Cottage Cheese): 200 kcal • 24g Protein\n- 1 Boiled Egg: 75 kcal • 6g Protein\n- Diced tomato, cucumber + 1 tsp olive oil: 60 kcal\n- 1/4 Baladi Bread: 55 kcal\n**Total:** 390 kcal • 33g Clean Protein!";
+    } else if (lower.includes("ثلاج") || lower.includes("fridge") || lower.includes("بيض")) {
+      reply = isAr()
+        ? "🍳 **شكشوكة البيض بالجبنة القريش (سريعة وصحية):**\n1. شوّح بصلة وطماطم مع رشة كمون وفلفل أسود.\n2. اخفق 2 بيضة وضفهم للخضار.\n3. أضف 100 جرام جبنة قريش وقلب لمدة 3 دقائق.\n**القيمة الغذائية:** 280 سعر حراري • 22 جرام بروتين • 8 جرام كارب!"
+        : "🍳 **Quick Egyptian Shakshuka with Cottage Cheese:**\n1. Sauté chopped onion and tomato with cumin and black pepper.\n2. Whisk 2 eggs and pour over the vegetables.\n3. Fold in 100g cottage cheese and cook for 3 minutes.\n**Nutrition:** 280 kcal • 22g Protein • 8g Carbs!";
+    } else if (lower.includes("تنشيف") || lower.includes("cut") || lower.includes("عضل")) {
+      reply = isAr()
+        ? "🏋️ **خطة تنشيف ممتازة بالأكل المصري:**\n- احرص على بروتين لا يقل عن 1.8 إلى 2 جرام لكل كجم من وزنك.\n- اعتمد على: صدور دجاج مشوية، سمك بلطي مشوي بالردة، تونة بالليمون، جبنة قريش، وترمس مسلوق سناك.\n- قلل العيش والأرز واشرب 3 لتر مياه يومياً."
+        : "🏋️ **Egyptian Cutting Strategy:**\n- Maintain 1.8g - 2.0g protein per kg of bodyweight.\n- Core staples: Grilled chicken breast, Nile tilapia grilled with bran, tuna in lemon, cottage cheese, and lupini beans (termis) as a snack.\n- Keep carbs controlled and drink at least 3L water daily.";
+    } else {
+      reply = isAr()
+        ? `💡 **نصيحة كوتش BiteWise:**\nسؤالك ممتاز بخصوص: "${text}". لتحقيق أفضل نتيجة لجسمك، سجل وجباتك اليومية في تبويب Daily Log وتابع نسبة البروتين والسعرات بدقة.\n\n*(ملاحظة: يمكنك كتابة مفتاح Google Gemini API في الإعدادات لدردشة ذكاء اصطناعي حية بالكامل).*`
+        : `💡 **BiteWise Coach Tip:**\nGreat question regarding: "${text}". To get the best results, track your daily meals in the Daily Log tab and maintain your target protein goal.\n\n*(Note: You can add your free Google Gemini API key in Settings for unlimited live AI conversations).*`;
+    }
+    targetBubble.innerHTML = formatAiMarkdown(reply);
+    chatHistoryEl.scrollTop = chatHistoryEl.scrollHeight;
+  }, 350);
+}
+
+function formatAiMarkdown(txt) {
+  return txt
+    .replace(/\n/g, "<br>")
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*(.*?)\*/g, "<em>$1</em>");
+}
+
 // ==================== DATABASE INIT ====================
 async function initDatabase() {
   let data = null;
@@ -2134,6 +2701,9 @@ function bindAllEvents() {
       emailjsServiceId: document.getElementById("cfgEjsService").value.trim(),
       emailjsTemplateId: document.getElementById("cfgEjsTemplate").value.trim(),
       emailjsPublicKey: document.getElementById("cfgEjsPublic").value.trim(),
+      adminPhone: document.getElementById("cfgAdminPhone")?.value.trim() || "01009864154",
+      whatsappApiUrl: document.getElementById("cfgWhatsappApi")?.value.trim() || "",
+      geminiApiKey: document.getElementById("cfgGeminiKey")?.value.trim() || "",
     };
     state.config = { ...state.config, ...payload };
     delete state.config.smtpAppPassword;
@@ -2259,6 +2829,7 @@ function bindAllEvents() {
     clearAuthAlert();
     const name = document.getElementById("signupName").value.trim();
     const email = document.getElementById("signupEmail").value.trim().toLowerCase();
+    const phone = document.getElementById("signupPhone")?.value.trim() || "";
     const password = document.getElementById("signupPassword").value;
     const age = Number(document.getElementById("signupAge").value);
 
@@ -2270,8 +2841,8 @@ function bindAllEvents() {
     const sendBtn = document.getElementById("sendOtpBtn");
     sendBtn.disabled = true;
     try {
-      const otpRes = await sendGmailOtp(email, name);
-      state.pendingSignup = { name, email, password, age };
+      const otpRes = await sendGmailOtp(email, name, phone);
+      state.pendingSignup = { name, email, phone, password, age };
       document.getElementById("otpTargetEmail").textContent = email;
       const devHint = document.getElementById("otpDevHint");
       if (otpRes.devOtp) { document.getElementById("otpDevCode").textContent = otpRes.devOtp; devHint.classList.remove("hidden"); }
@@ -2511,6 +3082,11 @@ function bindAllEvents() {
   document.getElementById("foodModal").addEventListener("click", (e) => { if (e.target.id === "foodModal") { document.getElementById("foodModal").classList.add("hidden"); state.modalFood = null; } });
   document.getElementById("fmAmount").addEventListener("input", updateFoodModalCalc);
 
+  // Meal Item Swap Modal
+  document.getElementById("closeSwapFoodModal")?.addEventListener("click", closeSwapFoodModal);
+  document.getElementById("swapFoodModal")?.addEventListener("click", (e) => { if (e.target.id === "swapFoodModal") closeSwapFoodModal(); });
+  document.getElementById("swapSearchInput")?.addEventListener("input", (e) => renderSwapCandidates(e.target.value));
+
   document.getElementById("fmLogToDiaryBtn").addEventListener("click", () => {
     const f = state.modalFood;
     if (!f) return;
@@ -2546,6 +3122,25 @@ function bindAllEvents() {
     renderDiary();
     showToast(isAr() ? "تم مسح سجل اليوم" : "Cleared today's log");
   });
+
+  // OpenFoodFacts Barcode Scanner Listeners
+  document.getElementById("openBarcodeBtn")?.addEventListener("click", openBarcodeModal);
+  document.getElementById("foodsScanBarcodeBtn")?.addEventListener("click", openBarcodeModal);
+  document.getElementById("closeBarcodeModal")?.addEventListener("click", closeBarcodeModal);
+  document.getElementById("barcodeModal")?.addEventListener("click", (e) => { if (e.target.id === "barcodeModal") closeBarcodeModal(); });
+  document.getElementById("fetchBarcodeBtn")?.addEventListener("click", () => fetchProductByBarcode(document.getElementById("barcodeNumberInput")?.value));
+  document.getElementById("barcodeNumberInput")?.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); fetchProductByBarcode(e.target.value); } });
+  document.getElementById("toggleBarcodeCameraBtn")?.addEventListener("click", toggleBarcodeCamera);
+  document.querySelectorAll(".barcode-chip").forEach((btn) => btn.addEventListener("click", () => fetchProductByBarcode(btn.dataset.code)));
+  document.getElementById("barcodeAddDbBtn")?.addEventListener("click", addScannedFoodToDatabase);
+  document.getElementById("barcodeLogDiaryBtn")?.addEventListener("click", logScannedFoodToDiary);
+
+  // BiteWise AI Nutritionist (Google Gemini) Listeners
+  document.getElementById("openAiAgentBtn")?.addEventListener("click", openAiAgentModal);
+  document.getElementById("closeAiAgentModal")?.addEventListener("click", closeAiAgentModal);
+  document.getElementById("aiAgentModal")?.addEventListener("click", (e) => { if (e.target.id === "aiAgentModal") closeAiAgentModal(); });
+  document.getElementById("aiChatForm")?.addEventListener("submit", (e) => { e.preventDefault(); sendAiMessage(); });
+  document.querySelectorAll(".ai-chip-btn").forEach((btn) => btn.addEventListener("click", () => sendAiMessage(btn.dataset.prompt)));
 }
 
 // ==================== BOOTSTRAP ====================

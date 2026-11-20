@@ -163,6 +163,14 @@
               </div>
             </div>
 
+            <div class="field-group">
+              <label for="signupPhone" data-i18n="lblPhone">Phone Number (WhatsApp / Optional)</label>
+              <div class="input-icon-wrap">
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <input type="tel" id="signupPhone" data-i18n-ph="phPhone" placeholder="e.g. 0100 986 4154" autocomplete="tel" />
+              </div>
+            </div>
+
             <div class="field-row-2">
               <div class="field-group">
                 <label for="signupPassword" data-i18n="lblPassword">Password</label>
@@ -203,7 +211,7 @@
             </button>
           </div>
 
-          <!-- STEP 2: 6-DIGIT GMAIL OTP VERIFICATION -->
+          <!-- STEP 2: 6-DIGIT GMAIL & WHATSAPP OTP VERIFICATION -->
           <div id="signupStepOtp" class="otp-stage hidden">
             <div class="otp-badge-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
@@ -231,7 +239,19 @@
               <span data-i18n="btnVerifyOtp">Verify Code &amp; Create Account</span>
             </button>
 
-            <div class="otp-footer-row">
+            <!-- WhatsApp OTP Direct Verification Channel -->
+            <div class="otp-channel-wrap" style="margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--border);">
+              <p class="muted" style="font-size: 0.8rem; margin: 0 0 8px;" data-i18n="otpChannelSub">Didn't receive email? Get code instantly on WhatsApp:</p>
+              <a id="whatsappOtpLink" href="https://wa.me/201009864154" target="_blank" class="btn btn-outline btn-full whatsapp-otp-btn" style="border-color: #25D366; color: #25D366; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700;">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.04 7.6C8.84 7.6 8.5 7.67 8.21 7.99C7.92 8.3 7.09 9.08 7.09 10.66C7.09 12.24 8.24 13.76 8.41 13.98C8.57 14.2 10.63 17.38 13.8 18.74C14.55 19.07 15.14 19.26 15.59 19.41C16.34 19.64 17.03 19.61 17.57 19.53C18.17 19.44 19.43 18.77 19.69 18.03C19.95 17.3 19.95 16.67 19.87 16.54C19.79 16.41 19.59 16.34 19.28 16.18C18.97 16.03 17.46 15.28 17.18 15.18C16.9 15.08 16.7 15.03 16.5 15.34C16.3 15.65 15.72 16.33 15.54 16.54C15.37 16.74 15.19 16.77 14.89 16.61C14.58 16.46 13.6 16.14 12.44 15.1C11.53 14.29 10.92 13.29 10.74 12.98C10.57 12.68 10.72 12.51 10.88 12.36C11.02 12.22 11.19 11.99 11.35 11.81C11.5 11.63 11.55 11.5 11.66 11.3C11.76 11.09 11.71 10.91 11.63 10.76C11.55 10.6 10.94 9.1 10.68 8.49C10.43 7.89 10.18 7.97 9.99 7.96C9.81 7.96 9.61 7.96 9.4 7.96L9.04 7.6Z"/></svg>
+                <span data-i18n="btnVerifyWhatsapp">Get Code on WhatsApp (01009864154)</span>
+              </a>
+              <div style="font-size: 0.74rem; text-align: center; margin-top: 6px; color: var(--text-muted);">
+                <span data-i18n="hotlineLabel">Official Hotline &amp; WhatsApp: 01009864154</span>
+              </div>
+            </div>
+
+            <div class="otp-footer-row" style="margin-top: 14px;">
               <button type="button" class="link-btn sm" id="resendOtpBtn" data-i18n="btnResendOtp">Resend code</button>
               <span class="otp-timer num-en" id="otpTimerText">05:00</span>
               <button type="button" class="link-btn sm muted-link" id="backToSignupDetailsBtn" data-i18n="btnChangeEmail">Change email</button>
@@ -412,6 +432,16 @@
         </nav>
 
         <div class="topbar-actions">
+          <button type="button" class="btn btn-outline btn-sm topbar-action-btn" id="openBarcodeBtn" title="Scan Barcode / مسح باركود">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5v14M8 5v14M12 5v14M17 5v14M21 5v14"/></svg>
+            <span data-i18n="btnBarcode">Barcode</span>
+          </button>
+
+          <button type="button" class="btn btn-primary btn-sm topbar-action-btn" id="openAiAgentBtn" title="BiteWise AI / كوتش الذكاء الاصطناعي">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zM4.93 4.93a2 2 0 0 1 2.83 0l1.41 1.41a2 2 0 0 1-2.83 2.83L4.93 7.76a2 2 0 0 1 0-2.83zM2 12a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zM12 14a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
+            <span data-i18n="btnAiAgent">BiteWise AI</span>
+          </button>
+
           <button type="button" class="lang-toggle-btn" id="navLangBtn" title="Switch Language">عربي</button>
 
           <button type="button" class="icon-btn hidden" id="openSettingsBtn" title="Owner Settings">
@@ -764,6 +794,10 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             <input type="search" id="searchInput" data-i18n-ph="phSearchFoods" placeholder="Search in English or Arabic (e.g. chicken, ful, koshary, oats, salmon)..." />
           </div>
+          <button type="button" class="btn btn-soft btn-sm" id="foodsScanBarcodeBtn" style="display: flex; align-items: center; gap: 6px;">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5v14M8 5v14M12 5v14M17 5v14M21 5v14"/></svg>
+            <span data-i18n="btnBarcodeScan">Scan Barcode</span>
+          </button>
           <div class="sort-wrap">
             <label for="sortFoodsSelect" data-i18n="lblSort">Sort:</label>
             <select id="sortFoodsSelect">
@@ -1046,6 +1080,29 @@
             </div>
           </div>
 
+          <div class="settings-section-box">
+            <h4>4. WhatsApp Hotline &amp; Phone Verification</h4>
+            <div class="field-row-2">
+              <div class="field-group">
+                <label for="cfgAdminPhone" data-i18n="cfgAdminPhoneLabel">Admin WhatsApp &amp; Phone Number</label>
+                <input type="text" id="cfgAdminPhone" dir="ltr" value="01009864154" placeholder="01009864154" />
+              </div>
+              <div class="field-group">
+                <label for="cfgWhatsappApi" data-i18n="cfgWhatsappApiLabel">WhatsApp Gateway API URL (Optional)</label>
+                <input type="url" id="cfgWhatsappApi" dir="ltr" placeholder="https://api.ultramsg.com/..." />
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-section-box">
+            <h4>5. Google Gemini AI Nutritionist (Free API)</h4>
+            <p class="mini-help">Get your free Gemini API key from <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: var(--brand); font-weight: 700;">Google AI Studio</a>.</p>
+            <div class="field-group">
+              <label for="cfgGeminiKey" data-i18n="cfgGeminiKeyLabel">Google Gemini API Key</label>
+              <input type="password" id="cfgGeminiKey" dir="ltr" placeholder="AIzaSy..." />
+            </div>
+          </div>
+
           <div class="fm-actions">
             <button type="submit" class="btn btn-primary" data-i18n="btnSaveSettings">Save &amp; Activate Settings</button>
             <button type="button" class="btn btn-outline" id="testOtpEmailBtn" data-i18n="btnTestOtp">Test Send OTP Now</button>
@@ -1094,11 +1151,145 @@
     </div>
   </div>
 
+  <!-- ==================== MODAL 4: INTERACTIVE MEAL ITEM SWAP ==================== -->
+  <div id="swapFoodModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-card swap-modal-card">
+      <button type="button" class="modal-close" id="closeSwapFoodModal" aria-label="Close">×</button>
+      <div class="settings-modal-body">
+        <span class="eyebrow" id="swapModalEyebrow">CUSTOMIZE YOUR MEAL</span>
+        <h3 id="swapModalTitle">Change Food in Dinner</h3>
+        <p class="muted" id="swapModalSub">Select any Egyptian alternative below or search from all 212 foods — calories and macros recalculate automatically!</p>
+
+        <!-- Current Item Card -->
+        <div class="swap-current-card" id="swapCurrentItemBox">
+          <div class="scc-label" id="swapCurrentLabel">Current Food:</div>
+          <div class="scc-body">
+            <img id="swapCurrentImg" src="" alt="" />
+            <div class="scc-info">
+              <strong id="swapCurrentName">Food Name</strong>
+              <small id="swapCurrentDetails">100g • 150 kcal • P: 20g</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Search Alternatives -->
+        <div class="swap-search-wrap">
+          <input type="search" id="swapSearchInput" placeholder="Search alternatives (e.g. tuna, eggs, chicken, yogurt)..." />
+        </div>
+
+        <!-- Smart Alternatives Grid -->
+        <div class="swap-alts-label" id="swapAltsHeading">Smart Recommended Alternatives:</div>
+        <div class="swap-candidates-grid" id="swapCandidatesGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 5: OPENFOODFACTS BARCODE SCANNER & LOOKUP ==================== -->
+  <div id="barcodeModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-card barcode-modal-card">
+      <button type="button" class="modal-close" id="closeBarcodeModal" aria-label="Close">×</button>
+      <div class="settings-modal-body">
+        <span class="eyebrow" data-i18n="barcodeModalEyebrow">OPENFOODFACTS SCANNER</span>
+        <h3 data-i18n="barcodeModalTitle">Scan &amp; Lookup Product Nutrition</h3>
+        <p class="muted" data-i18n="barcodeModalSub">Scan any Egyptian product barcode using your camera or enter the barcode number to fetch calories and macros automatically.</p>
+
+        <!-- Camera Scanner Area -->
+        <div class="barcode-camera-area">
+          <video id="barcodeVideo" class="barcode-video hidden" autoplay playsinline></video>
+          <div id="barcodeScanFrame" class="barcode-scan-frame hidden">
+            <div class="scan-laser"></div>
+          </div>
+          <button type="button" class="btn btn-soft btn-full" id="toggleBarcodeCameraBtn">
+            <span id="barcodeCameraBtnText" data-i18n="barcodeCameraStart">📷 Start Camera Scanner</span>
+          </button>
+        </div>
+
+        <!-- Manual Barcode Input & Presets -->
+        <div class="barcode-input-row" style="margin-top: 14px; display: flex; gap: 8px;">
+          <input type="text" id="barcodeNumberInput" dir="ltr" inputmode="numeric" data-i18n-ph="barcodeInputPh" placeholder="Enter barcode (e.g. 6223000140019)..." style="flex: 1;" />
+          <button type="button" class="btn btn-primary" id="fetchBarcodeBtn" data-i18n="barcodeFetchBtn">Lookup</button>
+        </div>
+
+        <!-- Egyptian Presets Chips -->
+        <div class="barcode-presets-wrap" style="margin-top: 12px;">
+          <span class="mini-label" style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 6px;" data-i18n="barcodePresetsLabel">Or Try Egyptian Product Barcodes:</span>
+          <div class="barcode-chips-grid">
+            <button type="button" class="barcode-chip" data-code="6223000140019">🥐 Molto Hazelnut</button>
+            <button type="button" class="barcode-chip" data-code="6221155010018">🥛 Juhayna Full Cream</button>
+            <button type="button" class="barcode-chip" data-code="6221053001019">🥔 Chipsy Salt</button>
+            <button type="button" class="barcode-chip" data-code="6224000300010">🍊 Lamar Juice</button>
+            <button type="button" class="barcode-chip" data-code="6221034010010">🍫 Corona Chocolate</button>
+          </div>
+        </div>
+
+        <!-- Result Card -->
+        <div id="barcodeResultCard" class="barcode-result-card hidden" style="margin-top: 16px;">
+          <div class="brc-head">
+            <img id="brcImg" src="" alt="" />
+            <div class="brc-info">
+              <strong id="brcName">Product Name</strong>
+              <small id="brcBrand" class="text-muted">Brand</small>
+            </div>
+          </div>
+          <div class="brc-macros-grid">
+            <div class="brc-m-box kcal"><small>Calories</small><strong id="brcKcal">0</strong><span>kcal/100g</span></div>
+            <div class="brc-m-box prot"><small>Protein</small><strong id="brcProt">0g</strong></div>
+            <div class="brc-m-box carb"><small>Carbs</small><strong id="brcCarbs">0g</strong></div>
+            <div class="brc-m-box fat"><small>Fats</small><strong id="brcFat">0g</strong></div>
+          </div>
+          <div class="brc-actions" style="margin-top: 12px; display: flex; gap: 8px;">
+            <button type="button" class="btn btn-primary btn-full" id="barcodeLogDiaryBtn" data-i18n="barcodeLogDiaryBtn">Quick Log to Today's Diary</button>
+            <button type="button" class="btn btn-outline btn-full" id="barcodeAddDbBtn" data-i18n="barcodeAddDbBtn">Add to Foods List</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 6: BITEWISE AI NUTRITIONIST (GOOGLE GEMINI) ==================== -->
+  <div id="aiAgentModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-card ai-modal-card">
+      <button type="button" class="modal-close" id="closeAiAgentModal" aria-label="Close">×</button>
+      <div class="settings-modal-body" style="display: flex; flex-direction: column; height: 100%;">
+        <div class="ai-modal-header">
+          <span class="eyebrow" data-i18n="aiModalEyebrow">GOOGLE GEMINI 2.0 AI AGENT</span>
+          <h3 data-i18n="aiModalTitle">BiteWise AI Nutritionist</h3>
+          <p class="muted" data-i18n="aiModalSub">Your personal AI diet coach powered by Google Gemini — ask for custom recipes, meal swaps, or Egyptian nutritional advice.</p>
+        </div>
+
+        <!-- Chat Container -->
+        <div id="aiChatHistory" class="ai-chat-history">
+          <div class="ai-msg ai-bot">
+            <div class="ai-avatar">🤖</div>
+            <div class="ai-bubble" data-i18n="aiWelcomeMsg">Welcome! I'm BiteWise AI Nutritionist powered by Google Gemini. How can I help you today with your diet, meals, or Egyptian food questions?</div>
+          </div>
+        </div>
+
+        <!-- Quick Prompts Chips -->
+        <div class="ai-quick-prompts">
+          <button type="button" class="ai-chip-btn" data-prompt="احسبلي وجبة عشاء مصرية عالية البروتين أقل من 400 سعر حراري">🥗 عشاء عالي بروتين &lt; 400 سعر</button>
+          <button type="button" class="ai-chip-btn" data-prompt="عندي بيض وجبنة قريش وطماطم وبصل، اقترحلي وصفة صحية وسريعة بالماكروز">🍳 وصفة سريعة من ثلاجتي</button>
+          <button type="button" class="ai-chip-btn" data-prompt="إيه أحسن خطة لتنشيف الجسم وبناء العضلات بأكلات مصرية متوفرة؟">🏋️ خطة تنشيف بأكلات مصرية</button>
+          <button type="button" class="ai-chip-btn" data-prompt="ازاي أوفر في ميزانية أكلي الصحي في مصر وأحقق احتياجي من البروتين؟">💰 توفير ميزانية الدايت</button>
+        </div>
+
+        <!-- Input Area -->
+        <form id="aiChatForm" class="ai-chat-form">
+          <input type="text" id="aiChatInput" data-i18n-ph="aiInputPh" placeholder="Ask anything (e.g. suggest a breakfast, replace tuna, calculate macros)..." autocomplete="off" required />
+          <button type="submit" class="btn btn-primary" id="aiSendBtn" data-i18n="aiSendBtn">
+            <span>Ask AI</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <div id="toastContainer" class="toast-container" aria-live="polite"></div>
 
-  <script src="config.js?v=4.7"></script>
-  <script src="i18n.js?v=4.7"></script>
-  <script src="foods-data.js?v=4.7"></script>
-  <script src="app.js?v=4.7"></script>
+  <script src="config.js?v=5.0"></script>
+  <script src="i18n.js?v=5.0"></script>
+  <script src="foods-data.js?v=5.0"></script>
+  <script src="app.js?v=5.0"></script>
 </body>
 </html>
